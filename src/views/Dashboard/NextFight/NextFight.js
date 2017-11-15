@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import Navbar from '../../../components/Navbar/Navbar';
 import './NextFight.css';
 
@@ -10,6 +11,15 @@ export default class NextFight extends Component {
         this.state = {
 
         }
+    }
+
+    componentDidMount(){
+
+        axios.get(`api/catfight/${1}`).then(res=>{console.log('cat fight is', res)})
+
+        axios.get(`/api/randomCatFight`).then(res=>{
+            console.log('random cat fight is', res.data)
+        })
     }
 
     render() {

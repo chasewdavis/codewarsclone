@@ -5,6 +5,8 @@ const massive = require('massive');
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
 const cors = require('cors');
+const controller = require('./controllers/controller');
+
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3030;
@@ -89,7 +91,7 @@ app.get(`/api/catfight/:id`, (req, res, next) => {
     const db = app.get('db')
     let fight = {}
     db.get_fight(req.params.id).then(resp => {
-        fight = resp
+        fight = resp[0]
         db.get_tests(req.params.id)
             .then(response => {
                 // console.log(response)
@@ -99,6 +101,11 @@ app.get(`/api/catfight/:id`, (req, res, next) => {
             })
     })
 })
+
+app.get(`/api/randomCatFight`, controller.randomCatFight)
+
+
+
 
 // OUR ENDPOINTS ABOVE
 
