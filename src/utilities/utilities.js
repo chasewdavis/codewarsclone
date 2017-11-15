@@ -50,5 +50,12 @@ module.exports = {
             return 'return ' + str.slice(i1, i2)
         }
         return str.slice(i1, i2)
+    },
+    runTests(args, body, tests) {
+        let f = new Function(args, body)
+        return tests.map(test => {
+            test.result = f.apply(null, test.params)
+            test.passed = test.result === test.expected_result
+        })
     }
 }

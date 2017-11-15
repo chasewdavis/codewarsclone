@@ -38,7 +38,7 @@ let s = {
 
 // }
 
-describe('Function Parsing Algorithms:', () => {
+describe('Function Parsing and Creating Algorithms:', () => {
     describe('Argument Parsing:', () => {
         describe('ES5 Functions:', () => {
             test('function expression', () => {
@@ -125,6 +125,11 @@ describe('Function Parsing Algorithms:', () => {
             test('ES6 underscore', () => {
                 expect(f.body(s.es6_)).toEqual('return 5')
             })
+        })
+    })
+    describe('Test Running:', () => {
+        test('function expression', () => {
+
         })
     })
 })
