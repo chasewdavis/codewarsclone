@@ -43,16 +43,16 @@ passport.use(new Auth0Strategy({
             return done(null, user[0].user_id)
         }
         else {
-                db.create_cat([
-                    profile.nickname,
-                    null,
-                    profile.picture,
-                    profile.identities[0].user_id,
-                ])
-                    .then(user => {
-                        db.find_cat([String(user[0].auth_id)])
-                        return done(null, user[0].auth_id)
-                    })
+            db.create_cat([
+                profile.nickname,
+                null,
+                profile.picture,
+                profile.identities[0].user_id,
+            ])
+                .then(user => {
+                    db.find_cat([String(user[0].auth_id)])
+                    return done(null, user[0].auth_id)
+                })
         }
     })
 }));
@@ -64,7 +64,7 @@ app.get(`/auth/callback`, passport.authenticate(`auth0`, {
     failureRedirect: process.env.FAILURE_REDIRECT
 }))
 app.get(`/auth/me`, (req, res, next) => {
-    console.log(req.user)
+    // console.log(req.user)
     if (!req.user) {
         return res.status(400).send('user not found');
     }
@@ -82,6 +82,22 @@ app.get(`/auth/logout`, (req, res, next) => {
 app.get(`/api/cats`, (req, res, next) => {
     const db = app.get('db')
     db.get_cats().then(users => res.send(users))
+})
+
+app.get(`/api/catfight/:id`, (req, res, next) => {
+    // console.log(req.params)
+    const db = app.get('db')
+    let fight = {}
+    db.get_fight(req.params.id).then(resp => {
+        fight = resp
+        db.get_tests(req.params.id)
+            .then(response => {
+                // console.log(response)
+                fight = Object.assign({}, fight, { tests: response })
+                // console.log(fight)
+                res.status(200).send(fight)
+            })
+    })
 })
 
 // OUR ENDPOINTS ABOVE
