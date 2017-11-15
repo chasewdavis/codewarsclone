@@ -7,15 +7,13 @@ const Auth0Strategy = require('passport-auth0');
 const cors = require('cors');
 require('dotenv').config();
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3030;
 const CONNECTION_STRING = process.env.CONNECTION_STRING
 
 const app = express();
 
-massive(CONNECTION_STRING).then(db => app.set('db', db));
 
-
-app.use(express.static(`${__dirname}/../build`));
+// app.use(express.static(`${__dirname}/../build`));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(session({
@@ -23,6 +21,11 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }))
+
+
+massive(CONNECTION_STRING).then(db => app.set('db', db))
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -30,29 +33,25 @@ passport.use(new Auth0Strategy({
     domain: process.env.AUTH_DOMAIN,
     clientID: process.env.AUTH_CLIENT_ID,
     clientSecret: process.env.AUTH_CLIENT_SECRET,
-    callbackURL: process.env.CALLBACK_URL,
-    allowedConnections: ['github']
+    callbackURL: process.env.CALLBACK_URL//,
+    // allowedConnections: ['github']
 }, function (accessToken, refreshToken, extraParams, profile, done) {
     const db = app.get('db');
-    db.find_user([String(profile.identities[0].user_id)]).then(user => {        //edit for our app
+    db.find_cat([String(profile.identities[0].user_id)]).then(user => {        //edit for our app
         if (user[0]) {
-            db.add_visit([String(user[0].auth_id)])                             // edit for our app
-            return done(null, user[0].auth_id)
+            // db.add_visit([String(user[0].user_id)])                             // edit for our app
+            return done(null, user[0].user_id)
         }
         else {
-                db.create_user([
-                    // profile.name.givenName,
-                    // profile.name.familyName,
-                    // profile.nickname,
-                    // null,
-                    // profile.picture,
-                    // profile.identities[0].user_id,
-                    // null,
-                    // profile.provider
+                db.create_cat([
+                    profile.nickname,
+                    null,
+                    profile.picture,
+                    profile.identities[0].user_id,
                 ])
                     .then(user => {
-                        db.add_visit([String(user[0].auth_id)])
-                        done(null, user[0].auth_id)
+                        db.find_cat([String(user[0].auth_id)])
+                        return done(null, user[0].auth_id)
                     })
         }
     })
@@ -80,7 +79,10 @@ app.get(`/auth/logout`, (req, res, next) => {
 
 // OUR ENDPOINTS HERE
 
-
+app.get(`/api/cats`, (req, res, next) => {
+    const db = app.get('db')
+    db.get_cats().then(users => res.send(users))
+})
 
 // OUR ENDPOINTS ABOVE
 
