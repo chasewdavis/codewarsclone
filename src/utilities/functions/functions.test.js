@@ -1,4 +1,4 @@
-const f = require('./utilities')
+const f = require('./functions')
 
 let s = {
     // es5
