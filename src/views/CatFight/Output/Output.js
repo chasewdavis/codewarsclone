@@ -6,7 +6,13 @@ class Output extends Component {
     }
 
     componentDidMount() {
-        console.log(window)
+        
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps !== this.props) {
+            
+        }
     }
 
 
