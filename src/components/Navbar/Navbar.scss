@@ -1,6 +1,99 @@
-.navbar{
+.navbar-parent {
+    height: 55px;
+}
+
+.navbar {
     background: #222222;
     width: 100%;
     height: 55px;
-    
+    display: flex;
+    align-items: center;
+
+    position: absolute;
+    z-index: 1;
+
+    font-size: 18px;
+}
+
+.navbar-hover {
+    height: 55px;
+    width: 55px;
+    // background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // border: 1px solid white;
+}
+
+.lion-box {
+    // border: 3px solid #AC3028;
+    // box-sizing: border-box;
+    border-radius:5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:38px;
+    height: 38px;
+    box-shadow: inset 0 0 10px rgb(88, 21, 19);
+    background: #AC3028;
+}
+
+.hide-pull-down {
+    display: none;
+}
+
+.pull-down-menu {
+    position: absolute;
+    top: 55px;
+
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width:250px;
+    background: #222222;
+
+    transform: translateY(-100%);
+    animation: downwards .42s;
+    animation-fill-mode: forwards;
+
+}
+
+.pull-up-menu {
+    position: absolute;
+    top: 55px;
+    z-index: 0;
+
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width:250px;
+    background: #222222;
+
+    // display: none;
+    animation: upwards .5s;
+    animation-fill-mode: forwards;
+
+}
+
+.pull-down-menu button, .pull-up-menu button {
+    background: #222222;
+    border: none;
+    height: 50px;
+    color:whitesmoke;
+}
+
+.pull-down-menu button:hover, .pull-up-menu button:hover {
+    background: #AC3028;
+}
+
+@keyframes upwards {
+    100%{
+        transform: translateY(-100%);
+    }
+}
+
+@keyframes downwards {
+    100%{
+        transform: translateY(0%);
+    }
 }
