@@ -1,0 +1,3 @@
+SELECT * FROM cat_fights
+ORDER BY RANDOM()
+LIMIT 1
