@@ -38,7 +38,7 @@ class Editor extends Component {
 				mode="javascript"
 				theme="monokai"
 				onChange={(e) => this.onChange(e)}
-				name="UNIQUE_ID_OF_DIV"
+				name="ace1"
 				editorProps={{$blockScrolling: true}}
 				/>
             </div>
