@@ -5,20 +5,15 @@ class Output extends Component {
         super()
     }
 
-    componentDidMount() {
-        
-    }
-
     componentWillReceiveProps(nextProps) {
         if(nextProps !== this.props) {
             
         }
     }
 
-
     render() {
         return (
-            <div>
+            <div className="catfight_output">
                 output
             </div>
         )

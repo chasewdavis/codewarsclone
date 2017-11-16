@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import Editor from '../../components/TabContainer/Editor/Editor';
 import Output from './Output/Output';
 import calls from '../../utilities/data/data';
+import './CatFight.css';
 
 export default class CatFight extends Component {
     constructor(props) {
@@ -48,12 +49,20 @@ export default class CatFight extends Component {
     render() {
         console.log(this.state.fight)
         return (
-            <div className='catfight'>
-                <Navbar/>
-                catfight
-                <Editor fight={this.state.fight} click={this.state.click} onChange={this.onChange} code={this.state.code}/>
-                <button onClick={() => this.handleClick()}>Submit</button>
-                <Output results={this.state.testResults}/>
+            <div className="catfight_wrapper">
+                <div className='catfight_container'>
+                    <Navbar/>
+                    <Output results={this.state.testResults}/>
+                    <div className='catfight_editor'>
+                        <Editor fight={this.state.fight} click={this.state.click} onChange={this.onChange} code={this.state.code}/>
+                    </div>
+                </div>
+                <div className="catfight_test-container">
+                    <button className='catfight_button'onClick={() => this.handleClick()}>Submit</button>
+                    <div className="catfight_tests">
+                        tests
+                    </div>
+                </div>
             </div>
         )
     }

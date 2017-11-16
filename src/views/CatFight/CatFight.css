@@ -1,0 +1,40 @@
+.catfight_wrapper {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto; }
+
+.catfight_container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around; }
+
+.catfight_editor {
+  float: right;
+  margin-top: 70px; }
+
+.catfight_output {
+  width: 40%;
+  height: 600px;
+  margin-top: 70px;
+  background-color: green; }
+
+.catfight_button {
+  margin-left: 9.2vw;
+  margin-top: 10px;
+  width: 200px;
+  height: 40px;
+  border-radius: 5px; }
+
+.catfight_test-container {
+  display: flex;
+  justify-content: space-around;
+  float: right;
+  width: 60%; }
+
+.catfight_tests {
+  height: 200px;
+  width: 40%;
+  float: right;
+  background-color: green; }
