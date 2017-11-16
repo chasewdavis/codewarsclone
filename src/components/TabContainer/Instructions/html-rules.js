@@ -34,13 +34,13 @@ export const schema = {
         },
         codeblock: {
             nodes: [
-                { kinds: '' }
+                { kinds: ['pre', 'code', 'text'] }
             ]
         }
     },
     marks: {
 
-    }
+    },
 }
 
 export const initialValue = Value.fromJSON({
@@ -55,6 +55,20 @@ export const initialValue = Value.fromJSON({
                         leaves: [
                             {
                                 text: 'This is the initial paragraph'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                kind: 'block',
+                type: 'codeblock',
+                nodes: [
+                    {
+                        kind: 'text',
+                        leaves: [
+                            {
+                                text: 'This  is the initial codeblock'
                             }
                         ]
                     }

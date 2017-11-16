@@ -11,6 +11,7 @@ import CatFight from './views/CatFight/CatFight';
 import Create from './views/Create/Create';
 // will remove instructions after testing
 import Instructions from './components/TabContainer/Instructions/Instructions';
+import SlateExample from './components/TabContainer/Instructions/SlateExample/SlateExample';
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
         <Route path='/create' component={Create} />
         {/* will remove /edit + instructions after testing */}
         <Route path='/edit' component={Instructions} />
+        <Route path='/example' component={SlateExample} />
       </Switch>
     );
   }
