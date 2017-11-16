@@ -3,7 +3,7 @@ import AceEditor from 'react-ace';
 
 
 import 'brace/mode/javascript';
-import 'brace/theme/monokai';
+import 'brace/theme/merbivore';
 
 class Editor extends Component {
     constructor(props) {
@@ -36,7 +36,7 @@ class Editor extends Component {
                 <AceEditor
 				value={this.props.code}
 				mode="javascript"
-				theme="monokai"
+				theme="merbivore"
 				onChange={(e) => this.onChange(e)}
 				name="ace1"
 				editorProps={{$blockScrolling: true}}
