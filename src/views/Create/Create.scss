@@ -9,7 +9,7 @@ $input-active-color: #131414;
     color: #efefef;
     font-weight: 100;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 80px 1fr 1fr;
+    grid-template-rows: 80px 1fr 1.5fr;
 }
 
 .create_main-header {
@@ -139,7 +139,7 @@ $input-active-color: #131414;
     grid-column: 1;
     grid-row: 3 / 4;
     background-color: green;
-    width: 100%;
+    width: 98%;
 }
 
 .create_left-ace-header {
@@ -187,4 +187,12 @@ $input-active-color: #131414;
 
 .create_left-ace-header div:hover {
     cursor: pointer;
+}
+
+.create_right-ace {
+    grid-row: 3 / 4;
+    grid-column: 2;
+    margin-top: 30px;
+    background-color: red;
+    width: 98%;
 }

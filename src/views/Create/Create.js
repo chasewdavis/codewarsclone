@@ -7,6 +7,7 @@ export default class Create extends Component {
         super(props)
         this.state = {
             leftAceActive: 1,
+            rightAceActive: 1,
             name: '',
             rank: '',
             tags: ''
@@ -33,6 +34,12 @@ export default class Create extends Component {
 
     //this allows you to change tabs on the left ace editor
     handleLeftAceClick(tab) {
+        this.setState({
+            leftAceActive: tab
+        })
+    }
+
+    handleRightAceClick(tab) {
         this.setState({
             leftAceActive: tab
         })
@@ -79,6 +86,13 @@ export default class Create extends Component {
                             <div onClick={() => this.handleLeftAceClick(2)}className={this.state.leftAceActive === 2 ? "create_initial create_active" : "create_initial "}>Initial Solution</div>
                             <div onClick={() => this.handleLeftAceClick(3)}className={this.state.leftAceActive === 3 ? "create_preloaded create_active" : "create_preloaded"}>Preloaded</div>
                             <div onClick={() => this.handleLeftAceClick(4)}className={this.state.leftAceActive === 4 ? "create_help create_active" : "create_help "}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
+                        </div>
+                    </div>
+                    <div className='create_right-ace'>
+                        <div className="create_left-ace-header">
+                            <div onClick={() => this.handleRightAceClick(1)}className={ this.state.leftAceActive === 1 ? "create_complete create_active" : "create_complete "}>Test Cases</div>
+                            <div onClick={() => this.handleRightAceClick(2)}className={this.state.leftAceActive === 2 ? "create_initial create_active" : "create_initial "}>Example Test Cases</div>
+                            <div onClick={() => this.handleRightAceClick(3)}className={this.state.leftAceActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
                     </div>
                 </div>
