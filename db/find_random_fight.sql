@@ -1,3 +1,3 @@
 SELECT * FROM cat_fights
 ORDER BY RANDOM()
-LIMIT 1
+LIMIT 2
