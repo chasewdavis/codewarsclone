@@ -1,5 +1,15 @@
-module.exports = {
-    args(str, function_name) {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        function args(str, function_name) {
         // THIS FUNCTION EXTRACTS THE ARGUMENTS OUT OF A FUNCTION STRING
 
         let i1 = str.indexOf('(') + 1
@@ -12,7 +22,7 @@ module.exports = {
         let assignment = str.indexOf('=') + 1
         let returning = str.indexOf('=>')
 
-         array(string, i, j) {
+        function array(string, i, j) {
             return string.slice(i, j).split(',').map(p => p.trim())
         }
 
@@ -38,8 +48,8 @@ module.exports = {
                 return array(str, i1, i2)
         }
         return array(str, i1, i2)
-    },
-    body(str) {
+    }
+    function body(str) {
         // THIS FUNCTION RETURNS THE BODY OUT OF A FUNCTION STRING
 
         let i1 = str.indexOf('{') + 1
@@ -50,12 +60,32 @@ module.exports = {
             return 'return ' + str.slice(i1, i2)
         }
         return str.slice(i1, i2)
-    },
-    runTests(args, body, tests) {
+    }
+    function runTests(args, body, tests) {
         let f = new Function(args, body)
+        console.log(args)
+        console.log(body)
+        console.log(tests)
+        console.log(f(1, 2))
         return tests.map(test => {
-            test.result = f.apply(null, test.params)
+            test.result = f.apply(null, test.paramaters)
             test.passed = test.result === test.expected_result
+            return test
         })
     }
-}
+
+        window.addEventListener('message', function(e) {
+                let code = e.data.code;
+                let tests = e.data.fight.tests;
+               console.log(e.data)
+               // console.log("args",args(code))
+                //console.log(body(code))
+                console.log(tests)
+               let result =  runTests(args(code), body(code), tests)
+                console.log(result)
+                var mainWindow = e.source;
+                mainWindow.postMessage(result, e.origin);
+            });
+    </script>
+</body>
+</html>
