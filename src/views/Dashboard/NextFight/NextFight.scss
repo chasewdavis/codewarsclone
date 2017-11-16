@@ -1,0 +1,21 @@
+
+.nextfight{
+    display: grid;
+    grid-template-columns: repeat(3,3FR);
+    grid-template-rows: 1;
+    height: 260px;
+    width: 907px;
+    margin-top: 55px;
+
+    .nextfight-challenge{ 
+        grid-column: 1/1;
+        background: #262729;
+        padding: 15px;
+    }
+    .nextfight-description{
+        grid-column: 2/4;
+        background: #3C3C3C;
+        padding: 15px;
+    }
+}
+
