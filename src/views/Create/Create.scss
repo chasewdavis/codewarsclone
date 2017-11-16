@@ -1,4 +1,5 @@
 $input-active-color: #131414;
+$tab-background-color: #131414;
 
 .create_main-wrapper {
     max-width: 1800px;
@@ -49,6 +50,7 @@ $input-active-color: #131414;
 .create_left-inputs {
     grid-column: 1;
     grid-row: 2 / 3;
+    width: 98%;
 }
 
 .create_name-input-container {
@@ -138,8 +140,9 @@ $input-active-color: #131414;
     margin-top: 30px;
     grid-column: 1;
     grid-row: 3 / 4;
-    background-color: green;
+    background-color: $tab-background-color;
     width: 98%;
+    margin-bottom: 20px;
 }
 
 .create_left-ace-header {
@@ -193,6 +196,61 @@ $input-active-color: #131414;
     grid-row: 3 / 4;
     grid-column: 2;
     margin-top: 30px;
-    background-color: red;
+    background-color: $tab-background-color;
     width: 98%;
+    margin-bottom: 20px;
+}
+
+.create_example {
+    height: 100%;
+    width: 161px;
+    text-align: center;
+    padding-top: 12px;
+}
+
+.create_test {
+    height: 100%;
+    width: 107px;
+    text-align: center;
+    padding-top: 12px;
+}
+
+.create_right-slate {
+    margin-top: 30px;
+    grid-column: 2;
+    grid-row: 2 / 3;
+    background-color: $tab-background-color;
+    width: 98%;
+}
+
+.create_preview {
+    height: 100%;
+    width: 113px;
+    text-align: center;
+    padding-top: 12px;
+}
+
+.create_ace-placeholder {
+    height: 231px;
+    width: 100%;
+}
+
+.create_right-ace-buttons {
+    display: flex;
+    background-color: #303133;
+    padding-top: 10px;
+}
+
+.create_right-ace-buttons button {
+    width: 160px;
+    height: 31px;
+    border-radius: 4px;
+    background-color: #7c9a44;
+    color: #131414;
+    border: none;
+}
+
+.create_right-ace-buttons button:hover {
+    background-color: #8aac4c;
+    cursor: pointer;
 }

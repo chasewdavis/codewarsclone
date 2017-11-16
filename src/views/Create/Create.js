@@ -8,6 +8,7 @@ export default class Create extends Component {
         this.state = {
             leftAceActive: 1,
             rightAceActive: 1,
+            rightSlateActive: 1,
             name: '',
             rank: '',
             tags: ''
@@ -41,7 +42,13 @@ export default class Create extends Component {
 
     handleRightAceClick(tab) {
         this.setState({
-            leftAceActive: tab
+            rightAceActive: tab
+        })
+    }
+
+    handleRightSlateClick(tab) {
+        this.setState({
+            rightSlateActive: tab
         })
     }
 
@@ -80,6 +87,19 @@ export default class Create extends Component {
                             <input className="create_name-input" type="text" onChange={(e) => this.handleTagChange(e.target.value)}/>
                         </div>
                     </div>
+                    <div className='create_right-slate'>
+                        <div className="create_left-ace-header">
+                            <div onClick={() => this.handleRightSlateClick(1)}className={ this.state.rightSlateActive === 1 ? "create_test create_active" : "create_test "}>Description</div>
+                            <div onClick={() => this.handleRightSlateClick(2)}className={this.state.rightSlateActive === 2 ? "create_preview create_active" : "create_preview"}>Preview</div>
+                            <div onClick={() => this.handleRightSlateClick(3)}className={this.state.rightSlateActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
+                        </div>
+                        <div className="create_ace-placeholder">
+
+                        </div>
+                        <div className="create_right-ace-buttons">
+                            <button><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
+                        </div>
+                    </div>
                     <div className='create_left-ace'>
                         <div className="create_left-ace-header">
                             <div onClick={() => this.handleLeftAceClick(1)}className={ this.state.leftAceActive === 1 ? "create_complete create_active" : "create_complete "}>Complete Solution</div>
@@ -90,9 +110,9 @@ export default class Create extends Component {
                     </div>
                     <div className='create_right-ace'>
                         <div className="create_left-ace-header">
-                            <div onClick={() => this.handleRightAceClick(1)}className={ this.state.leftAceActive === 1 ? "create_complete create_active" : "create_complete "}>Test Cases</div>
-                            <div onClick={() => this.handleRightAceClick(2)}className={this.state.leftAceActive === 2 ? "create_initial create_active" : "create_initial "}>Example Test Cases</div>
-                            <div onClick={() => this.handleRightAceClick(3)}className={this.state.leftAceActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
+                            <div onClick={() => this.handleRightAceClick(1)}className={ this.state.rightAceActive === 1 ? "create_test create_active" : "create_test "}>Test Cases</div>
+                            <div onClick={() => this.handleRightAceClick(2)}className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Example Test Cases</div>
+                            <div onClick={() => this.handleRightAceClick(3)}className={this.state.rightAceActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
                     </div>
                 </div>
