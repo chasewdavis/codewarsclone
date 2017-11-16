@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import Editor from '../../components/TabContainer/Editor/Editor';
 import Output from './Output/Output';
-import axios from 'axios';
+import calls from '../../utilities/data/data';
 
 export default class CatFight extends Component {
     constructor(props) {
@@ -10,7 +10,8 @@ export default class CatFight extends Component {
         this.state = {
             click: true,
             code: '',
-            testResults: ''
+            testResults: [],
+            fight: {}
         }
         this.onChange = this.onChange.bind(this)
         this.handleReceivedMessage = this.handleReceivedMessage.bind(this)
@@ -18,10 +19,12 @@ export default class CatFight extends Component {
 
     //set the event listener on the main window the callback will set a variable on the window called userFunction
     componentDidMount() {
+        calls.getFightById(this.props.match.params.id).then(fight => this.setState({fight: fight, code: fight[0].placeholder}, () => console.log(fight)))
         window.addEventListener('message', this.handleReceivedMessage)
     }
 
     handleReceivedMessage(e) {
+        console.log("e.data",e.data)
         this.setState({
             testResults: e.data
         }, () => console.log(this.state)) 
@@ -43,13 +46,14 @@ export default class CatFight extends Component {
 
 
     render() {
+        console.log(this.state.fight)
         return (
             <div className='catfight'>
                 <Navbar/>
                 catfight
-                <Editor click={this.state.click} onChange={this.onChange} code={this.state.code}/>
+                <Editor fight={this.state.fight} click={this.state.click} onChange={this.onChange} code={this.state.code}/>
                 <button onClick={() => this.handleClick()}>Submit</button>
-                <Output />
+                <Output results={this.state.testResults}/>
             </div>
         )
     }

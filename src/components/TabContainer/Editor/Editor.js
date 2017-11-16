@@ -24,7 +24,8 @@ class Editor extends Component {
 
     //post a message tothe iframe with the content being what the user entered into ace
     handleClick() {
-        this.ifr.contentWindow.postMessage(this.props.code, "*")
+        let message = {code: this.props.code, fight: this.props.fight}
+        this.ifr.contentWindow.postMessage(message, "*")
     }                                                                                                                                                                
     
 
