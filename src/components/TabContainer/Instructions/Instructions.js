@@ -34,7 +34,7 @@ export default class Instructions extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: initialValue,
+            value: html.deserialize('<h1>Hello!</h1>') // initialValue,
             // schema: schema
         }
         this.ctrl = false

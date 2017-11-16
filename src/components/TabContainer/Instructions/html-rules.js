@@ -15,7 +15,42 @@ const MARK_TAGS = {
 }
 
 const rules = [
-
+    {
+        deserialize(el, next) {
+            const type = BLOCK_TAGS[el.tagName.toLowerCase()]
+            if (!type) return
+            return {
+                kind: 'block',
+                type,
+                nodes: next(el.childNodes)
+            }
+        },
+        serialize(object, children) {
+            if (object.kind != 'block') return
+            switch (object.type) {
+                case 'paragraph': return <p>{children}</p>
+                case 'codeblock': return <div class="code-block"><pre><code>{children}</code></pre></div>    
+            }
+        }
+    },
+    {
+        deserialize(el, next) {
+            const type = MARK_TAGS[el.tagName.toLowerCase()]
+            if (!type) return
+            return {
+                kind: 'mark',
+                type,
+                nodes: next(el.childNodes)
+            }
+        },
+        serialize(object, children) {
+            if (object.kind != 'mark') return
+            switch (object.type) {
+                case 'code': return <code>{children}</code>
+                case 'b': return <b>{children}</b>    
+            }
+        }
+    }
 ]
 
 export default new Html({ rules })
