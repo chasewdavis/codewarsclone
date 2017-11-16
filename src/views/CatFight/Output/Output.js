@@ -14,7 +14,7 @@ class Output extends Component {
     render() {
         return (
             <div className="catfight_output">
-                output
+                <div className="catfight_output-header"></div>
             </div>
         )
     }

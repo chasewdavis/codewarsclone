@@ -58,7 +58,7 @@ export default class CatFight extends Component {
                         <Editor fight={this.state.fight} click={this.state.click} onChange={this.onChange} code={this.state.code}/>
                         <div className="catfight_tests">
                             <div className='catfight_tests-div'>
-
+                                <div className="catfight_tests-header"></div>
                             </div>
                             <div className="catfight_button-container">
                                 <button className='catfight_button'onClick={() => this.handleClick()}>Submit</button>
