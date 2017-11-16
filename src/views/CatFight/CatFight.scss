@@ -38,7 +38,10 @@
     width: 116px;
     padding-top: 12px;
     padding-left: 15px;
-    z-index: 10;
+}
+
+.catfight_output-header div:hover {
+    cursor: pointer;
 }
 
 .catfight_output-header div:nth-child(2) {
