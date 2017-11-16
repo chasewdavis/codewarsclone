@@ -90,7 +90,7 @@ export default class Create extends Component {
                     <div className='create_right-slate'>
                         <div className="create_left-ace-header">
                             <div onClick={() => this.handleRightSlateClick(1)}className={ this.state.rightSlateActive === 1 ? "create_test create_active" : "create_test "}>Description</div>
-                            <div onClick={() => this.handleRightSlateClick(2)}className={this.state.rightSlateActive === 2 ? "create_preview create_active" : "create_preview"}>Preview</div>
+                            <div onClick={() => this.handleRightSlateClick(2)}className={this.state.rightSlateActive === 2 ? "create_preview create_active" : "create_preview"}><i class="fa fa-eye" aria-hidden="true"></i> Preview</div>
                             <div onClick={() => this.handleRightSlateClick(3)}className={this.state.rightSlateActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
                         <div className="create_ace-placeholder">

@@ -191,6 +191,8 @@
   width: 113px;
   text-align: center;
   padding-top: 12px; }
+  .create_preview i {
+    margin-right: 4px; }
 
 .create_ace-placeholder {
   height: 231px;
