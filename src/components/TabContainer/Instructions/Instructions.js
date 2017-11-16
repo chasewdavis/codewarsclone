@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
+import Prism from 'prismjs'
 import { Editor } from 'slate-react';
-import html, { schema, initialValue } from './html-rules';
+import html, { initialValue } from './html-rules';
 import './Instructions.css';
 
 function CodeLine(props) {
     console.log('code line')
-    console.log(props)
-    return <div {...props.attributes}>{props.children}</div>
+    // console.log(props)
+    return <code {...props.attributes}>{props.children}</code>
 }
 
 function CodeBlock(props) {
     console.log('code block')
-    console.log(props)
+    // console.log(props)
     return (
         <div class="code-block" >
             <pre>
@@ -25,7 +26,7 @@ function CodeBlock(props) {
 
 function BoldMark(props) {
     console.log('bold mark')
-    console.log(props)
+    // console.log(props)
     return <b>{props.children}</b>
 }
 
@@ -34,7 +35,7 @@ export default class Instructions extends Component {
         super(props)
         this.state = {
             value: initialValue,
-            schema: schema
+            // schema: schema
         }
         this.ctrl = false
     }
@@ -44,26 +45,37 @@ export default class Instructions extends Component {
         })
     }
     onKeyDown = (event, change) => {
-        console.log(change.value.startBlock)
+        // console.log(change)
         if (event.key == 'Control' || event.metaKey) {
             console.log(event.key)
             this.ctrl = true
             return
         }
-        else if (!this.ctrl) return
-        else if (change.value.startBlock.type == 'codeblock' && change.value.isExpanded) {
-            change.delete()
+        else if (!this.ctrl) {
+
+            if (event.key != 'Enter' || change.value.startBlock.type !== 'codeblock') return
+            if (change.value.isExpanded) {
+                change.delete()
+            }
+            change.insertText('\n')
+            return true
         }
-        change.insertText('\n')
-        console.log()
+        else if (this.ctrl && event.key == 'Enter') {
+            change.insertBlock('paragraph')
+            return true;
+        }
         switch (event.key) {
             case '`':
-                console.log('code')
-                console.log(change)
+                console.log('codeblock')
                 let isCode = change.value.blocks.some(block => block.type == 'codeblock')
                 event.preventDefault();
                 change.setBlock(isCode ? 'paragraph' : 'codeblock')
                 return true;
+            case 'q':
+                console.log('codeline')
+                event.preventDefault()
+                change.toggleMark('code')
+                return true
             case 'b':
                 console.log('bold')
                 event.preventDefault();
@@ -84,19 +96,22 @@ export default class Instructions extends Component {
         // console.log(props.node.type)
         switch (props.node.type) {
             case 'codeblock': return <CodeBlock {...props} />
-            case 'code': return <CodeLine {...props} />
-            case 'bold': return <BoldMark {...props} />
+            default:
+                return
         }
     }
 
-    decorateNode = node => {
-        let texts = node.getTexts().toArray()
-        let string = texts.map(t => t.text).join('\n')
-        console.log(texts)
-        console.log(string)
+    renderMark = props => {
+        switch (props.mark.type) {
+            case 'code': return <CodeLine {...props} />
+            case 'bold': return <BoldMark {...props} />
+            default:
+                return
+        }
     }
 
     render() {
+        // console.log(this.state.value)
         return (
             <div className="Instructions">
 
@@ -104,9 +119,10 @@ export default class Instructions extends Component {
                     value={this.state.value}
                     onChange={this.handleChange}
                     renderNode={this.renderNode}
+                    renderMark={this.renderMark}
                     onKeyDown={this.onKeyDown}
                     onKeyUp={this.onKeyUp}
-                    decorateNode={this.decorateNode}
+                /* decorateNode={this.decorateNode} */
                 /* schema={this.state.schema} */
                 />
 

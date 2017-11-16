@@ -20,28 +20,28 @@ const rules = [
 
 export default new Html({ rules })
 
-export const schema = {
-    document: {
-        nodes: [
-            { types: ['paragraph', 'codeblock'] }
-        ]
-    },
-    blocks: {
-        paragraph: {
-            nodes: [
-                { kinds: ['text'] }
-            ]
-        },
-        codeblock: {
-            nodes: [
-                { kinds: ['pre', 'code', 'text'] }
-            ]
-        }
-    },
-    marks: {
+// export const schema = {
+//     document: {
+//         nodes: [
+//             { types: ['paragraph', 'codeblock'] }
+//         ]
+//     },
+//     blocks: {
+//         paragraph: {
+//             nodes: [
+//                 { kinds: ['text'] }
+//             ]
+//         },
+//         codeblock: {
+//             nodes: [
+//                 { kinds: ['pre', 'code', 'text'] }
+//             ]
+//         }
+//     },
+//     marks: {
 
-    },
-}
+//     },
+// }
 
 export const initialValue = Value.fromJSON({
     document: {
@@ -65,10 +65,44 @@ export const initialValue = Value.fromJSON({
                 type: 'codeblock',
                 nodes: [
                     {
+                        kind: 'block',
+                        type: 'paragraph',
+                        nodes: [
+                            {
+                                kind: 'text',
+                                leaves: [
+                                    {
+                                        text: 'Press "CTRL + `" to create a codeblock'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        kind: 'block',
+                        type: 'paragraph',
+                        nodes: [
+                            {
+                                kind: 'text',
+                                leaves: [
+                                    {
+                                        text: 'Press "CTRL + ENTER" to escape a codeblock'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                kind: 'block',
+                type: 'paragraph',
+                nodes: [
+                    {
                         kind: 'text',
                         leaves: [
                             {
-                                text: 'This  is the initial codeblock'
+                                text: 'This is the initial closing paragraph'
                             }
                         ]
                     }
