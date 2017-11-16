@@ -116,7 +116,8 @@ export default class Instructions extends Component {
             <div className="Instructions">
 
                 <Editor
-                    value={this.state.value}
+                    readOnly={this.props.help}
+                    value={this.props.help ? this.props.help : this.state.value}
                     onChange={this.handleChange}
                     renderNode={this.renderNode}
                     renderMark={this.renderMark}
