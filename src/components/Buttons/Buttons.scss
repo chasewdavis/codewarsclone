@@ -1,0 +1,38 @@
+button{
+    cursor: pointer;
+    outline: none;
+}
+
+.button_solid{
+    background-color: #6996DC;
+    border: none;
+    height: 30px;
+    color:#262729;
+    letter-spacing:1px;
+    font-weight: lighter;
+    font-size: 12px;
+    padding:0 11px;
+    margin: 0 5px;
+    transition: background-color .4s;
+}
+
+.button_hollow {
+    border: 1px solid #6996DC;
+    background-color: #222222;
+    color: #7DA5E1;
+    height: 30px;
+    letter-spacing:1px;
+    font-weight: lighter;
+    font-size: 12px;
+    padding:0 11px;
+    margin: 0 5px;
+    transition: background-color .4s;
+}
+
+.button_solid:hover{
+    background-color: #7DA5E1;
+}
+
+.button_hollow:hover {
+    background-color: #0B0C0C
+}

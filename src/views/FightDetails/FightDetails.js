@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
+import Header from '../../components/Headers/Headers';
 
 export default class FightDetails extends Component {
     constructor(props) {
@@ -12,7 +13,7 @@ export default class FightDetails extends Component {
         return (
             <div className='fightdetails'>
                 <Navbar/>
-                fightdetails
+                <Header/>
             </div>
         )
     }
