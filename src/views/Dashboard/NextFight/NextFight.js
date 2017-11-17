@@ -31,6 +31,9 @@ class NextFight extends Component {
         this.setState({fights: nextFight })
         
             axios.get(`/api/randomCatFight`).then(res=>{
+
+                console.log('res.data from api call is...', res.data)
+
                 let temp = this.state.fights
                 
                 let array = [...temp, ...res.data]
@@ -47,6 +50,8 @@ class NextFight extends Component {
                 this.setState({fights:array})
                 
             })
+
+            
         }
     }
 
@@ -56,7 +61,7 @@ class NextFight extends Component {
 
     render() {
 
-        console.log(this.state.fights[0])
+        console.log('the state of fights is...', this.state.fights)
 
         let tags = "";
 
@@ -81,7 +86,7 @@ class NextFight extends Component {
                 </div>
 
                 <div className='nextfight-description'>
-                    <header>{this.state.fights[0].difficulty} {this.state.fights[0].description}</header>
+                    <header>{this.state.fights[0].difficulty} {this.state.fights[0].name}</header>
                     <div className='nextfight_description-scroll'>What is Lorem Ipsum?
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 
