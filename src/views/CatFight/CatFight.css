@@ -111,8 +111,7 @@
   background-color: #303133;
   height: 60px;
   display: flex;
-  justify-content: space-between;
-  padding: 0 0.75rem; }
+  justify-content: space-between; }
   .catfight_button-container .fa-caret-right {
     margin-right: 4px;
     font-size: 16px; }

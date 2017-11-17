@@ -19,17 +19,17 @@ export default class CatFight extends Component {
         this.handleReceivedMessage = this.handleReceivedMessage.bind(this)
     }
 
-    //set the event listener on the main window the callback will set a variable on the window called userFunction
+    // get a fight by id
+    //set the event listener on the main window
     componentDidMount() {
-        calls.getFightById(this.props.match.params.id).then(fight => this.setState({ fight: fight, code: fight[0].placeholder }, () => console.log(fight)))
+        calls.getFightById(this.props.match.params.id).then(fight => this.setState({ fight: fight, code: fight.placeholder }))
         window.addEventListener('message', this.handleReceivedMessage)
     }
 
     handleReceivedMessage(e) {
-        console.log("e.data", e.data)
         this.setState({
             testResults: e.data
-        }, () => console.log(this.state))
+        })
     }
 
     //will toggle click state property and send a message
@@ -48,7 +48,6 @@ export default class CatFight extends Component {
 
 
     render() {
-        console.log(this.state.fight)
         return (
             <div>
                 <Navbar />

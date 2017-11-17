@@ -5,28 +5,29 @@ class Output extends Component {
         super()
 
         this.state = {
-            active: true
+            active: 1
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps !== this.props) {
-            
-        }
+        console.log(JSON.stringify(nextProps.results[0]))
+        console.log(this.props.results)
     }
 
-    handleClick() {
+    handleClick(num) {
         this.setState({
-            active: !this.state.active
-        })
+            active: num
+        }, () => console.log(this.state))
     }
 
     render() {
         return (
             <div className="catfight_output">
                 <div className="catfight_output-header">
-                        <div className={this.state.active ? "catfight_output-active" : "catfight_output-plain"} onClick={() => this.handleClick()}>Instructions</div>
-                        <div className={this.state.active ? "catfight_output-plain" : 'catfight_output-active'} onClick={() => this.handleClick()}>Output</div>
+                        <div className={this.state.active === 1 ? "catfight_output-active" : "catfight_output-plain"} onClick={() => this.handleClick(1)}>
+                        Instructions{this.props.results ? JSON.stringify(this.props.results[0]) : null}
+                        </div>
+                        <div className={this.state.active === 2 ? "catfight_output-active" : 'catfight_output-plain'} onClick={() => this.handleClick(2)}>Output</div>
                 </div>
             </div>
         )
