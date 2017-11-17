@@ -13,16 +13,21 @@ export default class CatFight extends Component {
             click: null,
             code: '',
             testResults: [],
-            fight: {}
+            fight: {},
+            tab: 1,
+            testsPassed: false
         }
+        this.baseState = this.state
         this.onChange = this.onChange.bind(this)
         this.handleReceivedMessage = this.handleReceivedMessage.bind(this)
+        this.handleOutputTabChange = this.handleOutputTabChange.bind(this)
     }
 
     // get a fight by id
     //set the event listener on the main window
     componentDidMount() {
-        calls.getFightById(this.props.match.params.id).then(fight => this.setState({ fight: fight, code: fight.placeholder }, ()=> console.log(this.state.fight)))
+        calls.getFightById(this.props.match.params.id).then(fight => {console.log(fight);
+            this.setState({ fight: fight, code: fight.placeholder })})
         window.addEventListener('message', this.handleReceivedMessage)
     }
 
@@ -30,25 +35,43 @@ export default class CatFight extends Component {
         this.setState({
             testResults: e.data
         })
+        
     }
 
     //will toggle click state property and send a message
     handleClick() {
         this.setState({
-            click: 2
+            click: 2,
+            tab: 2
+        }, () => {
+            if(this.state.testResults.source) {
+                console.log()
+                console.log(this.state)
+            } else {
+                var passedFlag = true;
+                this.state.testResults.map(test => {
+                    if(test.passed == false) {
+                        passedFlag = false;
+                    }
+                })
+                this.setState({
+                    testsPassed: passedFlag
+                }, () => console.log(this.state))
+            }
         })
     }
 
     handleResetClick() {
         this.setState({
-            code: this.state.fight.placeholder,
-            testResults : null
+            tab: 1,
+            testResults: [],
         })
     }
 
     handleSampleClick() {
         this.setState({
-            click: 1
+            click: 1,
+            tab: 2
         })
     }
 
@@ -63,13 +86,19 @@ export default class CatFight extends Component {
         })
     }
 
+    handleOutputTabChange(num) {
+        this.setState({
+            tab: num
+        })
+    }
+
 
     render() {
         return (
             <div>
                 <Navbar />
                 <div className="catfight_wrapper">
-                    <Output results={this.state.testResults} />
+                    <Output handleTabChange={this.handleOutputTabChange} tab={this.state.tab} results={this.state.testResults} />
                     <div className='catfight_editor'>
                         <div className="catfight_editor-header">Solution: <i className="fa fa-arrows-alt" aria-hidden="true"></i></div>
                         <Editor fight={this.state.fight} click={this.state.click} onChange={this.onChange} code={this.state.code} />
