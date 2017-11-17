@@ -1,12 +1,41 @@
 .Test {
   display: flex;
-  flex-direction: column; }
-  .Test .input-line {
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0.75rem;
+  background: #222;
+  padding: 1rem;
+  border-radius: 0.25rem; }
+  .Test .test-title {
     display: flex;
-    justify-content: space-between; }
-    .Test .input-line div {
+    justify-content: space-between;
+    align-items: space-between; }
+
+.done-button {
+  display: flex;
+  justify-content: center; }
+
+.closed:hover, .test-title:hover, .done-button:hover {
+  cursor: pointer; }
+
+.parameter-box {
+  margin-top: 0.5rem; }
+
+.open-test {
+  display: flex;
+  flex-direction: column; }
+  .open-test .input-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.75rem 1rem; }
+    .open-test .input-line div {
       display: flex; }
-    .Test .input-line input {
-      max-width: 50%; }
-  .Test .test-input-placeholder {
+    .open-test .input-line input, .open-test .input-line select {
+      max-width: 40%;
+      height: 1.5rem;
+      background: #111;
+      border: none;
+      color: white; }
+  .open-test .test-input-placeholder {
     height: 1rem; }

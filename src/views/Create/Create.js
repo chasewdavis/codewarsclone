@@ -15,7 +15,7 @@ export default class Create extends Component {
         super(props)
         this.state = {
             leftAceActive: 1,
-            solution: 'function (a, b, c) {',
+            solution: 'function (a, b, c) { return a + b + c }',
             placeholder: '',
             rightAceActive: 1,
             rightAceCode: '',
@@ -23,31 +23,51 @@ export default class Create extends Component {
             description: html.deserialize('<h1>Instructions</h1>'),
             name: '',
             rank: '',
-            tags: '',
+            tags: [''],
             argsCount: 0,
             tests: [
                 {
-                    parameters: [],
-                    paramTypes: [],
+                    parameters: [''],
+                    paramTypes: [''],
                     expected_result: '',
                     passed: false
                 }
-            ]
+            ],
+            testResults: [{}],
+            click: null
         }
     }
 
-    // countArgs = () => {
-    //     f.args(this.state.solution).length
-    //     f.args(this.state.placeholder).length
-    // }
+    componentDidMount() {
+        window.addEventListener('message', this.handleReceivedMessage)
+    }
+
+    handleReceivedMessage = e => {
+        console.log(e.data)
+        this.setState({
+            testResults: e.data,
+            click: null
+        }, () => {
+            if (this.state.testResults.source) {
+                console.log(this.state.testResults)
+            }
+        })
+    }
+
+    runTests = () => {
+        let newClick
+        this.setState({
+            click: 2
+        })
+    }
 
     save = () => {
         let description = html.serialize(this.state.description)
         let fight = Object.assign({}, this.state, { description })
         console.log(fight)
-        axios.post(`/api/createfight`, fight).then(response => {
-            console.log(response.data)
-        })
+        // axios.post(`/api/createfight`, fight).then(response => {
+        //     console.log(response.data)
+        // })
     }
 
     handleTestChange = (i, str, value, j) => {
@@ -76,9 +96,10 @@ export default class Create extends Component {
     addTest = () => {
         let tests = this.state.tests.slice()
         let parameters = Array(this.state.argsCount).fill('')
+        let paramTypes = Array(this.state.argsCount).fill('')
         tests.push({
             parameters,
-            paramTypes: parameters,
+            paramTypes,
             expected_result: '',
             passed: false
         })
@@ -106,9 +127,10 @@ export default class Create extends Component {
     }
 
     handleTagChange(tags) {
+        // console.log()
         this.setState({
-            tags: tags
-        }, () => console.log(this.state))
+            tags: tags.split(',').map(tag => tag.trim())
+        })
     }
 
     //this allows you to change tabs on the left ace editor
@@ -145,26 +167,22 @@ export default class Create extends Component {
                 }) 
                 break
         }
-
         let tests = this.state.tests.slice()
-
         tests = tests.map(test => {
-            console.log(test)
+            // console.log(test)
             for (let i = test.parameters.length; i < this.state.argsCount; i++) {
                 test.parameters.push('')
             }
             for (let i = test.paramTypes.length; i < this.state.argsCount; i++) {
-                console.log(test.paramTypes)
+                // console.log(test.paramTypes)
                 test.paramTypes.push('')
             }
             return test
         })
-
         this.setState({
             tests
         })
-
-        console.log(this.state.argsCount)
+        // console.log(this.state.argsCount)
     }
 
     render() {
@@ -216,7 +234,7 @@ export default class Create extends Component {
                                 // <InstructionsHelp/>
                             }
                         </div>
-                        <div className="create_right-ace-buttons">
+                        <div className="create_right-ace-buttons" onClick={this.runTests} >
                             <button><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
                         </div>
                     </div>
@@ -230,7 +248,7 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 this.state.leftAceActive === 1 ?
-                                    <Editor title="solution" code={this.state.solution} onChange={e => this.handleChange('solution', e)} />
+                                    <Editor click={this.state.click} title="solution" code={this.state.solution} fight={Object.assign({}, this.state, {description: null})} onChange={e => this.handleChange('solution', e)} />
                                     :
                                     this.state.leftAceActive === 2 ?
                                         <Editor title="placeholder" code={this.state.placeholder} onChange={e => this.handleChange('placeholder', e)} />
