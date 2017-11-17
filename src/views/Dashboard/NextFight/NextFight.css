@@ -8,8 +8,60 @@
   .nextfight .nextfight-challenge {
     grid-column: 1/1;
     background: #262729;
-    padding: 15px; }
+    padding: 0 15px;
+    display: grid;
+    grid-template-columns: 1;
+    grid-template-rows: repeat(5, 5FR); }
+    .nextfight .nextfight-challenge header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      grid-row: 1/2; }
+    .nextfight .nextfight-challenge footer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      grid-row: 3/6; }
   .nextfight .nextfight-description {
     grid-column: 2/4;
     background: #3C3C3C;
-    padding: 15px; }
+    padding: 0 15px;
+    display: grid;
+    grid-template-columns: 1;
+    grid-template-rows: repeat(5, 5FR); }
+    .nextfight .nextfight-description header {
+      grid-row: 1/2;
+      display: flex;
+      flex-direction: row;
+      align-items: center; }
+    .nextfight .nextfight-description .nextfight_description-scroll {
+      grid-row: 2/5;
+      overflow-y: scroll;
+      height: 155px;
+      background: #242424;
+      padding: 10px; }
+    .nextfight .nextfight-description footer {
+      position: relative;
+      grid-row: 5/6;
+      display: flex;
+      flex-direction: row;
+      align-items: center; }
+      .nextfight .nextfight-description footer .nextfight_gradient {
+        width: 100%;
+        height: 25px;
+        background: linear-gradient(180deg, transparent, #3C3C3C);
+        position: absolute;
+        top: -25px;
+        border-radius: 0px; }
+      .nextfight .nextfight-description footer div {
+        background: #363636;
+        margin-right: 10px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        padding: 4px;
+        border-radius: 4px;
+        font-size: 10px;
+        letter-spacing: 1px; }
