@@ -71,6 +71,7 @@
     }
 
         window.addEventListener('message', function(e) {
+                
                 let code = e.data.code;
                 let tests = e.data.fight.tests;
                 let result =  runTests(args(code), body(code), tests)

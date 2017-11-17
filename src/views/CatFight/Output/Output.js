@@ -28,7 +28,7 @@ class Output extends Component {
         }) : null
         
         return (
-            <div className="catfight_output">
+            <div className={this.props.testsPassed === 1 ? "catfight_output-passed catfight_output" : this.props.testsPassed === 2 ? "catfight_output catfight_output-failed" : "catfight_output"}>
             
                 <div className="catfight_output-header">
                         <div className={this.props.tab == 1 ? "catfight_output-active" : "catfight_output-plain"} onClick={() => this.props.handleTabChange(1)}>Instructions</div>
@@ -41,8 +41,8 @@ class Output extends Component {
                  <div>
                  <div className="output_summary-container">
                      <div className="output_summary">
-                        <span>Passed: {testsPassed}</span>
-                        <span>Failed: {testsFailed}</span>
+                        <span className={this.props.testsPassed === 1 ? "output_span-green" : null}>Passed: {testsPassed}</span>
+                        <span className={this.props.testsPassed === 2 ? "output_span-red" : null}>Failed: {testsFailed}</span>
                      </div>
                  </div>
                  {sampleTestsToDisplay}

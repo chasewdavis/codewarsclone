@@ -17,6 +17,8 @@ class Editor extends Component {
             this.handleTestClick()
         } else if(newProps.click === 2) {
             this.handleAttemptClick()
+        } else {
+           
         }
     }
 
