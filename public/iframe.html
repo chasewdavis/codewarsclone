@@ -64,14 +64,14 @@
     function runTests(args, body, tests) {
         let f = new Function(args, body)
         return tests.map(test => {
-            test.result = f.apply(null, test.paramaters)
+            test.result = f.apply(null, test.parameters)
             test.passed = test.result === test.expected_result
             return test
         })
     }
 
         window.addEventListener('message', function(e) {
-                
+                console.log(e.data)
                 let code = e.data.code;
                 let tests = e.data.fight.tests;
                 let result =  runTests(args(code), body(code), tests)

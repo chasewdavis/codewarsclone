@@ -15,7 +15,7 @@ export default class Create extends Component {
         super(props)
         this.state = {
             leftAceActive: 1,
-            solution: 'function (a, b, c) {',
+            solution: 'function (a, b, c) { return a + b + c }',
             placeholder: '',
             rightAceActive: 1,
             rightAceCode: '',
@@ -34,7 +34,7 @@ export default class Create extends Component {
                 }
             ],
             testResults: [{}],
-            click: false
+            click: null
         }
     }
 
@@ -45,13 +45,19 @@ export default class Create extends Component {
     handleReceivedMessage = e => {
         console.log(e.data)
         this.setState({
-            testResults: e.data
+            testResults: e.data,
+            click: null
+        }, () => {
+            if (this.state.testResults.source) {
+                console.log(this.state.testResults)
+            }
         })
     }
 
     runTests = () => {
+        let newClick
         this.setState({
-            click: !this.state.click
+            click: 2
         })
     }
 
@@ -90,9 +96,10 @@ export default class Create extends Component {
     addTest = () => {
         let tests = this.state.tests.slice()
         let parameters = Array(this.state.argsCount).fill('')
+        let paramTypes = Array(this.state.argsCount).fill('')
         tests.push({
             parameters,
-            paramTypes: parameters,
+            paramTypes,
             expected_result: '',
             passed: false
         })
@@ -241,7 +248,7 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 this.state.leftAceActive === 1 ?
-                                    <Editor click={this.state.click} title="solution" code={this.state.solution} onChange={e => this.handleChange('solution', e)} />
+                                    <Editor click={this.state.click} title="solution" code={this.state.solution} fight={Object.assign({}, this.state, {description: null})} onChange={e => this.handleChange('solution', e)} />
                                     :
                                     this.state.leftAceActive === 2 ?
                                         <Editor title="placeholder" code={this.state.placeholder} onChange={e => this.handleChange('placeholder', e)} />
