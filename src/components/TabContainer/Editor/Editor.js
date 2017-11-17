@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AceEditor from 'react-ace';
+import './Editor.css'
 
 
 import 'brace/mode/javascript';
@@ -31,7 +32,7 @@ class Editor extends Component {
 
     render() {
         return (
-            <div>
+            <div className='ace-editor'>
                 <iframe style={{display: "none"}} title='sandbox' src="http://localhost:3000/iframe.html" sandbox="allow-scripts" ref={(f) => {this.ifr = f}}/>
                 <AceEditor
 				value={this.props.code}

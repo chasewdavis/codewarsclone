@@ -12,7 +12,7 @@ module.exports = {
         let assignment = str.indexOf('=') + 1
         let returning = str.indexOf('=>')
 
-         array(string, i, j) {
+        function array(string, i, j) {
             return string.slice(i, j).split(',').map(p => p.trim())
         }
 

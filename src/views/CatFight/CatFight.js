@@ -21,17 +21,17 @@ export default class CatFight extends Component {
 
     //set the event listener on the main window the callback will set a variable on the window called userFunction
     componentDidMount() {
-        calls.getFightById(this.props.match.params.id).then(fight => this.setState({fight: fight, code: fight[0].placeholder}, () => console.log(fight)))
+        calls.getFightById(this.props.match.params.id).then(fight => this.setState({ fight: fight, code: fight[0].placeholder }, () => console.log(fight)))
         window.addEventListener('message', this.handleReceivedMessage)
     }
 
     handleReceivedMessage(e) {
-        console.log("e.data",e.data)
+        console.log("e.data", e.data)
         this.setState({
             testResults: e.data
-        }, () => console.log(this.state)) 
+        }, () => console.log(this.state))
     }
-    
+
     //will toggle click state property and send a message
     handleClick() {
         this.setState({
@@ -41,9 +41,9 @@ export default class CatFight extends Component {
 
     //keeps track of what the user is entering in ace
     onChange(value) {
-		this.setState({
-			code: value
-		})
+        this.setState({
+            code: value
+        })
     }
 
 
@@ -51,24 +51,24 @@ export default class CatFight extends Component {
         console.log(this.state.fight)
         return (
             <div>
-                <Navbar/>
+                <Navbar />
                 <div className="catfight_wrapper">
-                    <Output results={this.state.testResults}/>
+                    <Output results={this.state.testResults} />
                     <div className='catfight_editor'>
                         <div className="catfight_editor-header">Solution: <i className="fa fa-arrows-alt" aria-hidden="true"></i></div>
-                        <Editor fight={this.state.fight} click={this.state.click} onChange={this.onChange} code={this.state.code}/>
+                        <Editor fight={this.state.fight} click={this.state.click} onChange={this.onChange} code={this.state.code} />
                         <div className="catfight_tests">
                             <div className='catfight_tests-div'>
                                 <div className="catfight_tests-header"><div>Sample Tests:</div><div><i className="fa fa-arrows-alt" aria-hidden="true"></i><i className="fa fa-question-circle" aria-hidden="true"></i></div></div>
                             </div>
                             <div className="catfight_button-container">
                                 <div>
-                                    <button className='catfight_skip-button'onClick={() => this.handleClick()}><i className="fa fa-forward" aria-hidden="true"></i>SKIP</button>
+                                    <button className='catfight_skip-button' onClick={() => this.handleClick()}><i className="fa fa-forward" aria-hidden="true"></i>SKIP</button>
                                 </div>
                                 <div>
-                                    <button className='catfight_reset-button'onClick={() => this.handleClick()}>RESET</button>
-                                    <button className='catfight_sample-button'onClick={() => this.handleClick()}>RUN SAMPLE TESTS</button>
-                                    <button className='catfight_attempt-button'onClick={() => this.handleClick()}><i className="fa fa-caret-right" aria-hidden="true"></i>ATTEMPT</button>
+                                    <button className='catfight_reset-button' onClick={() => this.handleClick()}>RESET</button>
+                                    <button className='catfight_sample-button' onClick={() => this.handleClick()}>RUN SAMPLE TESTS</button>
+                                    <button className='catfight_attempt-button' onClick={() => this.handleClick()}><i className="fa fa-caret-right" aria-hidden="true"></i>ATTEMPT</button>
                                 </div>
                             </div>
                         </div>
