@@ -1,2 +1,2 @@
 SELECT * FROM tests
-WHERE test_id = $1
+WHERE fight_id = $1
