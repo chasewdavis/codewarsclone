@@ -4,6 +4,7 @@ import './Create.css'
 
 import Instructions from '../../components/TabContainer/Instructions/Instructions';
 import Editor from '../../components/TabContainer/Editor/Editor';
+import html from '../../components/TabContainer/Instructions/html-rules';
 
 export default class Create extends Component {
     constructor(props) {
@@ -15,10 +16,17 @@ export default class Create extends Component {
             rightAceActive: 1,
             rightAceCode: '',
             rightSlateActive: 1,
+            description: html.deserialize('<h1>Instructions</h1>'),
             name: '',
             rank: '',
             tags: ''
         }
+    }
+
+    handleSlateChange = ({ value }) => {
+        this.setState({
+            description: value
+        })
     }
 
     handleNameChange(name) {
@@ -108,7 +116,7 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 this.state.rightSlateActive === 1 ?
-                                    <Instructions />
+                                    <Instructions change={this.handleSlateChange} description={this.state.description} />
                                     :
                                     null
                                 // <InstructionsHelp/>
@@ -144,7 +152,7 @@ export default class Create extends Component {
                             <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Example Test Cases</div>
                             <div onClick={() => this.handleRightAceClick(3)} className={this.state.rightAceActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
-                        <div classNaem="create_editor-wrapper">
+                        <div className="create_editor-wrapper">
                             {/*
                                 this.state.rightAceActive === 1 ?
                                     <Tests />
