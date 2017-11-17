@@ -5,16 +5,17 @@ module.exports = {
 
             fight.map((obj, obj_index) => {
                 obj.tagsArray = [];
+                console.log('mapping over fights')
                 req.app.get('db').find_tags([obj.cat_fight_id])
-                .then(tags => { tags.map( (tag,tag_index) => {
-
-                    obj.tagsArray.push(tag)
-
-                    //if we are at the end of the fight array AND at the end of the tags array send back the information
-                    if(fight.length-1 === obj_index && tags.length - 1 === tag_index){
+                .then(tags => { 
+                    tags.map( (tag,tag_index) => {
+                        obj.tagsArray.push(tag)
+ 
+                    })
+                    if(fight.length-1 === obj_index){
                         res.status(200).send(fight)
-                    } 
-                })})
+                    }  
+                })
             })
         })
     }
