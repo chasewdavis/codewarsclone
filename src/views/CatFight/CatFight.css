@@ -85,7 +85,7 @@
 .catfight_tests {
   grid-column: 3;
   grid-row: 2;
-  height: 37.5vh;
+  height: 37.7vh;
   background-color: #161616;
   margin-top: 10px; }
 
@@ -161,9 +161,19 @@
   opacity: 0.8;
   color: #6795d3;
   border: 1px solid #6795d3;
-  width: 135px;
+  width: 140px;
   height: 30px;
   padding: 5px; }
 
 .catfight_button-container .catfight_attempt-button:hover {
   background-color: #7ca4e3; }
+
+.output_passed {
+  border: 1px solid green;
+  width: 100%;
+  height: 45px; }
+
+.output_failed {
+  border: 1px solid red;
+  width: 100%;
+  height: 45px; }

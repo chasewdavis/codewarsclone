@@ -10,7 +10,7 @@ export default class CatFight extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            click: true,
+            click: null,
             code: '',
             testResults: [],
             fight: {}
@@ -22,7 +22,7 @@ export default class CatFight extends Component {
     // get a fight by id
     //set the event listener on the main window
     componentDidMount() {
-        calls.getFightById(this.props.match.params.id).then(fight => this.setState({ fight: fight, code: fight.placeholder }))
+        calls.getFightById(this.props.match.params.id).then(fight => this.setState({ fight: fight, code: fight.placeholder }, ()=> console.log(this.state.fight)))
         window.addEventListener('message', this.handleReceivedMessage)
     }
 
@@ -35,8 +35,25 @@ export default class CatFight extends Component {
     //will toggle click state property and send a message
     handleClick() {
         this.setState({
-            click: !this.state.click
+            click: 2
         })
+    }
+
+    handleResetClick() {
+        this.setState({
+            code: this.state.fight.placeholder,
+            testResults : null
+        })
+    }
+
+    handleSampleClick() {
+        this.setState({
+            click: 1
+        })
+    }
+
+    handleSkipClick() {
+
     }
 
     //keeps track of what the user is entering in ace
@@ -62,11 +79,11 @@ export default class CatFight extends Component {
                             </div>
                             <div className="catfight_button-container">
                                 <div>
-                                    <button className='catfight_skip-button' onClick={() => this.handleClick()}><i className="fa fa-forward" aria-hidden="true"></i>SKIP</button>
+                                    <button className='catfight_skip-button' onClick={() => this.handleSkipClick()}><i className="fa fa-forward" aria-hidden="true"></i>SKIP</button>
                                 </div>
                                 <div>
-                                    <button className='catfight_reset-button' onClick={() => this.handleClick()}>RESET</button>
-                                    <button className='catfight_sample-button' onClick={() => this.handleClick()}>RUN SAMPLE TESTS</button>
+                                    <button className='catfight_reset-button' onClick={() => this.handleResetClick()}>RESET</button>
+                                    <button className='catfight_sample-button' onClick={() => this.handleSampleClick()}>RUN SAMPLE TESTS</button>
                                     <button className='catfight_attempt-button' onClick={() => this.handleClick()}><i className="fa fa-caret-right" aria-hidden="true"></i>ATTEMPT</button>
                                 </div>
                             </div>
