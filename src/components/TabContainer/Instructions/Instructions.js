@@ -4,6 +4,8 @@ import { Editor } from 'slate-react';
 import html, { initialValue } from './html-rules';
 import './Instructions.css';
 
+// SLATE EDITOR NODE & MARK COMPONENTS
+
 function CodeLine(props) {
     console.log('code line')
     // console.log(props)
@@ -30,14 +32,23 @@ function BoldMark(props) {
     return <b>{props.children}</b>
 }
 
+// CLASS INSTRUCTIONS
+
 export default class Instructions extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: html.deserialize('<h1>Hello!</h1>') // initialValue,
+            value: html.deserialize('<h1>Instructions</h1>') // initialValue,
             // schema: schema
         }
         this.ctrl = false
+    }
+    componentDidMount() {
+        if (this.props.description) {
+            this.setState({
+                value: html.deserialize(this.props.description)
+            })
+        }
     }
     handleChange = ({ value }) => {
         this.setState({
@@ -66,18 +77,18 @@ export default class Instructions extends Component {
         }
         switch (event.key) {
             case '`':
-                console.log('codeblock')
+                // console.log('codeblock')
                 let isCode = change.value.blocks.some(block => block.type == 'codeblock')
                 event.preventDefault();
                 change.setBlock(isCode ? 'paragraph' : 'codeblock')
                 return true;
             case 'q':
-                console.log('codeline')
+                // console.log('codeline')
                 event.preventDefault()
                 change.toggleMark('code')
                 return true
             case 'b':
-                console.log('bold')
+                // console.log('bold')
                 event.preventDefault();
                 change.toggleMark('bold');
                 return true;
@@ -112,13 +123,14 @@ export default class Instructions extends Component {
 
     render() {
         // console.log(this.state.value)
+        // console.log(this.props.description)
         return (
             <div className="Instructions">
 
                 <Editor
                     readOnly={this.props.help}
-                    value={this.props.help ? this.props.help : this.state.value}
-                    onChange={this.handleChange}
+                    value={this.props.description}
+                    onChange={this.props.change}
                     renderNode={this.renderNode}
                     renderMark={this.renderMark}
                     onKeyDown={this.onKeyDown}

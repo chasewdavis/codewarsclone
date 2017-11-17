@@ -1,24 +1,96 @@
 import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
-import './Create.css'
+import './Create.css';
+import axios from 'axios';
 
 import Instructions from '../../components/TabContainer/Instructions/Instructions';
 import Editor from '../../components/TabContainer/Editor/Editor';
+import html from '../../components/TabContainer/Instructions/html-rules';
+
+import Tests from '../CatFight/Tests/Tests';
+import f from '../../utilities/functions/functions';
 
 export default class Create extends Component {
     constructor(props) {
         super(props)
         this.state = {
             leftAceActive: 1,
-            solution: '',
+            solution: 'function (a, b, c) {',
             placeholder: '',
             rightAceActive: 1,
             rightAceCode: '',
             rightSlateActive: 1,
+            description: html.deserialize('<h1>Instructions</h1>'),
             name: '',
             rank: '',
-            tags: ''
+            tags: '',
+            argsCount: 0,
+            tests: [
+                {
+                    parameters: [],
+                    paramTypes: [],
+                    expected_result: '',
+                    passed: false
+                }
+            ]
         }
+    }
+
+    // countArgs = () => {
+    //     f.args(this.state.solution).length
+    //     f.args(this.state.placeholder).length
+    // }
+
+    save = () => {
+        let description = html.serialize(this.state.description)
+        let fight = Object.assign({}, this.state, { description })
+        console.log(fight)
+        axios.post(`/api/createfight`, fight).then(response => {
+            console.log(response.data)
+        })
+    }
+
+    handleTestChange = (i, str, value, j) => {
+        console.log(i, str, value)
+        let tests = this.state.tests.slice()
+        // let newTest = Object.assign({}, tests[i])
+        console.log(tests)
+        switch (str) {
+            case 'params':
+                tests[i].parameters[j] = value
+                break
+            case 'types':
+                tests[i].paramTypes[j] = value
+                break
+            case 'result':
+                tests[i].expected_result = value
+                break
+            default:
+                break
+        }
+        this.setState({
+            tests
+        })
+    }
+
+    addTest = () => {
+        let tests = this.state.tests.slice()
+        let parameters = Array(this.state.argsCount).fill('')
+        tests.push({
+            parameters,
+            paramTypes: parameters,
+            expected_result: '',
+            passed: false
+        })
+        this.setState({
+            tests
+        })
+    }
+
+    handleSlateChange = ({ value }) => {
+        this.setState({
+            description: value
+        })
     }
 
     handleNameChange(name) {
@@ -59,11 +131,41 @@ export default class Create extends Component {
     }
 
     handleChange(target, value) {
-        this.setState({
-            [target]: value
-        })
-    }
+        switch (target) {
+            case 'placeholder':
+                this.setState({
+                    [target]: value,
+                    argsCount: f.args(value).length < this.state.argsCount ? this.state.argsCount : f.args(value).length
+                })
+                break
+            case 'solution':
+                this.setState({
+                    [target]: value,
+                    argsCount: f.args(value).length
+                }) 
+                break
+        }
 
+        let tests = this.state.tests.slice()
+
+        tests = tests.map(test => {
+            console.log(test)
+            for (let i = test.parameters.length; i < this.state.argsCount; i++) {
+                test.parameters.push('')
+            }
+            for (let i = test.paramTypes.length; i < this.state.argsCount; i++) {
+                console.log(test.paramTypes)
+                test.paramTypes.push('')
+            }
+            return test
+        })
+
+        this.setState({
+            tests
+        })
+
+        console.log(this.state.argsCount)
+    }
 
     render() {
         return (
@@ -71,7 +173,7 @@ export default class Create extends Component {
                 <Navbar />
                 <div className='create_main-wrapper'>
                     <div className="create_main-header">
-                        <div className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div>
+                        <div onClick={this.save} className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div>
                         <div className="create_main-header-blue"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</div>
                         <div className="create_main-header-blue"><i class="fa fa-paper-plane" aria-hidden="true"></i>Publish</div>
                         <div className="create_main-header-red"><i class="fa fa-trash" aria-hidden="true"></i>Delete</div>
@@ -108,7 +210,7 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 this.state.rightSlateActive === 1 ?
-                                    <Instructions />
+                                    <Instructions change={this.handleSlateChange} description={this.state.description} />
                                     :
                                     null
                                 // <InstructionsHelp/>
@@ -144,17 +246,17 @@ export default class Create extends Component {
                             <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Example Test Cases</div>
                             <div onClick={() => this.handleRightAceClick(3)} className={this.state.rightAceActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
-                        <div classNaem="create_editor-wrapper">
-                            {/*
-                                this.state.rightAceActive === 1 ?
-                                    <Tests />
-                                    :
-                                    this.state.rightAceActive === 2 ?
-                                        <Tests />
-                                        :
-                                        null
+                        <div className="create_editor-wrapper">
+                            {
+                                // this.state.rightAceActive === 1 ?
+                                <Tests tests={this.state.tests} change={this.handleTestChange} addTest={this.addTest} />
+                                // :
+                                // this.state.rightAceActive === 2 ?
+                                //     <Tests />
+                                //     :
+                                //     null
                                 // <TestsHelp />
-                            */}
+                            }
                         </div>
                     </div>
                 </div>

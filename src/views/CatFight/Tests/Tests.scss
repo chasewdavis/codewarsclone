@@ -1,0 +1,21 @@
+
+.open-test {
+    display: flex;
+    flex-direction: column;
+
+    .input-line {
+        display: flex;
+        justify-content: space-between;
+        div {
+            display: flex;
+        }
+        input {
+            max-width: 50%;
+        }
+    }
+
+    .test-input-placeholder {
+        // background: #222;
+        height: 1rem;
+    }
+}
