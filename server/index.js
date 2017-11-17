@@ -102,6 +102,14 @@ app.get(`/api/catfight/:id`, (req, res, next) => {
     })
 })
 
+app.post(`/api/createfight`, (req, res, next) => {
+    const db = app.get('db')
+    db.create_fight([1, req.body.name, req.body.description, req.body.rank, req.body.solution, req.body.name, req.body.placeholder])
+        .then(newfight => {
+            res.send(newfight)
+        })
+})
+
 app.get(`/api/randomCatFight`, controller.randomCatFight)
 
 

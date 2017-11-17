@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
-import './Create.css'
+import './Create.css';
+import axios from 'axios';
 
 import Instructions from '../../components/TabContainer/Instructions/Instructions';
 import Editor from '../../components/TabContainer/Editor/Editor';
@@ -21,6 +22,15 @@ export default class Create extends Component {
             rank: '',
             tags: ''
         }
+    }
+
+    save = () => {
+        let description = html.serialize(this.state.description)
+        let fight = Object.assign({}, this.state, { description })
+        console.log(fight)
+        axios.post(`/api/createfight`, fight).then(response => {
+            console.log(response.data)
+        })
     }
 
     handleSlateChange = ({ value }) => {
@@ -79,7 +89,7 @@ export default class Create extends Component {
                 <Navbar />
                 <div className='create_main-wrapper'>
                     <div className="create_main-header">
-                        <div className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div>
+                        <div onClick={this.save} className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div>
                         <div className="create_main-header-blue"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</div>
                         <div className="create_main-header-blue"><i class="fa fa-paper-plane" aria-hidden="true"></i>Publish</div>
                         <div className="create_main-header-red"><i class="fa fa-trash" aria-hidden="true"></i>Delete</div>
