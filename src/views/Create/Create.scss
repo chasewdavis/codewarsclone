@@ -10,7 +10,7 @@ $tab-background-color: #131414;
     color: #efefef;
     font-weight: 100;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 80px 1fr 1.5fr;
+    grid-template-rows: 80px 1fr 1.7fr;
 }
 
 .create_main-header {
@@ -234,9 +234,15 @@ $tab-background-color: #131414;
     }
 }
 
-.create_ace-placeholder {
-    height: 231px;
+.create_editor-wrapper {
+    height: 80%;
     width: 100%;
+    // padding: 0.5rem;
+    overflow-y: scroll;
+    #ace1 {
+        width: 100%;
+        height: 100%;
+    }
 }
 
 .create_right-ace-buttons {
