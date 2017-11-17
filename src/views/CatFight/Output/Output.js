@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import Instructions from '../../../components/TabContainer/Instructions/Instructions';
+import html from '../../../components/TabContainer/Instructions/html-rules';
 
 class Output extends Component {
     constructor(props) {
@@ -35,7 +37,7 @@ class Output extends Component {
                         <div className={this.props.tab == 2 ? "catfight_output-active" : 'catfight_output-plain'} onClick={() => this.props.handleTabChange(2)}>Output</div>
                 </div>
                {
-                 this.props.tab == 1 ? <div>Instructions</div>
+                 this.props.tab == 1 ? <div><Instructions description={html.deserialize(this.props.description)} change={() => {}}/></div>
                  :
                  this.props.tab == 2 && sampleTestsToDisplay ? 
                  <div>
@@ -48,7 +50,7 @@ class Output extends Component {
                  {sampleTestsToDisplay}
                  </div>
                  : 
-                 <div>Output</div>
+                 <div></div>
                } 
                
             </div>

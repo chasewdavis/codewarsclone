@@ -5,6 +5,8 @@ import Output from './Output/Output';
 import calls from '../../utilities/data/data';
 import Btn from '../../components/Buttons/Buttons';
 import './CatFight.css';
+import axios from 'axios';
+
 
 export default class CatFight extends Component {
     constructor(props) {
@@ -15,6 +17,7 @@ export default class CatFight extends Component {
             testResults: [],
             fight: {},
             tab: 1,
+            //1 means all tests were passed. 2 means some tests failed. 3 is the default condition before any tests have been checked
             testsPassed: 3
         }
         this.baseState = this.state
@@ -26,7 +29,7 @@ export default class CatFight extends Component {
     // get a fight by id
     //set the event listener on the main window
     componentDidMount() {
-        calls.getFightById(this.props.match.params.id).then(fight => {this.setState({ fight: fight, code: fight.placeholder })})
+        calls.getFightById(this.props.match.params.id).then(fight => {this.setState({ fight: fight, code: fight.placeholder }), console.log(this.state)})
         window.addEventListener('message', this.handleReceivedMessage)
     }
 
@@ -88,6 +91,20 @@ export default class CatFight extends Component {
 
     handleSubmitClick() {
         console.log("submit")
+        this.setState({
+            click: 2,
+            tab: 2
+        }, () => {
+            if(this.state.testsPassed === 1) {
+                //axios call to send data to the database
+                let body = {
+                    cat_fight_id: this.state.fight.cat_fight_id,
+                    completed: true,
+                    user_solution: this.state.code,
+                }
+                calls.postFightInProgress(body)
+            }
+        })
     }
 
     //keeps track of what the user is entering in ace
@@ -109,7 +126,7 @@ export default class CatFight extends Component {
             <div>
                 <Navbar />
                 <div className="catfight_wrapper">
-                    <Output testsPassed={this.state.testsPassed} handleTabChange={this.handleOutputTabChange} tab={this.state.tab} results={this.state.testResults} />
+                    <Output description={this.state.fight.description} testsPassed={this.state.testsPassed} handleTabChange={this.handleOutputTabChange} tab={this.state.tab} results={this.state.testResults} />
                     <div className='catfight_editor'>
                         <div className="catfight_editor-header">Solution: <i className="fa fa-arrows-alt" aria-hidden="true"></i></div>
                         <Editor fight={this.state.fight} click={this.state.click} onChange={this.onChange} code={this.state.code} />
