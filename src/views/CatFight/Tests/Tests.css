@@ -1,12 +1,12 @@
-.Test {
+.open-test {
   display: flex;
   flex-direction: column; }
-  .Test .input-line {
+  .open-test .input-line {
     display: flex;
     justify-content: space-between; }
-    .Test .input-line div {
+    .open-test .input-line div {
       display: flex; }
-    .Test .input-line input {
+    .open-test .input-line input {
       max-width: 50%; }
-  .Test .test-input-placeholder {
+  .open-test .test-input-placeholder {
     height: 1rem; }
