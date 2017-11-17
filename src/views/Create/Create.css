@@ -7,7 +7,7 @@
   color: #efefef;
   font-weight: 100;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 80px 1fr 1.5fr; }
+  grid-template-rows: 80px 1fr 1.7fr; }
 
 .create_main-header {
   width: 100%;
@@ -194,9 +194,13 @@
   .create_preview i {
     margin-right: 4px; }
 
-.create_ace-placeholder {
-  height: 231px;
-  width: 100%; }
+.create_editor-wrapper {
+  height: 80%;
+  width: 100%;
+  overflow-y: scroll; }
+  .create_editor-wrapper #ace1 {
+    width: 100%;
+    height: 100%; }
 
 .create_right-ace-buttons {
   display: flex;
