@@ -23,7 +23,7 @@ export default class Create extends Component {
             description: html.deserialize('<h1>Instructions</h1>'),
             name: '',
             rank: '',
-            tags: '',
+            tags: [],
             argsCount: 0,
             tests: [
                 {
@@ -45,9 +45,9 @@ export default class Create extends Component {
         let description = html.serialize(this.state.description)
         let fight = Object.assign({}, this.state, { description })
         console.log(fight)
-        axios.post(`/api/createfight`, fight).then(response => {
-            console.log(response.data)
-        })
+        // axios.post(`/api/createfight`, fight).then(response => {
+        //     console.log(response.data)
+        // })
     }
 
     handleTestChange = (i, str, value, j) => {
@@ -106,9 +106,10 @@ export default class Create extends Component {
     }
 
     handleTagChange(tags) {
+        // console.log()
         this.setState({
-            tags: tags
-        }, () => console.log(this.state))
+            tags: tags.split(',').map(tag => tag.trim())
+        })
     }
 
     //this allows you to change tabs on the left ace editor
