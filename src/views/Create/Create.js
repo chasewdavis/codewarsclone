@@ -23,23 +23,37 @@ export default class Create extends Component {
             description: html.deserialize('<h1>Instructions</h1>'),
             name: '',
             rank: '',
-            tags: [],
+            tags: [''],
             argsCount: 0,
             tests: [
                 {
-                    parameters: [],
-                    paramTypes: [],
+                    parameters: [''],
+                    paramTypes: [''],
                     expected_result: '',
                     passed: false
                 }
-            ]
+            ],
+            testResults: [{}],
+            click: false
         }
     }
 
-    // countArgs = () => {
-    //     f.args(this.state.solution).length
-    //     f.args(this.state.placeholder).length
-    // }
+    componentDidMount() {
+        window.addEventListener('message', this.handleReceivedMessage)
+    }
+
+    handleReceivedMessage = e => {
+        console.log(e.data)
+        this.setState({
+            testResults: e.data
+        })
+    }
+
+    runTests = () => {
+        this.setState({
+            click: !this.state.click
+        })
+    }
 
     save = () => {
         let description = html.serialize(this.state.description)
@@ -146,26 +160,22 @@ export default class Create extends Component {
                 }) 
                 break
         }
-
         let tests = this.state.tests.slice()
-
         tests = tests.map(test => {
-            console.log(test)
+            // console.log(test)
             for (let i = test.parameters.length; i < this.state.argsCount; i++) {
                 test.parameters.push('')
             }
             for (let i = test.paramTypes.length; i < this.state.argsCount; i++) {
-                console.log(test.paramTypes)
+                // console.log(test.paramTypes)
                 test.paramTypes.push('')
             }
             return test
         })
-
         this.setState({
             tests
         })
-
-        console.log(this.state.argsCount)
+        // console.log(this.state.argsCount)
     }
 
     render() {
@@ -217,7 +227,7 @@ export default class Create extends Component {
                                 // <InstructionsHelp/>
                             }
                         </div>
-                        <div className="create_right-ace-buttons">
+                        <div className="create_right-ace-buttons" onClick={this.runTests} >
                             <button><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
                         </div>
                     </div>
@@ -231,7 +241,7 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 this.state.leftAceActive === 1 ?
-                                    <Editor title="solution" code={this.state.solution} onChange={e => this.handleChange('solution', e)} />
+                                    <Editor click={this.state.click} title="solution" code={this.state.solution} onChange={e => this.handleChange('solution', e)} />
                                     :
                                     this.state.leftAceActive === 2 ?
                                         <Editor title="placeholder" code={this.state.placeholder} onChange={e => this.handleChange('placeholder', e)} />
