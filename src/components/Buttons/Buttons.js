@@ -1,17 +1,26 @@
 import React from 'react';
+import './Buttons.css';
 
 export default function(props){
 
     return ( 
-    <button onClick={() => props.click()}>
+    <button onClick={() => props.clicked()}>
         {props.name}
     </button>
     )
 }
 
-export function Skip(props){
+export function Hollow(props){
     return (
-        <button>
+        <button className='button_hollow' onClick={() => props.clicked()}>
+            {props.name}
+        </button>
+    )
+}
+
+export function Solid(props){
+    return (
+        <button className='button_solid' onClick={() => props.clicked()}>
             {props.name}
         </button>
     )
