@@ -6,9 +6,18 @@
     width: 100% !important;
     height: 100%;
     grid-column: 4 / 8;
+    font-family: monospace;
     // margin: 0;
 }
 
 .ace_content {
     width: 100%;
+}
+
+.ace_editor, .ace_editor div{
+    font-family: monospace;
+}
+
+.ace_content {
+    font-family: monospace;
 }

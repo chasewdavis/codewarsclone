@@ -4,7 +4,7 @@ import { Value } from 'slate'
 
 const BLOCK_TAGS = {
     p: 'paragraph',
-    codeblock: 'codeblock'
+    div: 'codeblock'
 }
 
 const MARK_TAGS = {
