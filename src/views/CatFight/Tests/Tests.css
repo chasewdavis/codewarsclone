@@ -1,11 +1,20 @@
+.test-border {
+  margin: 0.75rem;
+  border-radius: 0.25rem;
+  overflow: hidden; }
+
+.passed {
+  border: 2px solid green; }
+
+.failed {
+  border: 2px solid red; }
+
 .Test {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 0.75rem;
   background: #222;
-  padding: 1rem;
-  border-radius: 0.25rem; }
+  padding: 1rem; }
   .Test .test-title {
     display: flex;
     justify-content: space-between;

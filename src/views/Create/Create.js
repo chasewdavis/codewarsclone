@@ -33,7 +33,14 @@ export default class Create extends Component {
                     passed: false
                 }
             ],
-            testResults: [],
+            testResults: [
+                {
+                    parameters: [''],
+                    paramTypes: [''],
+                    expected_result: '',
+                    passed: false
+                }
+            ],
             click: null
         }
     }
@@ -44,13 +51,13 @@ export default class Create extends Component {
 
     handleReceivedMessage = e => {
         // console.log(e.data)
+        if (e.data.source) {
+            console.log(e.data)
+            return
+        }
         this.setState({
             testResults: e.data,
             click: null
-        }, () => {
-            if (this.state.testResults.source) {
-                console.log(this.state.testResults)
-            }
         })
     }
 
@@ -71,30 +78,36 @@ export default class Create extends Component {
     }
 
     handleTestChange = (i, str, value, j) => {
-        // console.log(i, str, value)
+        console.log(i, str, value)
         let tests = this.state.tests.slice()
+        let testResults = this.state.testResults.slice()
         // let newTest = Object.assign({}, tests[i])
         // console.log(tests)
         switch (str) {
             case 'params':
                 tests[i].parameters[j] = value
+                testResults[i].parameters[j] = value
                 break
             case 'types':
                 tests[i].paramTypes[j] = value
+                testResults[i].paramTypes[j] = value
                 break
             case 'result':
                 tests[i].expected_result = value
+                testResults[i].expected_result = value
                 break
             default:
                 break
         }
         this.setState({
-            tests
+            tests,
+            testResults
         })
     }
 
     addTest = () => {
         let tests = this.state.tests.slice()
+        let testResults = this.state.testResults.slice()
         let parameters = Array(this.state.argsCount).fill('')
         let paramTypes = Array(this.state.argsCount).fill('')
         tests.push({
@@ -103,8 +116,15 @@ export default class Create extends Component {
             expected_result: '',
             passed: false
         })
+        testResults.push({
+            parameters,
+            paramTypes,
+            expected_result: '',
+            passed: false
+        })
         this.setState({
-            tests
+            tests,
+            testResults
         })
     }
 
@@ -164,7 +184,7 @@ export default class Create extends Component {
                 this.setState({
                     [target]: value,
                     argsCount: f.args(value).length
-                }) 
+                })
                 break
         }
         let tests = this.state.tests.slice()
@@ -250,7 +270,7 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 this.state.leftAceActive === 1 ?
-                                    <Editor click={this.state.click} title="solution" code={this.state.solution} fight={Object.assign({}, this.state, {description: null})} onChange={e => this.handleChange('solution', e)} />
+                                    <Editor click={this.state.click} title="solution" code={this.state.solution} fight={Object.assign({}, this.state, { description: null })} onChange={e => this.handleChange('solution', e)} />
                                     :
                                     this.state.leftAceActive === 2 ?
                                         <Editor title="placeholder" code={this.state.placeholder} onChange={e => this.handleChange('placeholder', e)} />
@@ -269,7 +289,7 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 // this.state.rightAceActive === 1 ?
-                                <Tests tests={this.state.testResults.length ?this.state.testResults : this.state.tests} change={this.handleTestChange} addTest={this.addTest} />
+                                <Tests tests={this.state.testResults[0].hasOwnProperty('result') ? this.state.testResults : this.state.tests} change={this.handleTestChange} addTest={this.addTest} />
                                 // :
                                 // this.state.rightAceActive === 2 ?
                                 //     <Tests />

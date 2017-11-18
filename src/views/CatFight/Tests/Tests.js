@@ -25,7 +25,7 @@ class Test extends Component {
     }
     render() {
         let props = this.props
-        console.log(props)
+        // console.log(props)
         return (
             <div className={this.state.open ? 'Test' : 'Test closed'} onClick={this.state.open ? null : this.toggle} >
                 <div className='test-title' onClick={this.toggle}>
@@ -58,7 +58,7 @@ class Test extends Component {
                                                     />
                                                     <select
                                                         onChange={e => props.change(props.id, 'types', e.target.value, i)}
-                                                        
+
                                                         defaultValue="Data Type"
                                                     >
                                                         <option disabled>Data Type</option>
@@ -139,14 +139,21 @@ export default class Tests extends Component {
                 {
                     this.props.tests ?
                         this.props.tests.map((test, i) => {
-                            return <Test id={i} key={i} change={this.props.change} parameters={test.parameters} types={test.paramTypes} result={test.expected_result} />
+                            return (
+                                <div className={test.hasOwnProperty('result') ? test.passed ? 'test-border passed' : 'test-border failed' : 'test-border'}>
+
+                                    <Test id={i} key={i} change={this.props.change} parameters={test.parameters} types={test.paramTypes} result={test.expected_result} />
+                                </div>
+                            )
                         })
                         :
                         this.state.createTests.map((test, i) => {
                             return <Test key={i} change={this.props.change} />
                         })
                 }
-                <div onClick={this.props.addTest} className='Test closed'>+ ADD TEST</div>
+                <div className='test-border'>
+                    <div onClick={this.props.addTest} className='Test closed'>+ ADD TEST</div>
+                </div>
             </div>
         )
     }
