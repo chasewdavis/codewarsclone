@@ -18,8 +18,6 @@ class Test extends Component {
             open: false
         }
     }
-    // console.log(props.parameters)
-    // console.log(props.types)
     toggle = () => {
         this.setState({
             open: !this.state.open
@@ -27,6 +25,7 @@ class Test extends Component {
     }
     render() {
         let props = this.props
+        console.log(props)
         return (
             <div className={this.state.open ? 'Test' : 'Test closed'} onClick={this.state.open ? null : this.toggle} >
                 <div className='test-title' onClick={this.toggle}>
@@ -59,10 +58,10 @@ class Test extends Component {
                                                     />
                                                     <select
                                                         onChange={e => props.change(props.id, 'types', e.target.value, i)}
-                                                        value={props.types[i]}
-                                                        placeholder="Data Type"
+                                                        
+                                                        defaultValue="Data Type"
                                                     >
-                                                        <option disabled selected>Data Type</option>
+                                                        <option disabled>Data Type</option>
                                                         {
                                                             dataTypes.map((type, i) => {
                                                                 return (
@@ -133,6 +132,7 @@ export default class Tests extends Component {
         }
     }
     render() {
+        console.log(this.props)
         return (
             <div className='Tests'>
                 {/* Finish Writing your function before you write your tests */}

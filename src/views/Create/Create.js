@@ -33,7 +33,7 @@ export default class Create extends Component {
                     passed: false
                 }
             ],
-            testResults: [{}],
+            testResults: [],
             click: null
         }
     }
@@ -43,7 +43,7 @@ export default class Create extends Component {
     }
 
     handleReceivedMessage = e => {
-        console.log(e.data)
+        // console.log(e.data)
         this.setState({
             testResults: e.data,
             click: null
@@ -64,17 +64,17 @@ export default class Create extends Component {
     save = () => {
         let description = html.serialize(this.state.description)
         let fight = Object.assign({}, this.state, { description })
-        console.log(fight)
+        // console.log(fight)
         // axios.post(`/api/createfight`, fight).then(response => {
         //     console.log(response.data)
         // })
     }
 
     handleTestChange = (i, str, value, j) => {
-        console.log(i, str, value)
+        // console.log(i, str, value)
         let tests = this.state.tests.slice()
         // let newTest = Object.assign({}, tests[i])
-        console.log(tests)
+        // console.log(tests)
         switch (str) {
             case 'params':
                 tests[i].parameters[j] = value
@@ -186,6 +186,8 @@ export default class Create extends Component {
     }
 
     render() {
+        console.log(this.state.testResults)
+        console.log(this.state.testResults.length)
         return (
             <div>
                 <Navbar />
@@ -267,7 +269,7 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 // this.state.rightAceActive === 1 ?
-                                <Tests tests={this.state.tests} change={this.handleTestChange} addTest={this.addTest} />
+                                <Tests tests={this.state.testResults.length ?this.state.testResults : this.state.tests} change={this.handleTestChange} addTest={this.addTest} />
                                 // :
                                 // this.state.rightAceActive === 2 ?
                                 //     <Tests />
