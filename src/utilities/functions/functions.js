@@ -39,6 +39,30 @@ module.exports = {
         }
         return array(str, i1, i2)
     },
+    types(param, type) {
+        switch (type) {
+            case 'boolean':
+                return param === 'true' ? true : false
+            case 'null':
+                return null
+            case 'undefined':
+                return undefined
+            case 'number':
+                return parseInt(param)
+            case 'string':
+                return String(param)
+            // case 'symbol':
+            // return 
+            case 'object':
+
+                return param
+            case 'array':
+
+                return param
+            default:
+                return param;
+        }
+    },
     body(str) {
         // THIS FUNCTION RETURNS THE BODY OUT OF A FUNCTION STRING
 

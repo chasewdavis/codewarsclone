@@ -88,6 +88,7 @@
             return str.slice(i1, i2)
         }
         function runTests(args, body, tests) {
+            console.log(tests)
             let f = new Function(args, body)
             return tests.map(test => {
                 test.parameters = test.parameters.map((param, i) => {
@@ -103,8 +104,22 @@
         window.addEventListener('message', function (e) {
             console.log(e.data)
             let code = e.data.code;
-            let tests = e.data.fight.tests;
-            let result = runTests(args(code), body(code), tests)
+
+            // instantiate tests arrays
+            let { tests, hiddenTests } = e.data.fight
+            console.log(tests, hiddenTests)
+
+            // run tests on tests arrays
+            tests = runTests(args(code), body(code), tests)
+            if (hiddenTests) {
+                hiddenTests = runTests(args(code), body(code), hiddenTests)
+            }
+
+            // send results object
+            result = {
+                tests,
+                hiddenTests
+            }
 
             var mainWindow = e.source;
             mainWindow.postMessage(result, e.origin);

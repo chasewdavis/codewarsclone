@@ -12,7 +12,7 @@ import f from '../../utilities/functions/functions';
 
 let initialState = {
     leftAceActive: 1,
-    solution: 'function add(a, b, c) { return a + b + c }',
+    solution: '// type your solution here',
     placeholder: '',
     rightAceActive: 1,
     rightAceCode: '',
@@ -28,9 +28,11 @@ let initialState = {
         //     parameters: [''],
         //     parameter_types: [''],
         //     expected_result: '',
-        //     passed: false
+        //     passed: false,
+        //     hidden: false
         // }
     ],
+    hiddenTests: [],
     // testResults: [
     // {
     //     parameters: [''],
@@ -81,11 +83,13 @@ export default class Create extends Component {
             // console.log(e.data)
             return
         }
-        let passed = e.data.reduce((t1, t2) => (t1 && t2.passed), true)
+        let { tests, hiddenTests } = e.data
+        let passed = [...tests, ...hiddenTests].reduce((t1, t2) => (t1 && t2.passed), true)
         console.log(passed)
         this.setState({
             // testResults: e.data,
-            tests: e.data,
+            tests,
+            hiddenTests,
             click: null,
             passed
         })
@@ -101,6 +105,9 @@ export default class Create extends Component {
     handleTestChange = (i, str, value, j) => {
         console.log(i, str, value)
         let tests = this.state.tests.slice()
+        if (this.state.rightAceActive === 2) {
+            tests = this.state.hiddenTests.slice()
+        }
         // // let testResults = this.state.testResults.slice()
         // let newTest = Object.assign({}, tests[i])
         // console.log(tests)
@@ -119,18 +126,29 @@ export default class Create extends Component {
                 break
             case 'result_type':
                 tests[i].expected_result_type = value
-                // testResults[i].expected_result_type = value
+            // testResults[i].expected_result_type = value
             default:
                 break
         }
-        this.setState({
-            tests,
-            // testResults
-        })
+        if (this.state.rightAceActive === 1) {
+            this.setState({
+                tests,
+                // testResults
+            })
+        }
+        else {
+            this.setState({
+                hiddenTests: tests,
+                // testResults
+            })
+        }
     }
 
     addTest = () => {
         let tests = this.state.tests.slice()
+        if (this.state.rightAceActive === 2) {
+            tests = this.state.hiddenTests.slice()
+        }
         // // let testResults = this.state.testResults.slice()
         let parameters = Array(this.state.argsCount).fill('')
         let parameter_types = Array(this.state.argsCount).fill('')
@@ -146,10 +164,18 @@ export default class Create extends Component {
         //     expected_result: '',
         //     passed: false
         // })
-        this.setState({
-            tests,
-            // testResults
-        })
+        if (this.state.rightAceActive === 1) {
+            this.setState({
+                tests,
+                // testResults
+            })
+        }
+        else {
+            this.setState({
+                hiddenTests: tests,
+                // testResults
+            })
+        }
     }
 
     handleSlateChange = ({ value }) => {
@@ -223,10 +249,25 @@ export default class Create extends Component {
                 // console.log(test.parameter_types)
                 test.parameter_types.push('')
             }
+
+            return test
+        })
+        let hiddenTests = this.state.hiddenTests.slice()
+        hiddenTests = hiddenTests.map(test => {
+            // console.log(test)
+            for (let i = test.parameters.length; i < this.state.argsCount; i++) {
+                test.parameters.push('')
+            }
+            for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
+                // console.log(test.parameter_types)
+                test.parameter_types.push('')
+            }
+
             return test
         })
         this.setState({
-            tests
+            tests,
+            hiddenTests
         })
         // console.log(this.state.argsCount)
     }
@@ -285,7 +326,7 @@ export default class Create extends Component {
                         <div className="create_right-ace-buttons" >
                             <button onClick={this.runTests}><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
                             <div className={this.state.hasOwnProperty('passed') ? this.state.passed ? 'passed' : 'failed' : 'unstarted'}>
-                                {console.log(this.state.hasOwnProperty('passed'))}
+                                {/*console.log(this.state.hasOwnProperty('passed'))*/}
                                 {
                                     this.state.hasOwnProperty('passed') ?
                                         this.state.passed ?
@@ -293,7 +334,7 @@ export default class Create extends Component {
                                             :
                                             'Failed'
                                         :
-                                        null
+                                        'Output'
                                 }
                             </div>
                         </div>
@@ -326,18 +367,24 @@ export default class Create extends Component {
                         </div>
                         <div className="create_editor-wrapper">
                             {
-                                // this.state.rightAceActive === 1 ?
-                                <Tests
-                                    tests={this.state.tests}
-                                    args={this.state.args}
-                                    change={this.handleTestChange}
-                                    addTest={this.addTest}
-                                />
-                                // :
-                                // this.state.rightAceActive === 2 ?
-                                //     <Tests />
-                                //     :
-                                //     null
+                                this.state.rightAceActive === 1 ?
+                                    <Tests
+                                        tests={this.state.tests}
+                                        args={this.state.args}
+                                        change={this.handleTestChange}
+                                        addTest={this.addTest}
+                                    />
+                                    :
+                                    this.state.rightAceActive === 2 ?
+                                        <Tests
+                                            hidden={true}
+                                            tests={this.state.hiddenTests}
+                                            args={this.state.args}
+                                            change={this.handleTestChange}
+                                            addTest={this.addTest}
+                                        />
+                                        :
+                                        null
                                 // <TestsHelp />
                             }
                         </div>

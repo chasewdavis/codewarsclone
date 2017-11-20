@@ -7,9 +7,9 @@ let dataTypes = [
     'undefined',
     'number',
     'string',
-    'symbol',
-    'object',
-    'array'
+    // 'symbol',
+    // 'object',
+    // 'array'
 ]
 
 class Test extends Component {
@@ -177,7 +177,7 @@ export default class Tests extends Component {
                         null
                 }
                 <div className='test-border'>
-                    <div onClick={this.props.addTest} className='Test closed'>+ ADD TEST</div>
+                    <div onClick={this.props.addTest} className='Test closed'>+ ADD&nbsp;{this.props.hidden ? ' HIDDEN ' : ''}&nbsp;TEST</div>
                 </div>
             </div>
         )
