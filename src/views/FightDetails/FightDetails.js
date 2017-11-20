@@ -62,18 +62,20 @@ export default class FightDetails extends Component {
                         <button id={this.state.option_selected==='details'?'fightdetails_selected':''} onClick={()=>this.showDetails()}>Details</button>
                         <button id={this.state.option_selected==='solutions'?'fightdetails_selected':''} onClick={()=>this.showSolutions()}>Solutions</button>
                     </div>
-                    <div className='fightdetails_container'>
-                        {this.state.option_selected === 'details' ? <div><Instructions description={html.deserialize(this.state.fight.description)} change={()=>{}}/></div>: ''}
-                        {this.state.option_selected === 'solutions' ? 'solutions component here': ''}
+                    <div className='fightdetails_dark-container'>
+                        <div className='fightdetails_container'>
+                            {this.state.option_selected === 'details' ? <div><Instructions description={html.deserialize(this.state.fight.description)} change={()=>{}}/></div>: ''}
+                            {this.state.option_selected === 'solutions' ? 'solutions component here': ''}
+                        </div>
+                        {this.state.option_selected==='details'
+                        ? 
+                        <div className='fightdetails_tags'>
+                            {this.showTags()}
+                        </div>
+                        :
+                        ''
+                        }
                     </div>
-                    {this.state.option_selected==='details'
-                    ? 
-                    <div className='fightdetails_tags'>
-                        {this.showTags()}
-                    </div>
-                    :
-                    ''
-                    }
                 </div>
 
             </div>

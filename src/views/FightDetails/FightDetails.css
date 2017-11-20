@@ -56,5 +56,8 @@
     font-size: 10px;
     letter-spacing: 1px; }
 
+.fightdetails_dark-container {
+  background: black; }
+
 #fightdetails_selected {
   background: #454648; }
