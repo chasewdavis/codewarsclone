@@ -86,6 +86,17 @@ export default class CatFight extends Component {
     }
 
     handleSkipClick() {
+        calls.getRandomFight().then(res => {
+            console.log(res)
+            this.setState({
+                click: null,
+                code: res.placeholder,
+                testResults: [],
+                fight: res,
+                tab: 1,
+                testsPassed: 3
+            }, () => console.log(this.state))
+        })
 
     }
 
