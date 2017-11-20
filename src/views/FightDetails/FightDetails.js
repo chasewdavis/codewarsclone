@@ -6,14 +6,17 @@ import {Solid, Hollow} from '../../components/Buttons/Buttons';
 import Instructions from '../../components/TabContainer/Instructions/Instructions';
 import html from '../../components/TabContainer/Instructions/html-rules';
 import axios from 'axios';
+import { withRouter } from 'react-router';
 
-export default class FightDetails extends Component {
+class FightDetails extends Component {
     constructor(props) {
         super(props)
         this.state = {
             option_selected: 'details',
             fight: {description:''}
         }
+        this.trainKata = this.trainKata.bind(this)
+        this.nextKata = this.nextKata.bind(this)
     }
 
     componentDidMount(){
@@ -41,6 +44,17 @@ export default class FightDetails extends Component {
         }
         return tags
     }
+
+    trainKata(){
+        this.props.history.push(`/catfight/${this.props.match.params.id}`)
+    }
+
+    nextKata(){
+        //push to next kata
+        this.props.history.push(`/fightdetails/${this.props.match.params.id * 1 + 1}`)
+        axios.get(`/api/getCatFight/${this.props.match.params.id * 1 + 1}`)
+        .then(res=>this.setState({fight:res.data}))
+    }
     
     render() {
         
@@ -54,8 +68,8 @@ export default class FightDetails extends Component {
                     <div className='fightdetails_full-header'>
                         <Header name={this.state.fight.name} difficulty={this.state.fight.difficulty} author={this.state.fight.author_id}/>
                         <div className='fightdetails_full-header-buttons'>
-                            <Solid name='TRAIN'/>
-                            <Hollow name='NEXT KATA'/>
+                            <Solid name='TRAIN' clicked={() => this.trainKata()}/>
+                            <Hollow name='NEXT KATA' clicked={() => this.nextKata()}/>
                         </div>
                     </div>
                     <div className='fightdetails_options'>
@@ -82,3 +96,5 @@ export default class FightDetails extends Component {
         )
     }
 }
+
+export default withRouter(FightDetails)
