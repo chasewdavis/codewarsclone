@@ -21,6 +21,7 @@ class Output extends Component {
         let testsPassed = 0;
         let testsFailed = 0;
         let sampleTestsToDisplay = this.props.results.length ? this.props.results.map(result => {
+            console.log(result)
             if(result.passed) {
                 testsPassed++
             } else {
@@ -47,7 +48,9 @@ class Output extends Component {
                         <span className={this.props.testsPassed === 2 ? "output_span-red" : null}>Failed: {testsFailed}</span>
                      </div>
                  </div>
+            
                  {sampleTestsToDisplay}
+                
                  </div>
                  : 
                  <div></div>
