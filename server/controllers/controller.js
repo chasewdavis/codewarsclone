@@ -25,6 +25,19 @@ module.exports = {
                 res.status(200).send(Object.assign({}, fight[0], {tags}));
             })
         })
+    },
+    oneRandomCatFight: function(req, res, next) {
+        const db = req.app.get('db');
+        db.get_random_fight().then(fight => {
+            let fight_id = fight[0].cat_fight_id;
+
+            db.get_tests([fight_id]).then( tests => {
+                fight[0].tests = tests
+                console.log(fight)
+                res.status(200).send(fight)
+            })
+        })
+
     }
     
 }
