@@ -15,7 +15,7 @@ export default class Create extends Component {
         super(props)
         this.state = {
             leftAceActive: 1,
-            solution: 'function (a, b, c) { return a + b + c }',
+            solution: 'function add(a, b, c) { return a + b + c }',
             placeholder: '',
             rightAceActive: 1,
             rightAceCode: '',
@@ -41,23 +41,28 @@ export default class Create extends Component {
                     passed: false
                 }
             ],
-            click: null
+            click: null,
+            // passed: false
         }
     }
 
     componentDidMount() {
         window.addEventListener('message', this.handleReceivedMessage)
+        this.handleChange('solution', this.state.solution)
     }
 
     handleReceivedMessage = e => {
-        // console.log(e.data)
+        console.log(e.data)
         if (e.data.source) {
-            console.log(e.data)
+            // console.log(e.data)
             return
         }
+        let passed = e.data.reduce((t1, t2) => (t1 && t2.passed), true)
+        console.log(passed)
         this.setState({
             testResults: e.data,
-            click: null
+            click: null,
+            passed
         })
     }
 
@@ -96,6 +101,9 @@ export default class Create extends Component {
                 tests[i].expected_result = value
                 testResults[i].expected_result = value
                 break
+            case 'result_type':
+                tests[i].expected_result_type = value
+                testResults[i].expected_result_type = value                
             default:
                 break
         }
@@ -258,6 +266,17 @@ export default class Create extends Component {
                         </div>
                         <div className="create_right-ace-buttons" onClick={this.runTests} >
                             <button><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
+                            <div className="">
+                                {
+                                    this.state.hasOwnProperty('passed') ?
+                                        this.state.passed ?
+                                            'Passed All Tests'
+                                            :
+                                            'Failed'
+                                        :
+                                        null
+                                }
+                            </div>
                         </div>
                     </div>
                     <div className='create_left-ace'>

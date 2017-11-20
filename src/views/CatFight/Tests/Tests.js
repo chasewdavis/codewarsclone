@@ -29,16 +29,14 @@ class Test extends Component {
         return (
             <div className={this.state.open ? 'Test' : 'Test closed'} onClick={this.state.open ? null : this.toggle} >
                 <div className='test-title' onClick={this.toggle}>
-                    <div>TEST # {props.id + 1}</div>
+                    <div>TEST #{props.id + 1}</div>
                     <div>
-                        (
-                            {
-                            props.parameters.length ?
-                                props.parameters.join(', ')
+                        {
+                            props.passed ?
+                                `(${props.parameters.length ? props.parameters.join(', ') : null}) => ${props.expected_result}`
                                 :
-                                null
+                                <div>expected &nbsp; <em>{props.expected_result}</em> &nbsp; returned &nbsp;<em>{props.result}</em></div>
                         }
-                        ) => {props.result}
                     </div>
                     <div className='test-delete'>X</div>
                 </div>
@@ -97,7 +95,24 @@ class Test extends Component {
                             </div> */}
                             <div className='expected-result-box'>
                                 <div className='input-line'>
-                                    Expected Result: <input onChange={e => props.change(props.id, 'result', e.target.value)} value={props.result} />
+                                    <div> Expected Result:</div>
+                                    <input onChange={e => props.change(props.id, 'result', e.target.value)} value={props.expected_result} />
+                                    <select
+                                        onChange={e => props.change(props.id, 'result_type', e.target.value)}
+
+                                        defaultValue="Data Type"
+                                    >
+                                        <option disabled>Data Type</option>
+                                        {
+                                            dataTypes.map((type, i) => {
+                                                return (
+                                                    <option key={i} value={type}>
+                                                        {type}
+                                                    </option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 </div>
                             </div>
                             <div onClick={this.toggle} className="done-button">
@@ -142,7 +157,7 @@ export default class Tests extends Component {
                             return (
                                 <div className={test.hasOwnProperty('result') ? test.passed ? 'test-border passed' : 'test-border failed' : 'test-border'}>
 
-                                    <Test id={i} key={i} change={this.props.change} parameters={test.parameters} types={test.paramTypes} result={test.expected_result} />
+                                    <Test id={i} key={i} change={this.props.change} parameters={test.parameters} types={test.paramTypes} expected_result={test.expected_result} result={test.result} passed={!test.hasOwnProperty('result') || test.passed} />
                                 </div>
                             )
                         })
