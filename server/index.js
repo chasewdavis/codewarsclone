@@ -102,6 +102,7 @@ app.get(`/api/catfight/:id`, (req, res, next) => {
     })
 })
 
+//update this function so that it can add tags to database
 app.post(`/api/createfight`, (req, res, next) => {
     const db = app.get('db')
     db.create_fight([1, req.body.name, req.body.description, req.body.rank, req.body.solution, req.body.name, req.body.placeholder])
@@ -111,7 +112,7 @@ app.post(`/api/createfight`, (req, res, next) => {
 })
 
 app.get(`/api/randomCatFight`, controller.randomCatFight)
-
+app.get(`/api/getCatFight/:id`, controller.getCatFight)
 
 
 

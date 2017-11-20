@@ -10,9 +10,11 @@ export default class Header extends Component {
     }
 
     render() {
+        console.log(this.props)
         return (
             <div className='header'>
-                {this.props.id}
+                <top>{this.props.difficulty} {this.props.name}</top>
+                <bottom>{this.props.author}</bottom>
             </div>
         )
     }
