@@ -86,6 +86,17 @@ export default class CatFight extends Component {
     }
 
     handleSkipClick() {
+        calls.getRandomFight().then(res => {
+            console.log(res)
+            this.setState({
+                click: null,
+                code: res.placeholder,
+                testResults: [],
+                fight: res,
+                tab: 1,
+                testsPassed: 3
+            }, () => console.log(this.state))
+        })
 
     }
 
@@ -132,8 +143,10 @@ export default class CatFight extends Component {
                         <Editor fight={this.state.fight} click={this.state.click} onChange={this.onChange} code={this.state.code} />
                         <div className="catfight_tests">
                             <div className='catfight_tests-div'>
-                                <div className="catfight_tests-header"><div>Sample Tests:</div><div><i className="fa fa-arrows-alt" aria-hidden="true"></i><i className="fa fa-question-circle" aria-hidden="true"></i></div></div>
+                                <div className="catfight_tests-header"><div>Sample Tests:</div>
+                                <div><i className="fa fa-arrows-alt" aria-hidden="true"></i><i className="fa fa-question-circle" aria-hidden="true"></i></div>
                             </div>
+                        </div>
                             <div className="catfight_button-container">
                                 <div>
                                     <button className='catfight_skip-button' onClick={() => this.handleSkipClick()}><i className="fa fa-forward" aria-hidden="true"></i>SKIP</button>
