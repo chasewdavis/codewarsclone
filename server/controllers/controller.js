@@ -20,9 +20,13 @@ module.exports = {
         })
     },
     getCatFight: ( req, res ) => {
-        req.app.get('db').find_fight([req.params.id]).then(fight=>{
-            req.app.get('db').find_tags([req.params.id]).then(tags=>{
-                res.status(200).send(Object.assign({}, fight[0], {tags}));
+        const db = req.app.get('db');
+        db.find_fight([req.params.id]).then(fight=>{
+            db.find_tags([req.params.id]).then(tags=>{
+                db.find_solutions([req.params.id]).then(solutions=>{
+                    res.status(200).send(Object.assign({}, fight[0], {tags}, {solutions}));
+                })
+                // res.status(200).send(Object.assign({}, fight[0], {tags}, {}));
             })
         })
     },
