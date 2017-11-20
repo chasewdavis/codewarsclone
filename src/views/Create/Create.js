@@ -10,41 +10,64 @@ import html from '../../components/TabContainer/Instructions/html-rules';
 import Tests from '../CatFight/Tests/Tests';
 import f from '../../utilities/functions/functions';
 
+let initialState = {
+    leftAceActive: 1,
+    solution: 'function add(a, b, c) { return a + b + c }',
+    placeholder: '',
+    rightAceActive: 1,
+    rightAceCode: '',
+    rightSlateActive: 1,
+    description: html.deserialize('<h1>Type your instructions here</h1>'),
+    name: '',
+    rank: '',
+    tags: [''],
+    argsCount: 0,
+    args: [],
+    tests: [
+        // {
+        //     parameters: [''],
+        //     parameter_types: [''],
+        //     expected_result: '',
+        //     passed: false
+        // }
+    ],
+    // testResults: [
+    // {
+    //     parameters: [''],
+    //     parameter_types: [''],
+    //     expected_result: '',
+    //     passed: false
+    // }
+    // ],
+    click: null,
+    // passed: false
+}
+
 export default class Create extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            leftAceActive: 1,
-            solution: 'function add(a, b, c) { return a + b + c }',
-            placeholder: '',
-            rightAceActive: 1,
-            rightAceCode: '',
-            rightSlateActive: 1,
-            description: html.deserialize('<h1>Instructions</h1>'),
-            name: '',
-            rank: '',
-            tags: [''],
-            argsCount: 0,
-            args: [],
-            tests: [
-                // {
-                //     parameters: [''],
-                //     parameter_types: [''],
-                //     expected_result: '',
-                //     passed: false
-                // }
-            ],
-            // testResults: [
-                // {
-                //     parameters: [''],
-                //     parameter_types: [''],
-                //     expected_result: '',
-                //     passed: false
-                // }
-            // ],
-            click: null,
-            // passed: false
-        }
+        this.state = initialState
+    }
+
+    publish = () => {
+        let description = html.serialize(this.state.description)
+        let fight = Object.assign({}, this.state, { description })
+        // console.log(fight)
+        // axios.post(`/api/createfight`, fight).then(response => {
+        //     console.log(response.data)
+        // })
+    }
+
+    reset = () => {
+        this.state = Object.assign({}, initialState)
+        delete this.state.passed
+        this.setState(initialState)
+    }
+
+    cancel = () => {
+        this.state = Object.assign({}, initialState)
+        delete this.state.passed
+        this.setState(initialState)
     }
 
     componentDidMount() {
@@ -73,15 +96,6 @@ export default class Create extends Component {
         this.setState({
             click: 2
         })
-    }
-
-    save = () => {
-        let description = html.serialize(this.state.description)
-        let fight = Object.assign({}, this.state, { description })
-        // console.log(fight)
-        // axios.post(`/api/createfight`, fight).then(response => {
-        //     console.log(response.data)
-        // })
     }
 
     handleTestChange = (i, str, value, j) => {
@@ -225,10 +239,10 @@ export default class Create extends Component {
                 <Navbar />
                 <div className='create_main-wrapper'>
                     <div className="create_main-header">
-                        <div onClick={this.save} className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div>
-                        <div className="create_main-header-blue"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</div>
-                        <div className="create_main-header-blue"><i class="fa fa-paper-plane" aria-hidden="true"></i>Publish</div>
-                        <div className="create_main-header-red"><i class="fa fa-trash" aria-hidden="true"></i>Delete</div>
+                        {/* <div onClick={this.save} className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div> */}
+                        <div onClick={this.publish} className="create_main-header-blue"><i class="fa fa-paper-plane" aria-hidden="true"></i>Publish</div>
+                        <div onClick={this.reset} className="create_main-header-blue"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</div>
+                        <div onClick={this.cancel} className="create_main-header-red"><i class="fa fa-trash" aria-hidden="true"></i>Cancel</div>
                     </div>
                     <div className="create_left-inputs">
                         <div className="create_name-input-container">
