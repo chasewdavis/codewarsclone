@@ -42,7 +42,9 @@ let initialState = {
     // }
     // ],
     click: null,
-    // passed: false
+    // passed: false,
+    publishing: false,
+    publishFailed: false
 }
 
 export default class Create extends Component {
@@ -52,12 +54,10 @@ export default class Create extends Component {
     }
 
     publish = () => {
-        let description = html.serialize(this.state.description)
-        let fight = Object.assign({}, this.state, { description })
-        // console.log(fight)
-        // axios.post(`/api/createfight`, fight).then(response => {
-        //     console.log(response.data)
-        // })
+        this.setState({
+            publishing: true,
+            passed: false
+        }, () => this.runTests())
     }
 
     reset = () => {
@@ -93,12 +93,27 @@ export default class Create extends Component {
             click: null,
             passed
         })
+        if (this.state.publishing && passed) {
+            let description = html.serialize(this.state.description)
+            let fight = Object.assign({}, this.state, { description })
+            console.log(fight)
+            axios.post(`/api/createfight`, fight).then(response => {
+                console.log(response.data)
+            })
+        }
+        else if (this.state.publishing && !passed) {
+            this.setState({
+                publishing: false,
+                publishFailed: true
+            })
+        }
     }
 
     runTests = () => {
         let newClick
         this.setState({
-            click: 2
+            click: 2,
+            publishFailed: false
         })
     }
 
@@ -325,7 +340,7 @@ export default class Create extends Component {
                         </div>
                         <div className="create_right-ace-buttons" >
                             <button onClick={this.runTests}><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
-                            <div className={this.state.hasOwnProperty('passed') ? this.state.passed ? 'passed' : 'failed' : 'unstarted'}>
+                            <div className={this.state.publishFailed ? 'failed-box' : this.state.hasOwnProperty('passed') ? this.state.passed ? 'passed' : 'failed' : 'unstarted'}>
                                 {/*console.log(this.state.hasOwnProperty('passed'))*/}
                                 {
                                     this.state.hasOwnProperty('passed') ?
@@ -359,7 +374,7 @@ export default class Create extends Component {
                             }
                         </div>
                     </div>
-                    <div className='create_right-ace'>
+                    <div className={'create_right-ace'}>
                         <div className="create_left-ace-header">
                             <div onClick={() => this.handleRightAceClick(1)} className={this.state.rightAceActive === 1 ? "create_test create_active" : "create_test "}>Test Cases</div>
                             <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Example Test Cases</div>

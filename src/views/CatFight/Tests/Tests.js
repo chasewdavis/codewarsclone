@@ -160,7 +160,7 @@ export default class Tests extends Component {
 
                                     <Test
                                         id={i}
-                                        args={this.props.args}
+                                        args={this.props.args || []}
                                         change={this.props.change}
                                         parameters={test.parameters}
                                         parameter_types={test.parameter_types}
