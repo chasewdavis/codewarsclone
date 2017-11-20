@@ -205,16 +205,31 @@
 
 .create_right-ace-buttons {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   background-color: #303133;
   padding-top: 10px; }
 
 .create_right-ace-buttons button {
-  width: 160px;
-  height: 31px;
+  min-width: 160px;
+  min-height: 31px;
+  padding: 0 10px;
   border-radius: 4px;
   background-color: #7c9a44;
   color: #131414;
   border: none; }
+
+.create_right-ace-buttons div {
+  min-width: 160px;
+  min-height: 31px;
+  border-radius: 4px;
+  padding: 0 10px;
+  border: 2px solid rgba(240, 30, 50, 0.8);
+  color: rgba(240, 30, 50, 0.8);
+  background: #1C1C1C;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
 
 .create_right-ace-buttons button:hover {
   background-color: #8aac4c;
