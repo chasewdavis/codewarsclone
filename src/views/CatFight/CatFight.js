@@ -6,6 +6,7 @@ import calls from '../../utilities/data/data';
 import Btn from '../../components/Buttons/Buttons';
 import './CatFight.css';
 import axios from 'axios';
+import Tests from './Tests/Tests.js';
 
 
 export default class CatFight extends Component {
@@ -145,6 +146,15 @@ export default class CatFight extends Component {
                             <div className='catfight_tests-div'>
                                 <div className="catfight_tests-header"><div>Sample Tests:</div>
                                 <div><i className="fa fa-arrows-alt" aria-hidden="true"></i><i className="fa fa-question-circle" aria-hidden="true"></i></div>
+                                
+                            </div>
+                            <div className="tests-wrapper">
+                                <Tests 
+                                tests={this.state.fight ? this.state.fight.tests : null}
+                                change={() => console.log('')}
+                                addTest={() => console.log('')}
+                                creating={false}
+                                />
                             </div>
                         </div>
                             <div className="catfight_button-container">

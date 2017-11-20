@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -7,29 +8,26 @@ const Auth0Strategy = require('passport-auth0');
 const cors = require('cors');
 const controller = require('./controllers/controller');
 
-require('dotenv').config();
 
-const PORT = process.env.PORT || 3030;
-const CONNECTION_STRING = process.env.CONNECTION_STRING
+
 
 const app = express();
 
+//app.use( express.static( `${__dirname}/../build`));
 
-// app.use(express.static(`${__dirname}/../build`));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true
-}))
-
-
-massive(CONNECTION_STRING).then(db => app.set('db', db))
-
-
+}));
 app.use(passport.initialize());
 app.use(passport.session());
+
+const CONNECTION_STRING = process.env.CONNECTION_STRING
+
+massive(CONNECTION_STRING).then(db => app.set('db', db))
 
 passport.use(new Auth0Strategy({
     domain: process.env.AUTH_DOMAIN,
@@ -39,10 +37,11 @@ passport.use(new Auth0Strategy({
     // allowedConnections: ['github']
 }, function (accessToken, refreshToken, extraParams, profile, done) {
     const db = app.get('db');
-    db.find_cat([String(profile.identities[0].user_id)]).then(user => {        //edit for our app
+    db.find_cat([String(profile.identities[0].user_id)]).then(user => {
+        console.log("user from Auth0Strat",user)        //edit for our app
         if (user[0]) {
             // db.add_visit([String(user[0].user_id)])                             // edit for our app
-            return done(null, user[0].user_id)
+            return done(null, user[0].auth_id)
         }
         else {
             db.create_cat([
@@ -66,7 +65,7 @@ app.get(`/auth/callback`, passport.authenticate(`auth0`, {
     failureRedirect: process.env.FAILURE_REDIRECT
 }))
 app.get(`/auth/me`, (req, res, next) => {
-    // console.log(req.user)
+     console.log("/auth/me user:",req.user)
     if (!req.user) {
         return res.status(400).send('user not found');
     }
@@ -121,13 +120,18 @@ app.get(`/api/getCatFight/:id`, controller.getCatFight)
 
 
 passport.serializeUser(function (id, done) {
-    done(null, id);
+    console.log(id)
+   return done(null, id);
 })
 passport.deserializeUser(function (id, done) {
-    app.get('db').find_user([id])
+    console.log(id)
+    app.get('db').find_cat([id])
         .then(user => {
-            done(null, user[0]);
+            console.log('second user',user)
+           return done(null, user[0]);
         })
 })
+
+const PORT = process.env.PORT || 3030;
 
 app.listen(PORT, () => console.log(`CatFights running on port ${PORT}`))
