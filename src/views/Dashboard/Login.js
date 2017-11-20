@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {getUserInfo} from '../../ducks/reducer';
-import {connect} from 'react-redux';
+
 
 class Login extends Component {
     constructor(props) {
@@ -9,11 +8,7 @@ class Login extends Component {
 
         }
     }
-
-    // componentDidMount() {
-    //     this.props.getUserInfo();
-    // }
-
+    
     render() {
         return (
             <div className='Login'>
@@ -30,11 +25,5 @@ class Login extends Component {
     }
 }
 
-// function mapStateToProps(state) {
-//     return {
-//         user: state.user
-//     }
-// }
 
-// export default connect(mapStateToProps, {getUserInfo})(Login);
 export default Login;
