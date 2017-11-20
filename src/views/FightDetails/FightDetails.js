@@ -4,6 +4,7 @@ import Header from '../../components/Headers/Headers';
 import './FightDetails.css';
 import {Solid, Hollow} from '../../components/Buttons/Buttons';
 import Instructions from '../../components/TabContainer/Instructions/Instructions';
+import Solutions from './Solutions/Solutions.js';
 import html from '../../components/TabContainer/Instructions/html-rules';
 import axios from 'axios';
 import { withRouter } from 'react-router';
@@ -66,7 +67,7 @@ class FightDetails extends Component {
 
                 <div className='fightdetails_body'>
                     <div className='fightdetails_full-header'>
-                        <Header name={this.state.fight.name} difficulty={this.state.fight.difficulty} author={this.state.fight.author_id}/>
+                        <Header name={this.state.fight.name} difficulty={this.state.fight.difficulty} author={this.state.fight.username}/>
                         <div className='fightdetails_full-header-buttons'>
                             <Solid name='TRAIN' clicked={() => this.trainKata()}/>
                             <Hollow name='NEXT KATA' clicked={() => this.nextKata()}/>
@@ -79,7 +80,7 @@ class FightDetails extends Component {
                     <div className='fightdetails_dark-container'>
                         <div className='fightdetails_container'>
                             {this.state.option_selected === 'details' ? <div><Instructions description={html.deserialize(this.state.fight.description)} change={()=>{}}/></div>: ''}
-                            {this.state.option_selected === 'solutions' ? 'solutions component here': ''}
+                            {this.state.option_selected === 'solutions' ? <div><Solutions solutions={this.state.fight.solutions}/></div>: ''}
                         </div>
                         {this.state.option_selected==='details'
                         ? 
