@@ -25,21 +25,22 @@ export default class Create extends Component {
             rank: '',
             tags: [''],
             argsCount: 0,
+            args: [],
             tests: [
-                {
-                    parameters: [''],
-                    paramTypes: [''],
-                    expected_result: '',
-                    passed: false
-                }
+                // {
+                //     parameters: [''],
+                //     paramTypes: [''],
+                //     expected_result: '',
+                //     passed: false
+                // }
             ],
             testResults: [
-                {
-                    parameters: [''],
-                    paramTypes: [''],
-                    expected_result: '',
-                    passed: false
-                }
+                // {
+                //     parameters: [''],
+                //     paramTypes: [''],
+                //     expected_result: '',
+                //     passed: false
+                // }
             ],
             click: null,
             // passed: false
@@ -185,13 +186,15 @@ export default class Create extends Component {
             case 'placeholder':
                 this.setState({
                     [target]: value,
-                    argsCount: f.args(value).length < this.state.argsCount ? this.state.argsCount : f.args(value).length
+                    argsCount: f.args(value).length < this.state.argsCount ? this.state.argsCount : f.args(value).length,
+                    args: f.args(value)
                 })
                 break
             case 'solution':
                 this.setState({
                     [target]: value,
-                    argsCount: f.args(value).length
+                    argsCount: f.args(value).length,
+                    args: f.args(value)
                 })
                 break
         }
@@ -214,8 +217,8 @@ export default class Create extends Component {
     }
 
     render() {
-        console.log(this.state.testResults)
-        console.log(this.state.testResults.length)
+        console.log(this.state)
+        // console.log(this.state.testResults)
         return (
             <div>
                 <Navbar />
@@ -264,9 +267,9 @@ export default class Create extends Component {
                                 // <InstructionsHelp/>
                             }
                         </div>
-                        <div className="create_right-ace-buttons" onClick={this.runTests} >
-                            <button><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
-                            <div className="">
+                        <div className="create_right-ace-buttons" >
+                            <button onClick={this.runTests}><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
+                            <div className={this.state.hasOwnProperty('passed') ? this.state.passed ? 'passed' : 'failed' : 'unstarted'}>
                                 {
                                     this.state.hasOwnProperty('passed') ?
                                         this.state.passed ?
@@ -308,7 +311,12 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 // this.state.rightAceActive === 1 ?
-                                <Tests tests={this.state.testResults[0].hasOwnProperty('result') ? this.state.testResults : this.state.tests} change={this.handleTestChange} addTest={this.addTest} />
+                                <Tests
+                                    tests={this.state.testResults.length ? this.state.testResults[0].hasOwnProperty('result') ? this.state.testResults : this.state.tests : null}
+                                    args={this.state.args}
+                                    change={this.handleTestChange}
+                                    addTest={this.addTest}
+                                />
                                 // :
                                 // this.state.rightAceActive === 2 ?
                                 //     <Tests />

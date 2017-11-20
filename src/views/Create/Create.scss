@@ -57,9 +57,10 @@ $tab-background-color: #131414;
     margin-top: 40px;
 
     h3 {
+        display: inline-block;
         background-color: #2B2C2E;
         height: 30px;
-        width: 52px;
+        // width: 52px;
         color: #ebebeb;
         padding: 7px;
         font-size: 14px;
@@ -91,9 +92,10 @@ $tab-background-color: #131414;
     margin-top: 30px;
 
     h3 {
+        display: inline-block;
         background-color: #2B2C2E;
         height: 30px;
-        width: 130px;
+        // width: 150px;
         color: #ebebeb;
         padding: 7px;
         font-size: 14px;
@@ -126,9 +128,10 @@ $tab-background-color: #131414;
     margin-top: 30px;
     
         h3 {
+            display: inline-block;
             background-color: #2B2C2E;
             height: 30px;
-            width: 163px;
+            // width: 163px;
             color: #ebebeb;
             padding: 7px;
             font-size: 14px;
