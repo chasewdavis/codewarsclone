@@ -7,7 +7,7 @@ const initialState = {
 const GET_USER_INFO = "GET_USER_INFO";
 
 export function getUserInfo() {
-    const userData = axios.get('/auth/me')
+    const userData = axios.get('http://localhost:3030/auth/me')
     .then( res => {
         return res.data;
     })
@@ -17,7 +17,9 @@ export function getUserInfo() {
     }
 }
 
+
 export default function reducer(state=initialState, action) {
+    console.log(action)
     switch(action.type) {
         case GET_USER_INFO + '_FULFILLED':
             return Object.assign({}, state, {user: action.payload})
