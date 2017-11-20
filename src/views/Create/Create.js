@@ -29,19 +29,19 @@ export default class Create extends Component {
             tests: [
                 // {
                 //     parameters: [''],
-                //     paramTypes: [''],
+                //     parameter_types: [''],
                 //     expected_result: '',
                 //     passed: false
                 // }
             ],
-            testResults: [
+            // testResults: [
                 // {
                 //     parameters: [''],
-                //     paramTypes: [''],
+                //     parameter_types: [''],
                 //     expected_result: '',
                 //     passed: false
                 // }
-            ],
+            // ],
             click: null,
             // passed: false
         }
@@ -61,7 +61,8 @@ export default class Create extends Component {
         let passed = e.data.reduce((t1, t2) => (t1 && t2.passed), true)
         console.log(passed)
         this.setState({
-            testResults: e.data,
+            // testResults: e.data,
+            tests: e.data,
             click: null,
             passed
         })
@@ -86,54 +87,54 @@ export default class Create extends Component {
     handleTestChange = (i, str, value, j) => {
         console.log(i, str, value)
         let tests = this.state.tests.slice()
-        let testResults = this.state.testResults.slice()
+        // // let testResults = this.state.testResults.slice()
         // let newTest = Object.assign({}, tests[i])
         // console.log(tests)
         switch (str) {
             case 'params':
                 tests[i].parameters[j] = value
-                testResults[i].parameters[j] = value
+                // testResults[i].parameters[j] = value
                 break
             case 'types':
-                tests[i].paramTypes[j] = value
-                testResults[i].paramTypes[j] = value
+                tests[i].parameter_types[j] = value
+                // testResults[i].parameter_types[j] = value
                 break
             case 'result':
                 tests[i].expected_result = value
-                testResults[i].expected_result = value
+                // testResults[i].expected_result = value
                 break
             case 'result_type':
                 tests[i].expected_result_type = value
-                testResults[i].expected_result_type = value                
+                // testResults[i].expected_result_type = value
             default:
                 break
         }
         this.setState({
             tests,
-            testResults
+            // testResults
         })
     }
 
     addTest = () => {
         let tests = this.state.tests.slice()
-        let testResults = this.state.testResults.slice()
+        // // let testResults = this.state.testResults.slice()
         let parameters = Array(this.state.argsCount).fill('')
-        let paramTypes = Array(this.state.argsCount).fill('')
+        let parameter_types = Array(this.state.argsCount).fill('')
         tests.push({
             parameters,
-            paramTypes,
+            parameter_types,
             expected_result: '',
             passed: false
         })
-        testResults.push({
-            parameters,
-            paramTypes,
-            expected_result: '',
-            passed: false
-        })
+        // testResults.push({
+        //     parameters,
+        //     parameter_types,
+        //     expected_result: '',
+        //     passed: false
+        // })
         this.setState({
             tests,
-            testResults
+            // testResults
         })
     }
 
@@ -204,9 +205,9 @@ export default class Create extends Component {
             for (let i = test.parameters.length; i < this.state.argsCount; i++) {
                 test.parameters.push('')
             }
-            for (let i = test.paramTypes.length; i < this.state.argsCount; i++) {
-                // console.log(test.paramTypes)
-                test.paramTypes.push('')
+            for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
+                // console.log(test.parameter_types)
+                test.parameter_types.push('')
             }
             return test
         })
@@ -217,7 +218,7 @@ export default class Create extends Component {
     }
 
     render() {
-        console.log(this.state)
+        // console.log(this.state)
         // console.log(this.state.testResults)
         return (
             <div>
@@ -270,6 +271,7 @@ export default class Create extends Component {
                         <div className="create_right-ace-buttons" >
                             <button onClick={this.runTests}><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
                             <div className={this.state.hasOwnProperty('passed') ? this.state.passed ? 'passed' : 'failed' : 'unstarted'}>
+                                {console.log(this.state.hasOwnProperty('passed'))}
                                 {
                                     this.state.hasOwnProperty('passed') ?
                                         this.state.passed ?
@@ -312,7 +314,7 @@ export default class Create extends Component {
                             {
                                 // this.state.rightAceActive === 1 ?
                                 <Tests
-                                    tests={this.state.testResults.length ? this.state.testResults[0].hasOwnProperty('result') ? this.state.testResults : this.state.tests : null}
+                                    tests={this.state.tests}
                                     args={this.state.args}
                                     change={this.handleTestChange}
                                     addTest={this.addTest}

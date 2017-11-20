@@ -54,8 +54,9 @@ module.exports = {
     runTests(args, body, tests) {
         let f = new Function(args, body)
         return tests.map(test => {
-            test.result = f.apply(null, test.params)
+            test.result = f.apply(null, test.parameters)
             test.passed = test.result === test.expected_result
+            return test
         })
     }
 }

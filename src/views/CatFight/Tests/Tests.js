@@ -59,7 +59,7 @@ class Test extends Component {
                                                     <select
                                                         onChange={e => props.change(props.id, 'types', e.target.value, i)}
 
-                                                        defaultValue="Data Type"
+                                                        defaultValue={props.parameter_types[i] || "Data Type"}
                                                     >
                                                         <option disabled>Data Type</option>
                                                         {
@@ -102,7 +102,7 @@ class Test extends Component {
                                     <select
                                         onChange={e => props.change(props.id, 'result_type', e.target.value)}
 
-                                        defaultValue="Data Type"
+                                        defaultValue={props.expected_result_type || "Data Type"}
                                     >
                                         <option disabled>Data Type</option>
                                         {
@@ -147,8 +147,8 @@ export default class Tests extends Component {
         }
     }
     render() {
-        console.log(this.props)
-        console.log(this.props.tests)
+        // console.log(this.props)
+        // console.log(this.props.tests)
         return (
             <div className='Tests'>
                 {/* Finish Writing your function before you write your tests */}
@@ -156,16 +156,17 @@ export default class Tests extends Component {
                     this.props.tests ?
                         this.props.tests.map((test, i) => {
                             return (
-                                <div className={test.hasOwnProperty('result') ? test.passed ? 'test-border passed' : 'test-border failed' : 'test-border'}>
+                                <div key={i} className={test.hasOwnProperty('result') ? test.passed ? 'test-border passed' : 'test-border failed' : 'test-border'}>
 
                                     <Test
                                         id={i}
-                                        key={i}
                                         args={this.props.args}
                                         change={this.props.change}
                                         parameters={test.parameters}
+                                        parameter_types={test.parameter_types}
                                         types={test.paramTypes}
                                         expected_result={test.expected_result}
+                                        expected_result_type={test.expected_result_type}
                                         result={test.result}
                                         passed={!test.hasOwnProperty('result') || test.passed}
                                     />

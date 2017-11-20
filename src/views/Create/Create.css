@@ -224,12 +224,13 @@
   min-height: 31px;
   border-radius: 4px;
   padding: 0 10px;
-  border: 2px solid rgba(240, 30, 50, 0.8);
-  color: rgba(240, 30, 50, 0.8);
   background: #1C1C1C;
   display: flex;
   justify-content: center;
   align-items: center; }
+
+.unstarted {
+  border: 2px solid #6996DC; }
 
 .create_right-ace-buttons button:hover {
   background-color: #8aac4c;
