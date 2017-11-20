@@ -1,5 +1,7 @@
 .navbar-parent {
   height: 55px; }
+  .navbar-parent a, .navbar-parent button {
+    width: 100%; }
 
 .navbar {
   background: #222222;
@@ -7,6 +9,7 @@
   height: 55px;
   display: flex;
   align-items: center;
+  justify-content: stretch;
   position: absolute;
   z-index: 1;
   font-size: 18px; }

@@ -1,5 +1,8 @@
 .navbar-parent {
     height: 55px;
+    a, button {
+        width: 100%;
+    }
 }
 
 .navbar {
@@ -8,11 +11,13 @@
     height: 55px;
     display: flex;
     align-items: center;
+    justify-content: stretch;
 
     position: absolute;
     z-index: 1;
 
     font-size: 18px;
+
 }
 
 .navbar-hover {

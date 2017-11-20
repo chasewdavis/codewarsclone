@@ -7,8 +7,9 @@ let dataTypes = [
     'undefined',
     'number',
     'string',
-    'symbol',
-    'object'
+    // 'symbol',
+    // 'object',
+    // 'array'
 ]
 
 class Test extends Component {
@@ -53,11 +54,12 @@ class Test extends Component {
                                                     <input
                                                         onChange={e => props.change(props.id, 'params', e.target.value, i)}
                                                         value={param}
+                                                        placeholder={props.args.length ? props.args[i]: null}
                                                     />
                                                     <select
                                                         onChange={e => props.change(props.id, 'types', e.target.value, i)}
 
-                                                        defaultValue="Data Type"
+                                                        defaultValue={props.parameter_types[i] || "Data Type"}
                                                     >
                                                         <option disabled>Data Type</option>
                                                         {
@@ -100,7 +102,7 @@ class Test extends Component {
                                     <select
                                         onChange={e => props.change(props.id, 'result_type', e.target.value)}
 
-                                        defaultValue="Data Type"
+                                        defaultValue={props.expected_result_type || "Data Type"}
                                     >
                                         <option disabled>Data Type</option>
                                         {
@@ -141,13 +143,12 @@ export default class Tests extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            createTests: [
-                'test1', 'test2'
-            ]
+
         }
     }
     render() {
-        console.log(this.props)
+        // console.log(this.props)
+        // console.log(this.props.tests)
         return (
             <div className='Tests'>
                 {/* Finish Writing your function before you write your tests */}
@@ -155,19 +156,28 @@ export default class Tests extends Component {
                     this.props.tests ?
                         this.props.tests.map((test, i) => {
                             return (
-                                <div className={test.hasOwnProperty('result') ? test.passed ? 'test-border passed' : 'test-border failed' : 'test-border'}>
+                                <div key={i} className={test.hasOwnProperty('result') ? test.passed ? 'test-border passed' : 'test-border failed' : 'test-border'}>
 
-                                    <Test id={i} key={i} change={this.props.change} parameters={test.parameters} types={test.paramTypes} expected_result={test.expected_result} result={test.result} passed={!test.hasOwnProperty('result') || test.passed} />
+                                    <Test
+                                        id={i}
+                                        args={this.props.args}
+                                        change={this.props.change}
+                                        parameters={test.parameters}
+                                        parameter_types={test.parameter_types}
+                                        types={test.paramTypes}
+                                        expected_result={test.expected_result}
+                                        expected_result_type={test.expected_result_type}
+                                        result={test.result}
+                                        passed={!test.hasOwnProperty('result') || test.passed}
+                                    />
                                 </div>
                             )
                         })
                         :
-                        this.state.createTests.map((test, i) => {
-                            return <Test key={i} change={this.props.change} />
-                        })
+                        null
                 }
                 <div className='test-border'>
-                    <div onClick={this.props.addTest} className='Test closed'>+ ADD TEST</div>
+                    <div onClick={this.props.addTest} className='Test closed'>+ ADD&nbsp;{this.props.hidden ? ' HIDDEN ' : ''}&nbsp;TEST</div>
                 </div>
             </div>
         )

@@ -57,9 +57,10 @@ $tab-background-color: #131414;
     margin-top: 40px;
 
     h3 {
+        display: inline-block;
         background-color: #2B2C2E;
         height: 30px;
-        width: 52px;
+        // width: 52px;
         color: #ebebeb;
         padding: 7px;
         font-size: 14px;
@@ -91,9 +92,10 @@ $tab-background-color: #131414;
     margin-top: 30px;
 
     h3 {
+        display: inline-block;
         background-color: #2B2C2E;
         height: 30px;
-        width: 130px;
+        // width: 150px;
         color: #ebebeb;
         padding: 7px;
         font-size: 14px;
@@ -126,9 +128,10 @@ $tab-background-color: #131414;
     margin-top: 30px;
     
         h3 {
+            display: inline-block;
             background-color: #2B2C2E;
             height: 30px;
-            width: 163px;
+            // width: 163px;
             color: #ebebeb;
             padding: 7px;
             font-size: 14px;
@@ -252,6 +255,8 @@ $tab-background-color: #131414;
     justify-content: space-between;
     background-color: #303133;
     padding-top: 10px;
+
+
 }
 
 .create_right-ace-buttons button {
@@ -269,12 +274,15 @@ $tab-background-color: #131414;
     min-height: 31px;
     border-radius: 4px;
     padding: 0 10px;
-    border: 2px solid rgba(240, 30, 50, 0.8);
-    color: rgba(240, 30, 50, 0.8);
     background: #1C1C1C;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.unstarted {
+    border: 2px solid #6996DC;
+    color: #6996DC;
 }
 
 .create_right-ace-buttons button:hover {
