@@ -20,15 +20,14 @@ class Output extends Component {
     render() {
         let testsPassed = 0;
         let testsFailed = 0;
-        let sampleTestsToDisplay = this.props.results.length ? this.props.results.map(result => {
-            console.log(result)
+        let sampleTestsToDisplay = this.props.results ? this.props.results.length ? this.props.results.map(result => {
             if(result.passed) {
                 testsPassed++
             } else {
                 testsFailed++
             }
             return <div key={result.test_id} className={result.passed ? "output_passed output_general" : "output_failed output_general"}>Expected answer was {result.expected_result} we recieved {result.result}</div>
-        }) : null
+        }) : null : null
         
         return (
             <div className={this.props.testsPassed === 1 ? "catfight_output-passed catfight_output" : this.props.testsPassed === 2 ? "catfight_output catfight_output-failed" : "catfight_output"}>

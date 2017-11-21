@@ -36,27 +36,26 @@ export default class CatFight extends Component {
 
     handleReceivedMessage(e) {
         this.setState({
-            testResults: e.data,
+            testResults: e.data.tests,
             click: null
         }, ()=> {
-            if(this.state.testResults.source) {
-                console.log(this.state.testResults)
+            if(e.data.source) {
             } else {
-            console.log(this.state.testResults)
             let testFlag = true;
             this.state.testResults.map(test => {
-                
                 if(test.passed === false) {
                     testFlag = false;
                 }
             })
             if(testFlag === true) {
                 this.setState({
-                    testsPassed: 1
-                },()=>console.log(this.state))
+                    testsPassed: 1,
+                    testResults: e.data.tests
+                })
             } else {
                 this.setState({
-                    testsPassed: 2
+                    testsPassed: 2,
+                    testResults: e.data.tests
                 })
             }
         }
@@ -154,6 +153,7 @@ export default class CatFight extends Component {
                                 change={() => console.log('')}
                                 addTest={() => console.log('')}
                                 creating={false}
+                                args={[]}
                                 />
                             </div>
                         </div>

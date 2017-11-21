@@ -92,7 +92,7 @@
             let f = new Function(args, body)
             return tests.map(test => {
                 test.parameters = test.parameters.map((param, i) => {
-                    return types(param, test.parameter_types[i])
+                    return types(param, test.paramter_types ? test.parameter_types[i] : "")
                 })
                 test.result = f.apply(null, test.parameters)
                 test.expected_result = types(test.expected_result, test.expected_result_type)
