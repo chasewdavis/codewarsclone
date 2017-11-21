@@ -6,13 +6,18 @@
     font-weight: bold; }
   .Instructions code {
     background: rgba(255, 255, 255, 0.1);
-    font-family: monospace; }
+    font-family: monospace;
+    margin: 0 0.2rem;
+    border-radius: 0.25rem; }
     .Instructions code * {
       font-family: inherit; }
+  .Instructions span {
+    line-height: 1.5rem; }
   .Instructions .code-block {
     margin: 0.25rem 0;
     background: rgba(255, 255, 255, 0.1);
     font-family: monospace; }
     .Instructions .code-block code {
       background: none;
-      font-family: inherit; }
+      font-family: inherit;
+      border-radius: none; }
