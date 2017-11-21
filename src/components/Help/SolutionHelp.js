@@ -1,4 +1,7 @@
-<div>
+import React from 'react';
+import './Solutions.css';
+export default function() {
+return <div className="solutions-comp">
     <h2>What is the correct solution block?</h2>
     <p>
         The correct solution block is a fully working example that validates properly. Depending on
@@ -39,3 +42,4 @@
         This is code that will be loaded before the solution code within the execution path.
     </p>
 </div>
+}

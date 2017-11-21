@@ -124,9 +124,12 @@ app.post(`/api/createfight`, (req, res, next) => {
         })
 })
 
+app.post('/api/fightinprogress', controller.postFightInProgress)
+
 app.get('/api/oneRandomCatFight', controller.oneRandomCatFight)
 app.get(`/api/randomCatFight`, controller.randomCatFight)
 app.get(`/api/getCatFight/:id`, controller.getCatFight)
+app.get(`/api/getcat/:catId`, controller.getCat)
 
 
 

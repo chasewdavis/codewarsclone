@@ -8,5 +8,8 @@ module.exports = {
     },
     getRandomFight() {
         return axios.get('http://localhost:3030/api/oneRandomCatFight').then(res => res.data[0])
+    },
+    getCat(catId) {
+        return axios.get(`http://localhost:3030/api/getcat/${catId}`)
     }
 }

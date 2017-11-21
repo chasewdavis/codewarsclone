@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
+import SolutionHelp from '../../components/Help/SolutionHelp';
+import SolutionDesc from '../../components/Help/SolutionDesc';
+import SolutionTest from '../../components/Help/SolutionTest';
 import './Create.css';
 import axios from 'axios';
 
@@ -334,7 +337,9 @@ export default class Create extends Component {
                                 this.state.rightSlateActive === 1 ?
                                     <Instructions change={this.handleSlateChange} description={this.state.description} />
                                     :
-                                    null
+                                    this.state.rightSlateActive === 2 ? null 
+                                    :
+                                    <SolutionDesc />
                                 // <InstructionsHelp/>
                             }
                         </div>
@@ -369,7 +374,7 @@ export default class Create extends Component {
                                     this.state.leftAceActive === 2 ?
                                         <Editor title="placeholder" code={this.state.placeholder} onChange={e => this.handleChange('placeholder', e)} />
                                         :
-                                        null
+                                        <SolutionHelp />
                                 // <SolutionHelp />
                             }
                         </div>
@@ -399,7 +404,7 @@ export default class Create extends Component {
                                             addTest={this.addTest}
                                         />
                                         :
-                                        null
+                                        <SolutionTest />
                                 // <TestsHelp />
                             }
                         </div>

@@ -42,6 +42,19 @@ module.exports = {
             })
         })
 
+    },
+    getCat: function(req, res, next) {
+        const db = req.app.get('db');
+        const catId = req.params.catId
+        db.get_cat([catId]).then( resp => {
+            console.log(resp)
+            res.status(200).send(resp)
+        })
+    },
+    postFightInProgress: function(req, res, next) {
+        const db = req.app.get('db');
+        const {cats_id, cat_fight_id} = req.body;
+        db.create_fight_in_progress([cats_id, cat_fight_id])
     }
     
 }

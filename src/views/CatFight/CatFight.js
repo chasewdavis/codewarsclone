@@ -7,12 +7,14 @@ import Btn from '../../components/Buttons/Buttons';
 import './CatFight.css';
 import axios from 'axios';
 import Tests from './Tests/Tests.js';
+import { connect } from 'react-redux';
 
 
-export default class CatFight extends Component {
+class CatFight extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            cat: {},
             click: null,
             code: '',
             testResults: [],
@@ -31,7 +33,22 @@ export default class CatFight extends Component {
     //set the event listener on the main window
     componentDidMount() {
         calls.getFightById(this.props.match.params.id).then(fight => {this.setState({ fight: fight, code: fight.placeholder }), console.log(this.state)})
+        calls.getCat(this.props.user.cats_id).then(cat => {
+         this.setState({
+             cat: cat.data[0]
+         }, () => {
+             const {cats_id} = this.state.cat;
+             const cat_fight_id = this.props.match.params.id
+             console.log(cat_fight_id)
+            calls.postFightInProgress({cats_id, cat_fight_id})
+         })   
+        })
+        
         window.addEventListener('message', this.handleReceivedMessage)
+    }
+
+    componentWillUnmount() {
+
     }
 
     handleReceivedMessage(e) {
@@ -179,3 +196,11 @@ export default class CatFight extends Component {
         )
     }
 }
+
+function mapStateToProps({user}) {
+   return {
+       user
+   } 
+}
+
+export default connect(mapStateToProps)(CatFight);
