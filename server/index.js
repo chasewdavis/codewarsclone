@@ -116,6 +116,9 @@ app.post(`/api/createfight`, (req, res, next) => {
             req.body.hiddenTests.map((test, i) => {
                 db.create_test(newFight[0].cat_fight_id, test.parameters, test.parameter_types, test.expected_result, test.expected_result_type, true)
             })
+            req.body.tags.map((tag, i) => {
+                db.create_tag(newFight[0].cat_fight_id, tag)
+            })
 
             res.send(newFight)
         })
