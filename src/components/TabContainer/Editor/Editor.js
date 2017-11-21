@@ -55,7 +55,7 @@ class Editor extends Component {
                 theme={this.props.hasOwnProperty("theme")?this.props.theme:"merbivore"}
                 showGutter={this.props.hasOwnProperty('gutter')?this.props.gutter:true} //keeping default as true
                 fontSize={this.props.hasOwnProperty('fontSize')?this.props.fontSize:'18px'} //default font size
-                readOnly={this.props.hasOwnProperty('readOnly')?this.props.readOnly:'false'} //default is false
+                readOnly={this.props.hasOwnProperty('readOnly')?this.props.readOnly:false} //default is false
                 height={this.props.hasOwnProperty('height')?this.props.height:'500px'} //default is still 500px
                 showPrintMargin={false}
                 highlightActiveLine={false}
