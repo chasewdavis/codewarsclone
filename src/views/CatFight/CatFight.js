@@ -47,10 +47,6 @@ class CatFight extends Component {
         window.addEventListener('message', this.handleReceivedMessage)
     }
 
-    componentWillUnmount() {
-
-    }
-
     handleReceivedMessage(e) {
         this.setState({
             testResults: e.data.tests,
@@ -93,6 +89,14 @@ class CatFight extends Component {
             testResults: [],
             testsPassed: 3
         })
+    }
+
+    handleSaveClick() {
+        const catId = this.state.cat.cats_id;
+        const catFightId = this.props.match.params.id;
+        const userSolution = this.state.code;
+        const completed = false;
+        calls.putFightInProgress({catId, catFightId, userSolution, completed})
     }
 
     handleSampleClick() {
@@ -177,6 +181,7 @@ class CatFight extends Component {
                             <div className="catfight_button-container">
                                 <div>
                                     <button className='catfight_skip-button' onClick={() => this.handleSkipClick()}><i className="fa fa-forward" aria-hidden="true"></i>SKIP</button>
+                                    <button className='catfight_skip-button' onClick={() => this.handleSaveClick()}>SAVE</button>
                                 </div>
                                 <div>
                                     <button className='catfight_reset-button' onClick={() => this.handleResetClick()}>RESET</button>
