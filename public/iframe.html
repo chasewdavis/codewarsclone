@@ -95,8 +95,11 @@
                     return types(param, test.paramter_types ? test.parameter_types[i] : "")
                 })
                 test.result = f.apply(null, test.parameters)
+                test.result_type = typeof test.result
                 test.expected_result = types(test.expected_result, test.expected_result_type)
                 test.passed = test.result === test.expected_result
+                // STRINGIFY THE RESULT TO PROTECT DATA IN APP
+                test.result = JSON.stringify(test.result)
                 return test
             })
         }
@@ -114,12 +117,17 @@
             if (hiddenTests) {
                 hiddenTests = runTests(args(code), body(code), hiddenTests)
             }
+            else {
+                hiddenTests = []
+            }
 
             // send results object
             result = {
                 tests,
                 hiddenTests
             }
+
+            console.log(result)
 
             var mainWindow = e.source;
             mainWindow.postMessage(result, e.origin);

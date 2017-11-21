@@ -303,9 +303,9 @@ export default class Create extends Component {
 
     resetTests = () => {
         let argsCount = f.args(this.state.solution).length
-        console.log(argsCount)
+        // console.log(argsCount)
         let tests = this.state.tests.slice()
-        console.log(tests)
+        // console.log(tests)
         tests = tests.map((test, i) => {
             while (test.parameters.length > argsCount) {
                 test.parameters.pop()
@@ -316,7 +316,7 @@ export default class Create extends Component {
             return test
         })
         let hiddenTests = this.state.hiddenTests.slice()
-        console.log(hiddenTests)
+        // console.log(hiddenTests)
         hiddenTests = hiddenTests.map((test, i) => {
             while (test.parameters.length > argsCount) {
                 test.parameters.pop()
@@ -326,9 +326,9 @@ export default class Create extends Component {
             }
             return test
         })
-        console.log(argsCount)
-        console.log(tests)
-        console.log(hiddenTests)
+        // console.log(argsCount)
+        // console.log(tests)
+        // console.log(hiddenTests)
         this.setState({
             argsCount,
             tests,
