@@ -54,12 +54,12 @@ class Test extends Component {
                                                     <input
                                                         onChange={e => props.change(props.id, 'params', e.target.value, i)}
                                                         value={param}
-                                                        placeholder={props.args.length ? props.args[i]: null}
+                                                        placeholder={props.args ?props.args.length ? props.args[i]: null : null}
                                                     />
                                                     <select
                                                         onChange={e => props.change(props.id, 'types', e.target.value, i)}
 
-                                                        defaultValue={props.parameter_types[i] || "Data Type"}
+                                                        defaultValue={props.parameter_types ? props.parameter_types.length ? props.parameter_types[i] : "Data Type" : "Data Type"}
                                                     >
                                                         <option disabled>Data Type</option>
                                                         {
