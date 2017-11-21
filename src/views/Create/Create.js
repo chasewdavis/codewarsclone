@@ -16,7 +16,7 @@ import f from '../../utilities/functions/functions';
 let initialState = {
     leftAceActive: 1,
     solution: '// type your solution here',
-    placeholder: '',
+    placeholder: '// type the initial code for your cat fight here',
     rightAceActive: 1,
     rightAceCode: '',
     rightSlateActive: 1,
@@ -53,7 +53,7 @@ let initialState = {
 export default class Create extends Component {
     constructor(props) {
         super(props)
-        this.state = initialState
+        this.state = Object.assign({}, initialState)
     }
 
     publish = () => {
@@ -329,7 +329,7 @@ export default class Create extends Component {
                     <div className='create_right-slate'>
                         <div className="create_left-ace-header">
                             <div onClick={() => this.handleRightSlateClick(1)} className={this.state.rightSlateActive === 1 ? "create_test create_active" : "create_test "}>Description</div>
-                            <div onClick={() => this.handleRightSlateClick(2)} className={this.state.rightSlateActive === 2 ? "create_preview create_active" : "create_preview"}><i class="fa fa-eye" aria-hidden="true"></i> Preview</div>
+                            {/* <div onClick={() => this.handleRightSlateClick(2)} className={this.state.rightSlateActive === 2 ? "create_preview create_active" : "create_preview"}><i class="fa fa-eye" aria-hidden="true"></i> Preview</div> */}
                             <div onClick={() => this.handleRightSlateClick(3)} className={this.state.rightSlateActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
                         <div className="create_editor-wrapper">
@@ -337,9 +337,9 @@ export default class Create extends Component {
                                 this.state.rightSlateActive === 1 ?
                                     <Instructions change={this.handleSlateChange} description={this.state.description} />
                                     :
-                                    this.state.rightSlateActive === 2 ? null 
-                                    :
-                                    <SolutionDesc />
+                                    this.state.rightSlateActive === 2 ? null
+                                        :
+                                        <SolutionDesc />
                                 // <InstructionsHelp/>
                             }
                         </div>
@@ -369,10 +369,22 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 this.state.leftAceActive === 1 ?
-                                    <Editor click={this.state.click} title="solution" code={this.state.solution} fight={Object.assign({}, this.state, { description: null })} onChange={e => this.handleChange('solution', e)} />
+                                    <Editor
+                                        click={this.state.click}
+                                        title="solution"
+                                        code={this.state.solution}
+                                        fight={Object.assign({}, this.state, { description: null })}
+                                        onChange={e => this.handleChange('solution', e)}
+                                        fontSize='1.25rem'
+                                    />
                                     :
                                     this.state.leftAceActive === 2 ?
-                                        <Editor title="placeholder" code={this.state.placeholder} onChange={e => this.handleChange('placeholder', e)} />
+                                        <Editor
+                                            title="placeholder"
+                                            code={this.state.placeholder}
+                                            onChange={e => this.handleChange('placeholder', e)}
+                                            fontSize='1.25rem'
+                                        />
                                         :
                                         <SolutionHelp />
                                 // <SolutionHelp />
@@ -382,7 +394,7 @@ export default class Create extends Component {
                     <div className={'create_right-ace'}>
                         <div className="create_left-ace-header">
                             <div onClick={() => this.handleRightAceClick(1)} className={this.state.rightAceActive === 1 ? "create_test create_active" : "create_test "}>Test Cases</div>
-                            <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Example Test Cases</div>
+                            <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Hidden Tests</div>
                             <div onClick={() => this.handleRightAceClick(3)} className={this.state.rightAceActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
                         <div className="create_editor-wrapper">
