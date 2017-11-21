@@ -1,0 +1,33 @@
+.solutions {
+    padding: 12.5px;
+    .solutions_solution {
+        border-bottom: 1px solid #414244;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        div{
+            margin-bottom: 10px;
+        }
+        .solutions_editor_parent {
+            // border: 1px solid slateblue;
+            // width:50%;
+            // overflow: hidden;
+            position: relative;
+            .solutions_editor{
+                // border: 1px solid red;
+                background:#1E1F21;
+                // height: 200px;
+                // padding: 5px;
+                // position: absolute;
+                // left: 0;
+                // top:0;
+                
+            }
+        }
+    }
+    .solutions_padding {
+        // border: 1px solid red;
+        padding: 5px;
+        background: #1E1F21;
+    }
+}
