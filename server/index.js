@@ -107,7 +107,6 @@ app.post(`/api/createfight`, (req, res, next) => {
     const db = app.get('db')
     db.create_fight([1, req.body.name, req.body.description, req.body.rank, req.body.solution, req.body.name, req.body.placeholder])
         .then(newFight => {
-            console.log(newFight[0])
             req.body.tests.map((test, i) => {
                 // console.log(test)
                 db.create_test(newFight[0].cat_fight_id, test.parameters, test.parameter_types, test.expected_result, test.expected_result_type, false)
@@ -125,7 +124,7 @@ app.post(`/api/createfight`, (req, res, next) => {
 })
 
 app.post('/api/fightinprogress', controller.postFightInProgress)
-
+app.put('/api/fightinprogress', controller.updateFightInProgress)
 app.get('/api/oneRandomCatFight', controller.oneRandomCatFight)
 app.get(`/api/randomCatFight`, controller.randomCatFight)
 app.get(`/api/getCatFight/:id`, controller.getCatFight)
@@ -137,14 +136,11 @@ app.get(`/api/getcat/:catId`, controller.getCat)
 
 
 passport.serializeUser(function (id, done) {
-    console.log(id)
     return done(null, id);
 })
 passport.deserializeUser(function (id, done) {
-    console.log(id)
     app.get('db').find_cat([id])
         .then(user => {
-            console.log('second user', user)
             return done(null, user[0]);
         })
 })

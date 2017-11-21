@@ -161,7 +161,8 @@
   color: #6795de;
   width: 65px;
   height: 31px;
-  margin-left: 0px; }
+  margin-left: 0px;
+  margin-right: 15px; }
 
 .catfight_button-container .catfight_reset-button {
   background-color: #181919;
@@ -199,7 +200,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
-  overflow: auto; }
+  overflow: none; }
 
 .output_passed {
   border: 1px solid green;
