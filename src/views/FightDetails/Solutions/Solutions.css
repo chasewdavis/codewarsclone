@@ -1,0 +1,16 @@
+.solutions {
+  padding: 12.5px; }
+  .solutions .solutions_solution {
+    border-bottom: 1px solid #414244;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column; }
+    .solutions .solutions_solution div {
+      margin-bottom: 10px; }
+    .solutions .solutions_solution .solutions_editor_parent {
+      position: relative; }
+      .solutions .solutions_solution .solutions_editor_parent .solutions_editor {
+        background: #1E1F21; }
+  .solutions .solutions_padding {
+    padding: 5px;
+    background: #1E1F21; }

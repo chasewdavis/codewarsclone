@@ -48,10 +48,19 @@ class Editor extends Component {
                 <AceEditor
 				value={this.props.code}
 				mode="javascript"
-				theme="merbivore"
 				onChange={(e) => this.onChange(e)}
 				name="ace1"
-				editorProps={{$blockScrolling: true}}
+                editorProps={{$blockScrolling: true}}
+                //new properties look here if things get buggy
+                theme={this.props.hasOwnProperty("theme")?this.props.theme:"merbivore"}
+                showGutter={this.props.hasOwnProperty('gutter')?this.props.gutter:true} //keeping default as true
+                fontSize={this.props.hasOwnProperty('fontSize')?this.props.fontSize:'18px'} //default font size
+                readOnly={this.props.hasOwnProperty('readOnly')?this.props.readOnly:'false'} //default is false
+                height={this.props.hasOwnProperty('height')?this.props.height:'500px'} //default is still 500px
+                showPrintMargin={false}
+                highlightActiveLine={false}
+                maxLines={this.props.hasOwnProperty('maxLines')?this.props.minLines:null}
+                className={this.props.className}
 				/>
             </div>
         )
