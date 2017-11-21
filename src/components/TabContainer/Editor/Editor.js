@@ -13,7 +13,6 @@ class Editor extends Component {
 
     //this will wait for a new value of click to arrive and then will fire off the handleClick method
     componentWillReceiveProps(newProps) {
-        console.log(newProps.fight)
         if(newProps.click === 1) {
             this.handleTestClick()
         } else if(newProps.click === 2) {
@@ -29,7 +28,6 @@ class Editor extends Component {
     //post a message tothe iframe with the content being what the user entered into ace
     handleAttemptClick() {
         let message = { code: this.props.code, fight: this.props.fight }
-        console.log(message)
         this.ifr.contentWindow.postMessage(message, "*")
     }        
     
