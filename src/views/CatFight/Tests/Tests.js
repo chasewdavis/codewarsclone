@@ -39,7 +39,7 @@ class Test extends Component {
                                 <div>expected &nbsp; <em>{props.expected_result}</em> &nbsp; returned &nbsp;<em>{props.result}</em></div>
                         }
                     </div>
-                    <div className='test-delete'>X</div>
+                    <div className='test-delete' onClick={props.removeTest}>X</div>
                 </div>
                 {
                     this.state.open ?
@@ -148,7 +148,7 @@ export default class Tests extends Component {
     }
     render() {
         // console.log(this.props)
-        // console.log(this.props.tests)
+        console.log(this.props.tests)
         return (
             <div className='Tests'>
                 {/* Finish Writing your function before you write your tests */}
@@ -169,6 +169,7 @@ export default class Tests extends Component {
                                         expected_result_type={test.expected_result_type}
                                         result={test.result}
                                         passed={!test.hasOwnProperty('result') || test.passed}
+                                        removeTest={() => this.props.removeTest(i)}
                                     />
                                 </div>
                             )

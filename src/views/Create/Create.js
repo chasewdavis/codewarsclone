@@ -196,6 +196,24 @@ export default class Create extends Component {
         }
     }
 
+    removeTest = index => {
+        let tests = this.state.tests.slice()
+        if (this.state.rightAceActive === 2) {
+            tests = this.state.hiddenTests.slice()
+        }
+        tests = tests.filter((test, i) => i !== index)
+        if (this.state.rightAceActive === 1) {
+            this.setState({
+                tests
+            })
+        }
+        else {
+            this.setState({
+                hiddenTests: tests
+            })
+        }
+    }
+
     handleSlateChange = ({ value }) => {
         this.setState({
             description: value
@@ -259,35 +277,63 @@ export default class Create extends Component {
         }
         let tests = this.state.tests.slice()
         tests = tests.map(test => {
-            // console.log(test)
             for (let i = test.parameters.length; i < this.state.argsCount; i++) {
                 test.parameters.push('')
             }
             for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
-                // console.log(test.parameter_types)
                 test.parameter_types.push('')
             }
-
             return test
         })
         let hiddenTests = this.state.hiddenTests.slice()
         hiddenTests = hiddenTests.map(test => {
-            // console.log(test)
             for (let i = test.parameters.length; i < this.state.argsCount; i++) {
                 test.parameters.push('')
             }
             for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
-                // console.log(test.parameter_types)
                 test.parameter_types.push('')
             }
-
             return test
         })
         this.setState({
             tests,
             hiddenTests
         })
-        // console.log(this.state.argsCount)
+    }
+
+    resetTests = () => {
+        let argsCount = f.args(this.state.solution).length
+        console.log(argsCount)
+        let tests = this.state.tests.slice()
+        console.log(tests)
+        tests = tests.map((test, i) => {
+            while (test.parameters.length > argsCount) {
+                test.parameters.pop()
+            }
+            while (test.parameter_types > argsCount) {
+                test.parameter_types.pop()
+            }
+            return test
+        })
+        let hiddenTests = this.state.hiddenTests.slice()
+        console.log(hiddenTests)
+        hiddenTests = hiddenTests.map((test, i) => {
+            while (test.parameters.length > argsCount) {
+                test.parameters.pop()
+            }
+            while (test.parameter_types.length > argsCount) {
+                test.parameter_types.pop()
+            }
+            return test
+        })
+        console.log(argsCount)
+        console.log(tests)
+        console.log(hiddenTests)
+        this.setState({
+            argsCount,
+            tests,
+            hiddenTests
+        })
     }
 
     render() {
@@ -396,6 +442,7 @@ export default class Create extends Component {
                             <div onClick={() => this.handleRightAceClick(1)} className={this.state.rightAceActive === 1 ? "create_test create_active" : "create_test "}>Test Cases</div>
                             <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Hidden Tests</div>
                             <div onClick={() => this.handleRightAceClick(3)} className={this.state.rightAceActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
+                            <div onClick={this.resetTests} className="create_test"><i class="fa fa-repeat" aria-hidden="true"></i>&nbsp; Reset</div>
                         </div>
                         <div className="create_editor-wrapper">
                             {
@@ -405,6 +452,7 @@ export default class Create extends Component {
                                         args={this.state.args}
                                         change={this.handleTestChange}
                                         addTest={this.addTest}
+                                        removeTest={this.removeTest}
                                     />
                                     :
                                     this.state.rightAceActive === 2 ?
@@ -414,6 +462,7 @@ export default class Create extends Component {
                                             args={this.state.args}
                                             change={this.handleTestChange}
                                             addTest={this.addTest}
+                                            removeTest={this.removeTest}
                                         />
                                         :
                                         <SolutionTest />
