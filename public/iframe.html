@@ -92,11 +92,14 @@
             let f = new Function(args, body)
             return tests.map(test => {
                 test.parameters = test.parameters.map((param, i) => {
-                    return types(param, test.parameter_types[i])
+                    return types(param, test.paramter_types ? test.parameter_types[i] : "")
                 })
                 test.result = f.apply(null, test.parameters)
+                test.result_type = typeof test.result
                 test.expected_result = types(test.expected_result, test.expected_result_type)
                 test.passed = test.result === test.expected_result
+                // STRINGIFY THE RESULT TO PROTECT DATA IN APP
+                test.result = JSON.stringify(test.result)
                 return test
             })
         }
@@ -107,12 +110,15 @@
 
             // instantiate tests arrays
             let { tests, hiddenTests } = e.data.fight
-            console.log(tests, hiddenTests)
+            // console.log(tests, hiddenTests)
 
             // run tests on tests arrays
             tests = runTests(args(code), body(code), tests)
             if (hiddenTests) {
                 hiddenTests = runTests(args(code), body(code), hiddenTests)
+            }
+            else {
+                hiddenTests = []
             }
 
             // send results object
@@ -120,6 +126,8 @@
                 tests,
                 hiddenTests
             }
+
+            console.log(result)
 
             var mainWindow = e.source;
             mainWindow.postMessage(result, e.origin);

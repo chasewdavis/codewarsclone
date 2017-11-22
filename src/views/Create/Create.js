@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
+import SolutionHelp from '../../components/Help/SolutionHelp';
+import SolutionDesc from '../../components/Help/SolutionDesc';
+import SolutionTest from '../../components/Help/SolutionTest';
 import './Create.css';
 import axios from 'axios';
 
@@ -13,7 +16,7 @@ import f from '../../utilities/functions/functions';
 let initialState = {
     leftAceActive: 1,
     solution: '// type your solution here',
-    placeholder: '',
+    placeholder: '// type the initial code for your cat fight here',
     rightAceActive: 1,
     rightAceCode: '',
     rightSlateActive: 1,
@@ -42,22 +45,22 @@ let initialState = {
     // }
     // ],
     click: null,
-    // passed: false
+    // passed: false,
+    publishing: false,
+    publishFailed: false
 }
 
 export default class Create extends Component {
     constructor(props) {
         super(props)
-        this.state = initialState
+        this.state = Object.assign({}, initialState)
     }
 
     publish = () => {
-        let description = html.serialize(this.state.description)
-        let fight = Object.assign({}, this.state, { description })
-        // console.log(fight)
-        // axios.post(`/api/createfight`, fight).then(response => {
-        //     console.log(response.data)
-        // })
+        this.setState({
+            publishing: true,
+            passed: false
+        }, () => this.runTests())
     }
 
     reset = () => {
@@ -93,12 +96,27 @@ export default class Create extends Component {
             click: null,
             passed
         })
+        if (this.state.publishing && passed) {
+            let description = html.serialize(this.state.description)
+            let fight = Object.assign({}, this.state, { description })
+            console.log(fight)
+            axios.post(`/api/createfight`, fight).then(response => {
+                console.log(response.data)
+            })
+        }
+        else if (this.state.publishing && !passed) {
+            this.setState({
+                publishing: false,
+                publishFailed: true
+            })
+        }
     }
 
     runTests = () => {
         let newClick
         this.setState({
-            click: 2
+            click: 2,
+            publishFailed: false
         })
     }
 
@@ -178,6 +196,24 @@ export default class Create extends Component {
         }
     }
 
+    removeTest = index => {
+        let tests = this.state.tests.slice()
+        if (this.state.rightAceActive === 2) {
+            tests = this.state.hiddenTests.slice()
+        }
+        tests = tests.filter((test, i) => i !== index)
+        if (this.state.rightAceActive === 1) {
+            this.setState({
+                tests
+            })
+        }
+        else {
+            this.setState({
+                hiddenTests: tests
+            })
+        }
+    }
+
     handleSlateChange = ({ value }) => {
         this.setState({
             description: value
@@ -241,35 +277,63 @@ export default class Create extends Component {
         }
         let tests = this.state.tests.slice()
         tests = tests.map(test => {
-            // console.log(test)
             for (let i = test.parameters.length; i < this.state.argsCount; i++) {
                 test.parameters.push('')
             }
             for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
-                // console.log(test.parameter_types)
                 test.parameter_types.push('')
             }
-
             return test
         })
         let hiddenTests = this.state.hiddenTests.slice()
         hiddenTests = hiddenTests.map(test => {
-            // console.log(test)
             for (let i = test.parameters.length; i < this.state.argsCount; i++) {
                 test.parameters.push('')
             }
             for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
-                // console.log(test.parameter_types)
                 test.parameter_types.push('')
             }
-
             return test
         })
         this.setState({
             tests,
             hiddenTests
         })
-        // console.log(this.state.argsCount)
+    }
+
+    resetTests = () => {
+        let argsCount = f.args(this.state.solution).length
+        // console.log(argsCount)
+        let tests = this.state.tests.slice()
+        // console.log(tests)
+        tests = tests.map((test, i) => {
+            while (test.parameters.length > argsCount) {
+                test.parameters.pop()
+            }
+            while (test.parameter_types > argsCount) {
+                test.parameter_types.pop()
+            }
+            return test
+        })
+        let hiddenTests = this.state.hiddenTests.slice()
+        // console.log(hiddenTests)
+        hiddenTests = hiddenTests.map((test, i) => {
+            while (test.parameters.length > argsCount) {
+                test.parameters.pop()
+            }
+            while (test.parameter_types.length > argsCount) {
+                test.parameter_types.pop()
+            }
+            return test
+        })
+        // console.log(argsCount)
+        // console.log(tests)
+        // console.log(hiddenTests)
+        this.setState({
+            argsCount,
+            tests,
+            hiddenTests
+        })
     }
 
     render() {
@@ -311,7 +375,7 @@ export default class Create extends Component {
                     <div className='create_right-slate'>
                         <div className="create_left-ace-header">
                             <div onClick={() => this.handleRightSlateClick(1)} className={this.state.rightSlateActive === 1 ? "create_test create_active" : "create_test "}>Description</div>
-                            <div onClick={() => this.handleRightSlateClick(2)} className={this.state.rightSlateActive === 2 ? "create_preview create_active" : "create_preview"}><i class="fa fa-eye" aria-hidden="true"></i> Preview</div>
+                            {/* <div onClick={() => this.handleRightSlateClick(2)} className={this.state.rightSlateActive === 2 ? "create_preview create_active" : "create_preview"}><i class="fa fa-eye" aria-hidden="true"></i> Preview</div> */}
                             <div onClick={() => this.handleRightSlateClick(3)} className={this.state.rightSlateActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
                         <div className="create_editor-wrapper">
@@ -319,13 +383,15 @@ export default class Create extends Component {
                                 this.state.rightSlateActive === 1 ?
                                     <Instructions change={this.handleSlateChange} description={this.state.description} />
                                     :
-                                    null
+                                    this.state.rightSlateActive === 2 ? null
+                                        :
+                                        <SolutionDesc />
                                 // <InstructionsHelp/>
                             }
                         </div>
                         <div className="create_right-ace-buttons" >
                             <button onClick={this.runTests}><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
-                            <div className={this.state.hasOwnProperty('passed') ? this.state.passed ? 'passed' : 'failed' : 'unstarted'}>
+                            <div className={this.state.publishFailed ? 'failed-box' : this.state.hasOwnProperty('passed') ? this.state.passed ? 'passed' : 'failed' : 'unstarted'}>
                                 {/*console.log(this.state.hasOwnProperty('passed'))*/}
                                 {
                                     this.state.hasOwnProperty('passed') ?
@@ -349,21 +415,34 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 this.state.leftAceActive === 1 ?
-                                    <Editor click={this.state.click} title="solution" code={this.state.solution} fight={Object.assign({}, this.state, { description: null })} onChange={e => this.handleChange('solution', e)} />
+                                    <Editor
+                                        click={this.state.click}
+                                        title="solution"
+                                        code={this.state.solution}
+                                        fight={Object.assign({}, this.state, { description: null })}
+                                        onChange={e => this.handleChange('solution', e)}
+                                        fontSize='1.25rem'
+                                    />
                                     :
                                     this.state.leftAceActive === 2 ?
-                                        <Editor title="placeholder" code={this.state.placeholder} onChange={e => this.handleChange('placeholder', e)} />
+                                        <Editor
+                                            title="placeholder"
+                                            code={this.state.placeholder}
+                                            onChange={e => this.handleChange('placeholder', e)}
+                                            fontSize='1.25rem'
+                                        />
                                         :
-                                        null
+                                        <SolutionHelp />
                                 // <SolutionHelp />
                             }
                         </div>
                     </div>
-                    <div className='create_right-ace'>
+                    <div className={'create_right-ace'}>
                         <div className="create_left-ace-header">
                             <div onClick={() => this.handleRightAceClick(1)} className={this.state.rightAceActive === 1 ? "create_test create_active" : "create_test "}>Test Cases</div>
-                            <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Example Test Cases</div>
+                            <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Hidden Tests</div>
                             <div onClick={() => this.handleRightAceClick(3)} className={this.state.rightAceActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
+                            <div onClick={this.resetTests} className="create_test"><i class="fa fa-repeat" aria-hidden="true"></i>&nbsp; Reset</div>
                         </div>
                         <div className="create_editor-wrapper">
                             {
@@ -373,6 +452,7 @@ export default class Create extends Component {
                                         args={this.state.args}
                                         change={this.handleTestChange}
                                         addTest={this.addTest}
+                                        removeTest={this.removeTest}
                                     />
                                     :
                                     this.state.rightAceActive === 2 ?
@@ -382,9 +462,10 @@ export default class Create extends Component {
                                             args={this.state.args}
                                             change={this.handleTestChange}
                                             addTest={this.addTest}
+                                            removeTest={this.removeTest}
                                         />
                                         :
-                                        null
+                                        <SolutionTest />
                                 // <TestsHelp />
                             }
                         </div>
