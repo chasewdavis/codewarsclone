@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import Navbar from '../../../components/Navbar/Navbar';
 import './NextFight.css';
 
-import { Solid, Hollow } from '../../../components/Buttons/Buttons';
+import { Solid, Hollow, Diff } from '../../../components/Buttons/Buttons';
 import { unescape } from 'querystring';
 
 import Instructions from '../../../components/TabContainer/Instructions/Instructions';
@@ -89,7 +89,7 @@ class NextFight extends Component {
                 </div>
 
                 <div className='nextfight-description'>
-                    <header>{this.state.fights[0].difficulty} {this.state.fights[0].name}</header>
+                    <header><Diff isButton={false} rating={this.state.fights[0].difficulty}/> {this.state.fights[0].name}</header>
                     <div className='nextfight_description-scroll'>
                     <div><Instructions description={html.deserialize(this.state.fights[0].description)} change={()=>{}}/></div>
                     </div> 

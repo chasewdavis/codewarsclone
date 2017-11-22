@@ -28,20 +28,36 @@ export function Solid(props){
 
 export function Diff(props){
     
-    function determineColor(rating) {
+    function determineColor(rating, hover) {
         if(rating >= 7){
-            return 'white';
+            if(hover){
+                return 'white';
+            }else{
+                return 'whiteNoHover'
+            }
         }else if(rating >= 5){
-            return 'gold';
+            if(hover){
+                return 'gold';
+            }else{
+                return 'goldNoHover';
+            }
         }else if(rating >= 3){
-            return 'blue';
+            if(hover){
+                return 'blue';
+            }else{
+                return 'blueNoHover';
+            }
         }else {
-            return 'purple';
+            if(hover){
+                return 'purple';
+            }else{
+                return 'purpleNoHover';
+            }
         }
     }
 
     return (
-        <button className={props.isButton?'button_difficulty difficulty_hover':'button_difficulty difficulty_readOnly'} id={determineColor(props.rating)} onClick={()=>props.clicked()}>
+        <button className={props.isButton?'button_difficulty difficulty_hover':'button_difficulty difficulty_readOnly'} id={determineColor(props.rating, props.isButton)} onClick={props.isButton?()=>props.clicked():()=>{}}>
             <div className='skew-left'></div>
             <div className='skew-right'></div>
             <div className='skew-bottom-left'></div>

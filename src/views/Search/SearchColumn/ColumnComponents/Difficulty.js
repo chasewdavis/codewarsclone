@@ -8,14 +8,19 @@ class Difficulty extends Component {
         this.state = {
 
         }
+        this.searchByDifficulty = this.searchByDifficulty.bind(this);
+    }
+
+    searchByDifficulty(difficulty){
+        console.log(difficulty)
     }
 
     render() {
 
         let buttons = [];
 
-        for(var i = 8; i > 0; i--){
-            buttons.push(<Diff key={i} isButton={true} rating={i}/>)
+        for(let i = 8; i > 0; i--){
+            buttons.push(<Diff clicked={()=>this.searchByDifficulty(i)} key={i} isButton={true} rating={i}/>)
         }
 
         return (
