@@ -69,6 +69,19 @@ module.exports = {
             //console.log(resp)
             res.status(200).send(resp)
         })
+    },
+    fightTagsByDifficulty: (req, res) => {
+        const db = req.app.get('db');
+        db.get_all_tags([]).then(tags=>{
+            res.status(200).send(tags)
+        })
+    },
+    searchByInput: (req, res) => {
+        const db = req.app.get('db');
+        // console.log(req.params.input);
+        db.get_fights_by_input([req.params.input]).then(fights => {
+            res.status(200).send(fights)
+        })
     }
     
 }

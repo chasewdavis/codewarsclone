@@ -99,6 +99,11 @@ button {
   #white:hover div {
     background-color: #E6E6E6; }
 
+#whiteNoHover {
+  color: #E6E6E6; }
+  #whiteNoHover div {
+    border-color: #E6E6E6; }
+
 #blue {
   color: #3F7FB9; }
   #blue div {
@@ -110,6 +115,11 @@ button {
   font-weight: bolder; }
   #blue:hover div {
     background-color: #3F7FB9; }
+
+#blueNoHover {
+  color: #3F7FB9; }
+  #blueNoHover div {
+    border-color: #3F7FB9; }
 
 #purple {
   color: #856EC5; }
@@ -123,6 +133,11 @@ button {
   #purple:hover div {
     background-color: #856EC5; }
 
+#purpleNoHover {
+  color: #856EC5; }
+  #purpleNoHover div {
+    border-color: #856EC5; }
+
 #gold {
   color: #EBB52F; }
   #gold div {
@@ -134,6 +149,11 @@ button {
   font-weight: bolder; }
   #gold:hover div {
     background-color: #EBB52F; }
+
+#goldNoHover {
+  color: #EBB52F; }
+  #goldNoHover div {
+    border-color: #EBB52F; }
 
 .difficulty_readOnly {
   cursor: text; }

@@ -115,6 +115,12 @@ button{
         background-color:#E6E6E6; 
     }
 }
+#whiteNoHover{
+    color:#E6E6E6;
+    div{
+        border-color: #E6E6E6;
+    }
+}
 
 #blue{
     color:#3F7FB9;
@@ -128,6 +134,12 @@ button{
     font-weight: bolder;
     div{
         background-color:#3F7FB9; 
+    }
+}
+#blueNoHover{
+    color:#3F7FB9;
+    div{
+        border-color: #3F7FB9
     }
 }
 #purple{
@@ -144,6 +156,12 @@ button{
         background-color:#856EC5; 
     }
 }
+#purpleNoHover{
+    color: #856EC5;
+    div{
+        border-color: #856EC5;
+    }
+}
 #gold{
     color:#EBB52F;
     div{
@@ -156,6 +174,12 @@ button{
     font-weight: bolder;
     div{
         background-color:#EBB52F; 
+    }
+}
+#goldNoHover{
+    color:#EBB52F;
+    div{
+        border-color: #EBB52F;
     }
 }
 

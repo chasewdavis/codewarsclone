@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 
 class SearchResults extends Component {
     constructor(props) {
@@ -10,6 +10,9 @@ class SearchResults extends Component {
     }
     
     render() {
+
+        console.log('from search results...', this.props.searchResults)
+
         return (
             <div className='searchResults'>
                 
@@ -18,5 +21,8 @@ class SearchResults extends Component {
     }
 }
 
+function mapStateToProps({ searchResults }){
+    return { searchResults }
+}
 
-export default SearchResults;
+export default connect(mapStateToProps)(SearchResults);

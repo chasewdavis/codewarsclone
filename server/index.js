@@ -124,12 +124,15 @@ app.post(`/api/createfight`, (req, res, next) => {
 })
 
 app.post('/api/fightinprogress', controller.postFightInProgress)
+
 app.put('/api/fightinprogress', controller.updateFightInProgress)
+
 app.get('/api/oneRandomCatFight', controller.oneRandomCatFight)
 app.get(`/api/randomCatFight`, controller.randomCatFight)
 app.get(`/api/getCatFight/:id`, controller.getCatFight)
 app.get(`/api/getcat/:catId`, controller.getCat)
-
+app.get(`/api/fightTagsByDifficulty`, controller.fightTagsByDifficulty)
+app.get(`/api/searchByInput/:input`, controller.searchByInput)
 
 
 // OUR ENDPOINTS ABOVE
