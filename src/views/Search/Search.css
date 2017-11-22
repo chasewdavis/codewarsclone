@@ -1,0 +1,17 @@
+.search {
+  font-family: 'lato'; }
+  .search .container {
+    width: 907px;
+    margin-left: 50%;
+    transform: translateX(calc(-907px / 2));
+    display: grid;
+    grid-template-columns: repeat(3, 3FR);
+    background: #3C3C3C;
+    margin-top: 15px; }
+  .search .column {
+    grid-column: 1/2;
+    background: #262729;
+    height: 100vh; }
+  .search .results {
+    grid-column: 2/4;
+    height: 100%; }

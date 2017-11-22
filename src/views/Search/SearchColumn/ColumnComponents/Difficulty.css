@@ -1,0 +1,14 @@
+.difficulty {
+  margin-top: 15px; }
+  .difficulty .rowOne {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px; }
+  .difficulty .rowTwo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px; }
