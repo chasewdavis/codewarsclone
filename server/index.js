@@ -124,7 +124,7 @@ app.post(`/api/createfight`, (req, res, next) => {
 })
 
 app.post('/api/fightinprogress', controller.postFightInProgress)
-
+app.post('/api/completedfight', controller.completedFight)
 app.put('/api/fightinprogress', controller.updateFightInProgress)
 
 app.get('/api/oneRandomCatFight', controller.oneRandomCatFight)

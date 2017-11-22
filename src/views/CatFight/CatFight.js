@@ -143,11 +143,17 @@ class CatFight extends Component {
             if(this.state.testsPassed === 1) {
                 //axios call to send data to the database
                 let body = {
-                    cat_fight_id: this.state.fight.cat_fight_id,
+                    //change this to the user on Redux ****************************************************
+                    catId: 1,
+                    catFightId: this.state.fight.cat_fight_id,
                     completed: true,
-                    user_solution: this.state.code,
+                    userSolution: this.state.code,
+                    // Change this too so that it accounts for the difficult of the kata ********************
+                    honor: 10
                 }
-                calls.postFightInProgress(body)
+                calls.postCompletedFightInProgress(body).then( resp => {
+                    this.props.history.push('/fightdetails/' + this.state.fight.cat_fight_id)
+                })
             }
         })
     }

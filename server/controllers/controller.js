@@ -82,6 +82,17 @@ module.exports = {
         db.get_fights_by_input([req.params.input]).then(fights => {
             res.status(200).send(fights)
         })
+    },
+    completedFight: function(req, res, next) {
+        const db = req.app.get('db');
+
+        const {catId, completed, userSolution, catFightId, honor} = req.body
+
+        db.completed_fight([catId, completed, userSolution, catFightId]).then(resp => {
+            db.update_honor([catId, honor]).then(resp => {
+                res.status(200).send(resp)
+            })
+        })
     }
     
 }

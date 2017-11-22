@@ -16,5 +16,8 @@ module.exports = {
     },
     getCat(catId) {
         return axios.get(`http://localhost:3030/api/getcat/${catId}`)
+    },
+    postCompletedFightInProgress(body) {
+        return axios.post(`http://localhost:3030/api/completedfight`, body)
     }
 }
