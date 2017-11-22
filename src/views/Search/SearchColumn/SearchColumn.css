@@ -1,0 +1,8 @@
+.searchColumn {
+  padding: 15px; }
+
+.bottom-border {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #454648, transparent);
+  margin-top: 15px; }

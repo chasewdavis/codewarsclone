@@ -1,0 +1,24 @@
+.searchInput{
+    .parent{
+        background-color: #212224;
+        display: flex;
+        flex-direction: row;
+        border-radius: 5px;
+        input{
+            background: transparent;
+            outline: none;
+            border: none;
+            color:whitesmoke;
+        }
+        button{
+            background: transparent;
+            border: none;
+            i{
+                color: #C9C9C9;
+            }
+        }
+    }
+    .parent:hover{
+        background-color: #131414;
+    }
+}

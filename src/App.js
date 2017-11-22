@@ -9,9 +9,11 @@ import Dashboard from './views/Dashboard/Dashboard';
 import FightDetails from './views/FightDetails/FightDetails';
 import CatFight from './views/CatFight/CatFight';
 import Create from './views/Create/Create';
+import Search from './views/Search/Search';
 // will remove instructions after testing
 import Instructions from './components/TabContainer/Instructions/Instructions';
 import SlateExample from './components/TabContainer/Instructions/SlateExample/SlateExample';
+
 
 class App extends Component {
   render() {
@@ -22,6 +24,7 @@ class App extends Component {
         <Route path='/fightdetails/:id' component={FightDetails} />
         <Route path='/catfight/:id' component={CatFight} />
         <Route path='/create' component={Create} />
+        <Route path='/search' component={Search}/>
         {/* will remove /edit + instructions after testing */}
         <Route path='/edit' component={Instructions} />
         <Route path='/example' component={SlateExample} />

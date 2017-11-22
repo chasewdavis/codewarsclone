@@ -1,0 +1,18 @@
+.searchInput .parent {
+  background-color: #212224;
+  display: flex;
+  flex-direction: row;
+  border-radius: 5px; }
+  .searchInput .parent input {
+    background: transparent;
+    outline: none;
+    border: none;
+    color: whitesmoke; }
+  .searchInput .parent button {
+    background: transparent;
+    border: none; }
+    .searchInput .parent button i {
+      color: #C9C9C9; }
+
+.searchInput .parent:hover {
+  background-color: #131414; }
