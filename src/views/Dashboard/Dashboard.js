@@ -48,6 +48,16 @@ class Dashboard extends Component {
                             </tbody>
                         </table>
                     </div>
+
+                    <div className="dashboard_more-honor">
+                    <div className="dashboard_codewars-icon"><i class="fa fa-user-plus" aria-hidden="true"></i></div>
+                            <div className="dashboard_codewars-red-inner-container">
+                                <h5>Earn extra honor and gain new allies!</h5>
+                                <div>Honor is earned for each new codewarrior who joins</div>
+                                <button className="dashboard_codewars-button">LEARN MORE</button>
+                            </div>
+                    </div>
+
                 </div>
             </div>
         )

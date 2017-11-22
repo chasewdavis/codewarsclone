@@ -32,16 +32,20 @@
 }
 
 .dashboard_codewars-button {
-    background-color: #0b0c0c;
-    color: #cf4b32;
-    border-color: #bb432c;
+    background-color: #1c1f1f;
+    color: #842015;
+    border-color: #842015;
     width: auto;
     cursor: pointer;
     font-size: 12px;
     letter-spacing: 0.2px;
     border-radius: 4px;
     height: 30px;
-    margin-top: 15px;
+    margin-top: 11px;
+}
+
+.dashboard_codewars-button:hover {
+    background-color: #0b0c0c;
 }
 
 .dashboard_codewars-icon {
@@ -50,7 +54,7 @@
         width: 60px;
         height: 60px;
         font-size: 30px;
-        color: #BE1200;
+        color: #9F1406;
     }
 }
 
@@ -85,6 +89,39 @@
 
         .dashboard_table-large {
             width: 300px;
+        }
+    }
+}
+
+/* MORE HONOT */
+
+.dashboard_more-honor {
+    width: 907px;
+    height: 120px;
+    background-color: #383549;
+    margin: 15px auto;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+
+    .dashboard_codewars-button {
+        background-color: #1c1f1f;
+        color: #6390E1;
+        border-color: #6390E1;
+    }
+
+    .dashboard_codewars-button:hover {
+        background-color: #0b0c0c;
+    }
+
+    .dashboard_codewars-icon {
+        
+        i {
+            width: 60px;
+            height: 60px;
+            font-size: 30px;
+            color: #CCCCCD;
         }
     }
 }
