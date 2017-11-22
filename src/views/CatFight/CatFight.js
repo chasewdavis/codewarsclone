@@ -21,7 +21,8 @@ class CatFight extends Component {
             fight: {},
             tab: 1,
             //1 means all tests were passed. 2 means some tests failed. 3 is the default condition before any tests have been checked
-            testsPassed: 3
+            testsPassed: 3,
+            hiddenTests: false
         }
         this.baseState = this.state
         this.onChange = this.onChange.bind(this)
@@ -48,6 +49,7 @@ class CatFight extends Component {
     }
 
     handleReceivedMessage(e) {
+        console.log(e.data)
         this.setState({
             testResults: e.data.tests,
             click: null
@@ -55,12 +57,22 @@ class CatFight extends Component {
             if(e.data.source) {
             } else {
             let testFlag = true;
+            let hiddenTests = false
             this.state.testResults.map(test => {
                 if(test.passed === false) {
                     testFlag = false;
                 }
+                if(test.hidden === true) {
+                    hiddenTests = true;
+                }
             })
-            if(testFlag === true) {
+            if(testFlag === true && hiddenTests === true) {
+                this.setState({
+                    testsPassed: 1,
+                    testResults: e.data.tests,
+                    hiddenTests: true
+                })
+            }  else if(testFlag ===true) {
                 this.setState({
                     testsPassed: 1,
                     testResults: e.data.tests
@@ -87,7 +99,8 @@ class CatFight extends Component {
         this.setState({
             tab: 1,
             testResults: [],
-            testsPassed: 3
+            testsPassed: 3,
+            hiddenTests: false
         })
     }
 
@@ -187,7 +200,7 @@ class CatFight extends Component {
                                     <button className='catfight_reset-button' onClick={() => this.handleResetClick()}>RESET</button>
                                     <button className='catfight_sample-button' onClick={() => this.handleSampleClick()}>RUN SAMPLE TESTS</button>
                                     {
-                                    this.state.testsPassed === 1 ? 
+                                    this.state.testsPassed === 1 && this.state.hiddenTests ? 
                                     <button className="catfight_submit-button" onClick={() => this.handleSubmitClick()}>SUBMIT FINAL</button>
                                     :
                                     <button className='catfight_attempt-button' onClick={() => this.handleClick()}><i className="fa fa-caret-right" aria-hidden="true"></i>ATTEMPT</button>
