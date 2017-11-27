@@ -71,8 +71,11 @@
 
                     return param
                 case 'array':
-
-                    return param
+                    param = param.trim()
+                    if (param[0] !== '[' || param[param.length-1] !==']') {
+                        return param
+                    }
+                    return eval(param)
                 default:
                     return param;
             }
@@ -89,6 +92,17 @@
             }
             return str.slice(i1, i2)
         }
+        function equalArrays(arr1, arr2) {
+            if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+                return false
+            }
+            arr1.map((a, i) => {
+                if (a !== arr2[i]) {
+                    return false
+                }
+            })
+            return true
+        }
         function runTests(args, body, tests) {
             console.log(tests)
             let f = new Function(args, body)
@@ -99,7 +113,17 @@
                 test.result = f.apply(null, test.parameters)
                 test.result_type = typeof test.result
                 test.expected_result = types(test.expected_result, test.expected_result_type)
+                // CHECK IF TESTS PASSED
                 test.passed = test.result === test.expected_result
+                if (test.expected_result_type === 'array') {
+                    test.passed = equalArrays(test.result, test.expected_result)
+                    // RESET EXPECTED RESULT TO JSON
+                    test.expected_result = JSON.stringify(test.expected_result)
+                }
+                // RESET ARRAY PARAMETERS BACK TO JSON
+                test.parameters = test.parameters.map((param, i) => {
+                    return test.parameter_types[i] === 'array' ? JSON.stringify(param) : param
+                })
                 // STRINGIFY THE RESULT TO PROTECT DATA IN APP
                 test.result = JSON.stringify(test.result)
                 return test

@@ -4,12 +4,12 @@ import './Tests.css';
 let dataTypes = [
     'string',
     'number',
+    'array',
     'boolean',
     'null',
     'undefined',
     // 'symbol',
     // 'object',
-    // 'array'
 ]
 
 class Test extends Component {

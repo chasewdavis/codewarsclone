@@ -87,14 +87,14 @@ class Create extends Component {
     }
 
     handleReceivedMessage = e => {
-        console.log(e.data)
+        // console.log(e.data)
         if (e.data.source) {
             // console.log(e.data)
             return
         }
         let { tests, hiddenTests } = e.data
         let passed = [...tests, ...hiddenTests].reduce((t1, t2) => (t1 && t2.passed), true)
-        console.log(passed)
+        // console.log(passed)
         this.setState({
             // testResults: e.data,
             tests,
@@ -105,9 +105,9 @@ class Create extends Component {
         if (this.state.publishing && passed) {
             let description = html.serialize(this.state.description)
             let fight = Object.assign({}, this.state, { description })
-            console.log(fight)
+            // console.log(fight)
             axios.post(`/api/createfight`, fight).then(response => {
-                console.log(response.data)
+                // console.log(response.data)
                 this.setState({
                     redirect: true,
                     redirectUrl: `/catfight/${response.data[0].cat_fight_id}`
@@ -131,7 +131,7 @@ class Create extends Component {
     }
 
     handleTestChange = (i, str, value, j) => {
-        console.log(i, str, value)
+        // console.log(i, str, value)
         let tests = this.state.tests.slice()
         if (this.state.rightAceActive === 2) {
             tests = this.state.hiddenTests.slice()
@@ -351,7 +351,7 @@ class Create extends Component {
         if (event.metaKey) {
             this.metaKey = true
         }
-        console.log(this.ctrl, this.metaKey)
+        // console.log(this.ctrl, this.metaKey)
         if ((this.ctrl || this.metaKey) && event.key === 'Enter') {
             event.preventDefault()
             this.runTests()
