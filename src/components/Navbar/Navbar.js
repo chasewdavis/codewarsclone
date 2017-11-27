@@ -3,7 +3,7 @@ import './Navbar.css';
 import lion from '../svgs/lion.svg';
 import { NavLink } from 'react-router-dom';
 
-export default class Navbar extends Component {
+class Navbar extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -20,6 +20,13 @@ export default class Navbar extends Component {
                             <img src={lion} alt='lion'></img>
                         </div>
                     </div>
+
+                    <div className="navbar_right">
+                        {this.props.username}
+                        <img src={this.props.image_url} />
+                        {this.props.honor}
+                    </div>
+
                 </div>
             
                 <div onMouseLeave={()=>this.setState({hover:'upwards'})} className={this.state.hover? this.state.hover==='downwards'? 'pull-down-menu':'pull-up-menu' :'hide-pull-down'}>
@@ -34,3 +41,5 @@ export default class Navbar extends Component {
         )
     }
 }
+
+export default Navbar

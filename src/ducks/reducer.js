@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const initialState = {
-    user: {cats_id: 1},
+    user: {cats_id: 1, username: "Thomas", image_url: "http://www.gettyimages.com/gi-resources/images/Embed/new/embed2.jpg", honor: 200},
     searchResults: []
 }
 
