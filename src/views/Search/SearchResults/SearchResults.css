@@ -1,0 +1,13 @@
+.searchResults_tags {
+  display: flex;
+  flex-direction: row; }
+  .searchResults_tags div {
+    background: #2B2C2E;
+    margin-right: 10px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: 1px; }
