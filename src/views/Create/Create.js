@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import SolutionHelp from '../../components/Help/SolutionHelp';
 import SolutionDesc from '../../components/Help/SolutionDesc';
 import SolutionTest from '../../components/Help/SolutionTest';
 import './Create.css';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 import Instructions from '../../components/TabContainer/Instructions/Instructions';
 import Editor from '../../components/TabContainer/Editor/Editor';
@@ -14,6 +16,8 @@ import Tests from '../CatFight/Tests/Tests';
 import f from '../../utilities/functions/functions';
 
 let initialState = {
+    redirect: false,
+    redirectUrl: '',
     leftAceActive: 1,
     solution: '// type your solution here',
     placeholder: '// type the initial code for your cat fight here',
@@ -50,10 +54,12 @@ let initialState = {
     publishFailed: false
 }
 
-export default class Create extends Component {
+class Create extends Component {
     constructor(props) {
         super(props)
         this.state = Object.assign({}, initialState)
+        this.ctrl = false
+        this.metaKey = false
     }
 
     publish = () => {
@@ -102,6 +108,10 @@ export default class Create extends Component {
             console.log(fight)
             axios.post(`/api/createfight`, fight).then(response => {
                 console.log(response.data)
+                this.setState({
+                    redirect: true,
+                    redirectUrl: `/catfight/${response.data[0].cat_fight_id}`
+                })
             })
         }
         else if (this.state.publishing && !passed) {
@@ -259,46 +269,44 @@ export default class Create extends Component {
     }
 
     handleChange(target, value) {
+        let tests = this.state.tests.slice()
+        let hiddenTests = this.state.hiddenTests.slice()
         switch (target) {
             case 'placeholder':
                 this.setState({
-                    [target]: value,
                     argsCount: f.args(value).length < this.state.argsCount ? this.state.argsCount : f.args(value).length,
-                    args: f.args(value)
                 })
                 break
             case 'solution':
                 this.setState({
-                    [target]: value,
+                    args: f.args(value),
                     argsCount: f.args(value).length,
-                    args: f.args(value)
+                })
+                tests = tests.map(test => {
+                    for (let i = test.parameters.length; i < this.state.argsCount; i++) {
+                        test.parameters.push('')
+                    }
+                    for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
+                        test.parameter_types.push('')
+                    }
+                    return test
+                })
+                hiddenTests = hiddenTests.map(test => {
+                    for (let i = test.parameters.length; i < this.state.argsCount; i++) {
+                        test.parameters.push('')
+                    }
+                    for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
+                        test.parameter_types.push('')
+                    }
+                    return test
                 })
                 break
         }
-        let tests = this.state.tests.slice()
-        tests = tests.map(test => {
-            for (let i = test.parameters.length; i < this.state.argsCount; i++) {
-                test.parameters.push('')
-            }
-            for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
-                test.parameter_types.push('')
-            }
-            return test
-        })
-        let hiddenTests = this.state.hiddenTests.slice()
-        hiddenTests = hiddenTests.map(test => {
-            for (let i = test.parameters.length; i < this.state.argsCount; i++) {
-                test.parameters.push('')
-            }
-            for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
-                test.parameter_types.push('')
-            }
-            return test
-        })
         this.setState({
+            [target]: value,
             tests,
             hiddenTests
-        })
+        }, () => console.log(this.state))
     }
 
     resetTests = () => {
@@ -336,11 +344,40 @@ export default class Create extends Component {
         })
     }
 
+    onKeyDown = (event, change) => {
+        if (event.key === 'Control') {
+            this.ctrl = true
+        }
+        if (event.metaKey) {
+            this.metaKey = true
+        }
+        console.log(this.ctrl, this.metaKey)
+        if ((this.ctrl || this.metaKey) && event.key === 'Enter') {
+            event.preventDefault()
+            this.runTests()
+        }
+    }
+
+    onKeyUp = (event, change) => {
+        if (event.key === 'Control') {
+            this.ctrl = false
+        }
+        if (event.metaKey) {
+            this.metaKey = false
+        }
+    }
+
     render() {
         // console.log(this.state)
         // console.log(this.state.testResults)
         return (
-            <div>
+            <div onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
+                {
+                    this.state.redirect ?
+                        <Redirect to={this.state.redirectUrl} />
+                        :
+                        null    
+                }
                 <Navbar />
                 <div className='create_main-wrapper'>
                     <div className="create_main-header">
@@ -422,14 +459,20 @@ export default class Create extends Component {
                                         fight={Object.assign({}, this.state, { description: null })}
                                         onChange={e => this.handleChange('solution', e)}
                                         fontSize='1.25rem'
+                                        create={true}
+                                        height='458px'
                                     />
                                     :
                                     this.state.leftAceActive === 2 ?
                                         <Editor
+                                            click={this.state.click}
                                             title="placeholder"
                                             code={this.state.placeholder}
+                                            fight={Object.assign({}, this.state, { description: null })}
                                             onChange={e => this.handleChange('placeholder', e)}
                                             fontSize='1.25rem'
+                                            solution={this.state.solution}
+                                            height='458px'
                                         />
                                         :
                                         <SolutionHelp />
@@ -475,3 +518,15 @@ export default class Create extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+}
+
+const outActions = {
+
+}
+
+export default connect(mapStateToProps, outActions)(Create)

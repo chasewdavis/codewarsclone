@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import './Tests.css';
 
 let dataTypes = [
+    'string',
+    'number',
     'boolean',
     'null',
     'undefined',
-    'number',
-    'string',
     // 'symbol',
     // 'object',
     // 'array'
