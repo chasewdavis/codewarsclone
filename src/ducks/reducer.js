@@ -10,7 +10,7 @@ const GET_USER_INFO = "GET_USER_INFO";
 const TRANSFER_SEARCH_RESULTS = "TRANSFER_SEARCH_RESULTS";
 
 export function getUserInfo() {
-    const userData = axios.get('http://localhost:3030/auth/me')
+    const userData = axios.get('/auth/me')
     .then( res => {
         return res.data;
     })

@@ -85,7 +85,7 @@ module.exports = {
     },
     completedFight: function(req, res, next) {
         const db = req.app.get('db');
-
+         console.log(req.body)
         const {catId, completed, userSolution, catFightId, honor} = req.body
 
         db.completed_fight([catId, completed, userSolution, catFightId]).then(resp => {
