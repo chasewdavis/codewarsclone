@@ -89,3 +89,10 @@
     height: 60px;
     font-size: 30px;
     color: #CCCCCD; }
+
+/* LOGIN */
+.Login {
+  width: 320px;
+  height: 80vh;
+  background-color: #262729;
+  margin: 20px auto; }
