@@ -100,7 +100,11 @@
   color: #BDBDBD; }
 
 .create_rank-selector:focus {
-  outline: none; }
+  background-color: #131414;
+  outline: none;
+  color: #efefef;
+  line-height: 16px;
+  border: 1px solid #efefef; }
 
 .create_tags-input-container {
   margin-top: 30px; }
@@ -122,7 +126,8 @@
   margin-bottom: 20px;
   max-height: calc(100% - 40px); }
   .create_left-ace .create_editor-wrapper {
-    max-height: calc(100% - 40px); }
+    max-height: calc(100% - 40px);
+    overflow: initial; }
 
 .create_left-ace-header {
   width: 100%;

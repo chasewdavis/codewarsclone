@@ -121,7 +121,11 @@ $tab-background-color: #131414;
 }
 
 .create_rank-selector:focus {
+    background-color: $input-active-color;
     outline: none;
+    color: #efefef;
+    line-height: 16px;
+    border: 1px solid #efefef;
 }
 
 .create_tags-input-container {
@@ -149,6 +153,7 @@ $tab-background-color: #131414;
     max-height: calc(100% - 40px);
     .create_editor-wrapper {
         max-height: calc(100% - 40px);
+        overflow: initial;
     }
 }
 

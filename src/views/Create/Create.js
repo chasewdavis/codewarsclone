@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import SolutionHelp from '../../components/Help/SolutionHelp';
 import SolutionDesc from '../../components/Help/SolutionDesc';
@@ -15,6 +16,8 @@ import Tests from '../CatFight/Tests/Tests';
 import f from '../../utilities/functions/functions';
 
 let initialState = {
+    redirect: false,
+    redirectUrl: '',
     leftAceActive: 1,
     solution: '// type your solution here',
     placeholder: '// type the initial code for your cat fight here',
@@ -105,6 +108,10 @@ class Create extends Component {
             console.log(fight)
             axios.post(`/api/createfight`, fight).then(response => {
                 console.log(response.data)
+                this.setState({
+                    redirect: true,
+                    redirectUrl: `/catfight/${response.data[0].cat_fight_id}`
+                })
             })
         }
         else if (this.state.publishing && !passed) {
@@ -272,7 +279,7 @@ class Create extends Component {
                 break
             case 'solution':
                 this.setState({
-                    args: f.args(value),                    
+                    args: f.args(value),
                     argsCount: f.args(value).length,
                 })
                 tests = tests.map(test => {
@@ -365,6 +372,12 @@ class Create extends Component {
         // console.log(this.state.testResults)
         return (
             <div onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
+                {
+                    this.state.redirect ?
+                        <Redirect to={this.state.redirectUrl} />
+                        :
+                        null    
+                }
                 <Navbar />
                 <div className='create_main-wrapper'>
                     <div className="create_main-header">
@@ -447,6 +460,7 @@ class Create extends Component {
                                         onChange={e => this.handleChange('solution', e)}
                                         fontSize='1.25rem'
                                         create={true}
+                                        height='458px'
                                     />
                                     :
                                     this.state.leftAceActive === 2 ?
@@ -454,10 +468,11 @@ class Create extends Component {
                                             click={this.state.click}
                                             title="placeholder"
                                             code={this.state.placeholder}
-                                            fight={Object.assign({}, this.state, { description: null })}                                            
+                                            fight={Object.assign({}, this.state, { description: null })}
                                             onChange={e => this.handleChange('placeholder', e)}
                                             fontSize='1.25rem'
                                             solution={this.state.solution}
+                                            height='458px'
                                         />
                                         :
                                         <SolutionHelp />
@@ -511,7 +526,7 @@ const mapStateToProps = state => {
 }
 
 const outActions = {
-    
+
 }
 
 export default connect(mapStateToProps, outActions)(Create)
