@@ -42,29 +42,29 @@ class Editor extends Component {
     }
 
     onKeyDown = (event, change) => {
-        if (event.key === 'Control') {
-            this.ctrl = true
-        }
-        if (event.metaKey) {
-            this.metaKey = true
-        }
-        console.log(this.ctrl, this.metaKey)
-        if ((this.ctrl || this.metaKey) && event.key === 'Enter') {
-            event.preventDefault()
-            this.props.create ?
-                this.handleAttemptClick()
-                :
-                this.handleTestClick()
-        }
+    //     if (event.key === 'Control') {
+    //         this.ctrl = true
+    //     }
+    //     if (event.metaKey) {
+    //         this.metaKey = true
+    //     }
+    //     console.log(this.ctrl, this.metaKey)
+    //     if ((this.ctrl || this.metaKey) && event.key === 'Enter') {
+    //         event.preventDefault()
+    //         this.props.create ?
+    //             this.handleAttemptClick()
+    //             :
+    //             this.handleTestClick()
+    //     }
     }
 
     onKeyUp = (event, change) => {
-        if (event.key === 'Control') {
-            this.ctrl = false
-        }
-        if (event.metaKey) {
-            this.metaKey = false
-        }
+    //     if (event.key === 'Control') {
+    //         this.ctrl = false
+    //     }
+    //     if (event.metaKey) {
+    //         this.metaKey = false
+    //     }
     }
 
 
