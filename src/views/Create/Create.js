@@ -54,6 +54,8 @@ export default class Create extends Component {
     constructor(props) {
         super(props)
         this.state = Object.assign({}, initialState)
+        this.ctrl = false
+        this.metaKey = false
     }
 
     publish = () => {
@@ -336,11 +338,34 @@ export default class Create extends Component {
         })
     }
 
+    onKeyDown = (event, change) => {
+        if (event.key === 'Control') {
+            this.ctrl = true
+        }
+        if (event.metaKey) {
+            this.metaKey = true
+        }
+        console.log(this.ctrl, this.metaKey)
+        if ((this.ctrl || this.metaKey) && event.key === 'Enter') {
+            event.preventDefault()
+            this.runTests()
+        }
+    }
+
+    onKeyUp = (event, change) => {
+        if (event.key === 'Control') {
+            this.ctrl = false
+        }
+        if (event.metaKey) {
+            this.metaKey = false
+        }
+    }
+
     render() {
         // console.log(this.state)
         // console.log(this.state.testResults)
         return (
-            <div>
+            <div onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
                 <Navbar />
                 <div className='create_main-wrapper'>
                     <div className="create_main-header">
@@ -422,6 +447,7 @@ export default class Create extends Component {
                                         fight={Object.assign({}, this.state, { description: null })}
                                         onChange={e => this.handleChange('solution', e)}
                                         fontSize='1.25rem'
+                                        create={true}
                                     />
                                     :
                                     this.state.leftAceActive === 2 ?
