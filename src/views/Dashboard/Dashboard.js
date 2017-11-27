@@ -21,15 +21,15 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                <Navbar />
+                <Navbar username={this.props.user.username} image_url={this.props.user.image_url} honor={this.props.user.honor}/>
                 <div className='dashboard'>
                     <NextFight />
 
                     <div className="dashboard_codewars-red">
                         <div className="dashboard_codewars-icon"><i class="fa fa-diamond" aria-hidden="true"></i></div>
                             <div className="dashboard_codewars-red-inner-container">
-                                <h5>Upgrade To Codewars Red!</h5>
-                                <div>Support Codewars and get some fancy upgrades like Pro Stats, Head-to-head comparisions, No ads, Streaming Output and more.</div>
+                                <h5>Upgrade To Cat Fights Red!</h5>
+                                <div>Support Cat Fights and get some fancy upgrades like Pro Stats, Head-to-head comparisions, No ads, Streaming Output and more.</div>
                                 <button className="dashboard_codewars-button">LEARN ABOUT RED</button>
                             </div>
                     </div>

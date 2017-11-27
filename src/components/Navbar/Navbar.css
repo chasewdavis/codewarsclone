@@ -15,7 +15,7 @@
   height: 55px;
   display: flex;
   align-items: center;
-  justify-content: stretch;
+  justify-content: space-between;
   position: absolute;
   z-index: 11;
   font-size: 18px; }
@@ -84,3 +84,17 @@
 @keyframes downwards {
   100% {
     transform: translateY(0%); } }
+
+.navbar_right {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  height: 100%;
+  width: 20%;
+  max-width: 300px;
+  z-index: 12;
+  float: right; }
+  .navbar_right img {
+    height: 70%;
+    border-radius: 4px;
+    margin-top: 5px; }

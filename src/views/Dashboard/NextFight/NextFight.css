@@ -23,7 +23,10 @@
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      grid-row: 3/6; }
+      grid-row: 4/6; }
+    .nextfight .nextfight-challenge .fa-gears:before, .nextfight .nextfight-challenge .fa-cogs:before {
+      content: "\f085";
+      margin-left: 101px; }
   .nextfight .nextfight-description {
     grid-column: 2/4;
     background: #3C3C3C;
@@ -65,3 +68,14 @@
         border-radius: 4px;
         font-size: 10px;
         letter-spacing: 1px; }
+
+.nextfight_language {
+  width: 100%;
+  height: 41px;
+  background-color: #313234;
+  padding-left: 10px;
+  padding-top: 11px;
+  margin-top: 10px;
+  font-size: 14px; }
+  .nextfight_language i {
+    margin-right: 5px; }

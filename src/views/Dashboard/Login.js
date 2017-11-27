@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import './Dashboard.css';
+import lion from '../../components/svgs/lion.svg';
+import background from '../../components/svgs/background.png';
 
 
 class Login extends Component {
@@ -8,17 +11,27 @@ class Login extends Component {
 
         }
     }
+
+   
     
     render() {
+
+        var imageStyle = {
+            backgroundImage: 'url(' + background +  ')'    
+        }
+
         return (
             <div className='Login'>
-                <div className='subtitle-box'>
-                    <a href={process.env.REACT_APP_LOGIN}>LOGIN</a>
-                </div>
-                <div className='subtitle-box'>
-                    <a href='/home'>Continue without logging in</a>
-                </div>
-                <div className='login-container'>
+                <div className="login_wrapper">
+                    <div className='login_helper'></div>
+                    <img style={imageStyle} src={lion} />
+                    <h1>Cat Fights</h1>
+                    <div className='subtitle-box'>
+                        <a href={process.env.REACT_APP_LOGIN}>LOGIN / REGISTER</a>
+                    </div>
+                    <div className='login_footer'>
+
+                    </div>
                 </div>
             </div>
         )
