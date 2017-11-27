@@ -4,6 +4,9 @@
 *.css
 /*.css
 **/*.css
+**/**/*.css
+**/**/*.css
+**/**/**/*.css
 
 # dependencies
 /node_modules
