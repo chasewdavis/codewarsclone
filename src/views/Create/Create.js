@@ -5,6 +5,7 @@ import SolutionDesc from '../../components/Help/SolutionDesc';
 import SolutionTest from '../../components/Help/SolutionTest';
 import './Create.css';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 import Instructions from '../../components/TabContainer/Instructions/Instructions';
 import Editor from '../../components/TabContainer/Editor/Editor';
@@ -50,7 +51,7 @@ let initialState = {
     publishFailed: false
 }
 
-export default class Create extends Component {
+class Create extends Component {
     constructor(props) {
         super(props)
         this.state = Object.assign({}, initialState)
@@ -502,3 +503,15 @@ export default class Create extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+}
+
+const outActions = {
+    
+}
+
+export default connect(mapStateToProps, outActions)(Create)
