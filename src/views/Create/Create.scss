@@ -212,7 +212,8 @@ $tab-background-color: #131414;
     width: 98%;
     margin-bottom: 20px;
     .create_editor-wrapper {
-        max-height: calc(100% - 40px);
+        height: calc(100% - 40px);
+        max-height: 458px;
     }
 
 }
@@ -233,7 +234,7 @@ $tab-background-color: #131414;
 
 .create_editor-wrapper {
     height: 100%;
-    // max-height: 458px;
+    max-height: 100%;
     width: 100%;
     // padding: 0.5rem;
     overflow-y: scroll;
@@ -251,6 +252,7 @@ $tab-background-color: #131414;
     width: 98%;
     .create_editor-wrapper {
         height: calc(100% - 62.5px);
+        max-height: 230px;
     }
 }
 
