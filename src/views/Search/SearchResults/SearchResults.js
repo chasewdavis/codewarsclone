@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { Diff } from '../../../components/Buttons/Buttons';
+import { Diff, Hollow } from '../../../components/Buttons/Buttons';
 import './SearchResults.css';
 
 class SearchResults extends Component {
@@ -9,6 +10,11 @@ class SearchResults extends Component {
         this.state = {
             results: []
         }
+        this.train = this.train.bind(this);
+    }
+
+    train(id){
+        this.props.history.push(`/fightdetails/${id}`)
     }
 
     styleTags(arr){
@@ -29,17 +35,21 @@ class SearchResults extends Component {
 
         let results = this.props.searchResults.map(challenge => {
             return (
-                <div>
-                    <div>
+                <div key={challenge.cat_fight_id} className='searchResults_each'>
+                    <div className='searchResults_header'>
                         <Diff isButton={false} rating={challenge.difficulty}/>
                         {challenge.name}
                     </div>
-                    <div>
+                    <div className='searchResults_stats'>
+                        <i className='fa fa-user'  aria-hidden="true"/>
                         {challenge.username}
                     </div>
                     <div className='searchResults_tags'>
+                        <i className='fa fa-tag' aria-hidden="true"/>
                         {this.styleTags(challenge.tags)}
                     </div>
+                    {/* <button className='searchResults_train_btn'>train</button> */}
+                    <div className='searchResults_btn'><Hollow clicked={() => this.train(challenge.cat_fight_id)} name='TRAIN'/></div>
                     <div className='bottom-border'></div>
                 </div>
             )
@@ -47,6 +57,8 @@ class SearchResults extends Component {
 
         return (
             <div className='searchResults'>
+                <div className='searchResults_count'>{results.length} Challenges Found</div>
+                <div className='bottom-border'></div>
                 {results}
             </div>
         )
@@ -57,4 +69,4 @@ function mapStateToProps({ searchResults }){
     return { searchResults }
 }
 
-export default connect(mapStateToProps)(SearchResults);
+export default withRouter(connect(mapStateToProps)(SearchResults));
