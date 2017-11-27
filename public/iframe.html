@@ -52,6 +52,8 @@
             return array(str, i1, i2)
         }
         function types(param, type) {
+            console.log(param)
+            console.log(type)
             switch (type) {
                 case 'boolean':
                     return param === 'true' ? true : false
@@ -92,7 +94,7 @@
             let f = new Function(args, body)
             return tests.map(test => {
                 test.parameters = test.parameters.map((param, i) => {
-                    return types(param, test.paramter_types ? test.parameter_types[i] : "")
+                    return types(param, test.parameter_types ? test.parameter_types[i] : "")
                 })
                 test.result = f.apply(null, test.parameters)
                 test.result_type = typeof test.result

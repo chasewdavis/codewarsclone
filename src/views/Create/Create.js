@@ -261,46 +261,44 @@ export default class Create extends Component {
     }
 
     handleChange(target, value) {
+        let tests = this.state.tests.slice()
+        let hiddenTests = this.state.hiddenTests.slice()
         switch (target) {
             case 'placeholder':
                 this.setState({
-                    [target]: value,
                     argsCount: f.args(value).length < this.state.argsCount ? this.state.argsCount : f.args(value).length,
-                    args: f.args(value)
                 })
                 break
             case 'solution':
                 this.setState({
-                    [target]: value,
+                    args: f.args(value),                    
                     argsCount: f.args(value).length,
-                    args: f.args(value)
+                })
+                tests = tests.map(test => {
+                    for (let i = test.parameters.length; i < this.state.argsCount; i++) {
+                        test.parameters.push('')
+                    }
+                    for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
+                        test.parameter_types.push('')
+                    }
+                    return test
+                })
+                hiddenTests = hiddenTests.map(test => {
+                    for (let i = test.parameters.length; i < this.state.argsCount; i++) {
+                        test.parameters.push('')
+                    }
+                    for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
+                        test.parameter_types.push('')
+                    }
+                    return test
                 })
                 break
         }
-        let tests = this.state.tests.slice()
-        tests = tests.map(test => {
-            for (let i = test.parameters.length; i < this.state.argsCount; i++) {
-                test.parameters.push('')
-            }
-            for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
-                test.parameter_types.push('')
-            }
-            return test
-        })
-        let hiddenTests = this.state.hiddenTests.slice()
-        hiddenTests = hiddenTests.map(test => {
-            for (let i = test.parameters.length; i < this.state.argsCount; i++) {
-                test.parameters.push('')
-            }
-            for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
-                test.parameter_types.push('')
-            }
-            return test
-        })
         this.setState({
+            [target]: value,
             tests,
             hiddenTests
-        })
+        }, () => console.log(this.state))
     }
 
     resetTests = () => {
@@ -452,10 +450,13 @@ export default class Create extends Component {
                                     :
                                     this.state.leftAceActive === 2 ?
                                         <Editor
+                                            click={this.state.click}
                                             title="placeholder"
                                             code={this.state.placeholder}
+                                            fight={Object.assign({}, this.state, { description: null })}                                            
                                             onChange={e => this.handleChange('placeholder', e)}
                                             fontSize='1.25rem'
+                                            solution={this.state.solution}
                                         />
                                         :
                                         <SolutionHelp />
