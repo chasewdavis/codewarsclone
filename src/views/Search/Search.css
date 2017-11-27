@@ -6,8 +6,9 @@
     transform: translateX(calc(-907px / 2));
     display: grid;
     grid-template-columns: repeat(3, 3FR);
-    background: #3C3C3C;
-    margin-top: 15px; }
+    background: linear-gradient(90deg, transparent, transparent, #2B2C2E);
+    margin-top: 15px;
+    margin-bottom: 15px; }
   .search .column {
     grid-column: 1/2;
     background: #262729;

@@ -6,8 +6,9 @@
         transform: translateX(calc(-907px / 2));
         display: grid;
         grid-template-columns: repeat(3,3FR);
-        background: #3C3C3C;
+        background: linear-gradient((90deg), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), #2B2C2E);
         margin-top: 15px;
+        margin-bottom: 15px;
     }
     .column {
         grid-column: 1/2;
