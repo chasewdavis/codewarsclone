@@ -1,0 +1,17 @@
+.tags {
+    margin-top:15px;
+    padding-bottom: 15px;
+    .tags_list {
+        margin-top:15px;
+        font-size: 15px;
+        color:#9B9B9C;
+        width:auto;
+        span{
+            transition: color .3s
+        }
+        span:hover{
+            color: #597BB1;
+            cursor: pointer;
+        }
+    }
+}

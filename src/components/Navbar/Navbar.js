@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Navbar.css';
 import lion from '../svgs/lion.svg';
+import { NavLink } from 'react-router-dom';
 
 export default class Navbar extends Component {
     constructor(props) {
@@ -22,9 +23,11 @@ export default class Navbar extends Component {
                 </div>
             
                 <div onMouseLeave={()=>this.setState({hover:'upwards'})} className={this.state.hover? this.state.hover==='downwards'? 'pull-down-menu':'pull-up-menu' :'hide-pull-down'}>
-                    <button>one</button>
-                    <button>two</button>
-                    <button>three</button>
+                    <NavLink to='/'><button><i class="fa fa-home" aria-hidden="true"></i> Home</button></NavLink>
+                    {/* <NavLink to={`/fightdetails/`}><button>Random Fight</button></NavLink> */}
+                    <NavLink to='/search'><button><i class="fa fa-circle-o-notch" aria-hidden="true"></i> Search</button></NavLink>
+                    <NavLink to='/create'><button><i class="fa fa-plus-square" aria-hidden="true"></i> Create</button></NavLink>
+                    
                 </div>
            
             </div>

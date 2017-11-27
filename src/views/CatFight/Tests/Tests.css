@@ -1,15 +1,40 @@
+.test-border {
+  margin: 0.75rem;
+  border-radius: 0.25rem;
+  overflow: hidden; }
+
 .Test {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 0.75rem;
   background: #222;
   padding: 1rem;
-  border-radius: 0.25rem; }
+  height: auto;
+  transition: height 0.5s; }
   .Test .test-title {
     display: flex;
     justify-content: space-between;
     align-items: space-between; }
+    .Test .test-title em {
+      color: white; }
+
+.passed {
+  border: 2px solid green;
+  background-color: rgba(0, 250, 50, 0.2); }
+
+.failed {
+  border: 2px solid #c05c48;
+  color: #c05c48;
+  background-color: #584747; }
+
+.test-delete {
+  padding: 0.1rem 0.25rem;
+  transition: background-color 0.2s, color 0.2s; }
+
+.test-delete:hover {
+  background: #c05c48;
+  color: black;
+  font-weight: bold; }
 
 .done-button {
   display: flex;

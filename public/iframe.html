@@ -1,84 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
 <body>
-    
+
     <script>
         function args(str, function_name) {
-        // THIS FUNCTION EXTRACTS THE ARGUMENTS OUT OF A FUNCTION STRING
+            // THIS FUNCTION EXTRACTS THE ARGUMENTS OUT OF A FUNCTION STRING
 
-        let i1 = str.indexOf('(') + 1
-        let i2 = str.indexOf(')')
+            let i1 = str.indexOf('(') + 1
+            let i2 = str.indexOf(')')
 
 
-        let firstWord = str.split(' ')[0]
-        let fourthWord = str.split(' ')[3]
+            let firstWord = str.split(' ')[0]
+            let fourthWord = str.split(' ')[3]
 
-        let assignment = str.indexOf('=') + 1
-        let returning = str.indexOf('=>')
+            let assignment = str.indexOf('=') + 1
+            let returning = str.indexOf('=>')
 
-        function array(string, i, j) {
-            return string.slice(i, j).split(',').map(p => p.trim())
+            function array(string, i, j) {
+                return string.slice(i, j).split(',').map(p => p.trim())
+            }
+
+            switch (firstWord) {
+                case 'var':
+                case 'const':
+                case 'let':
+                    if (fourthWord !== 'function') {
+                        let argsArea = str.slice(assignment, returning).trim()
+                        let last = argsArea.length - 1
+                        if (argsArea == '_') {
+                            return [""]
+                        }
+                        else if (argsArea[0] == '(' && argsArea[last] == ')') {
+                            return array(argsArea, 1, last)
+                        }
+                        else {
+                            return array(str, assignment, returning)
+                        }
+                    }
+                    break;
+                default:
+                    return array(str, i1, i2)
+            }
+            return array(str, i1, i2)
+        }
+        function types(param, type) {
+            switch (type) {
+                case 'boolean':
+                    return param === 'true' ? true : false
+                case 'null':
+                    return null
+                case 'undefined':
+                    return undefined
+                case 'number':
+                    return parseInt(param)
+                case 'string':
+                    return String(param)
+                // case 'symbol':
+                // return 
+                case 'object':
+
+                    return param
+                case 'array':
+
+                    return param
+                default:
+                    return param;
+            }
+        }
+        function body(str) {
+            // THIS FUNCTION RETURNS THE BODY OUT OF A FUNCTION STRING
+
+            let i1 = str.indexOf('{') + 1
+            let i2 = str.lastIndexOf('}')
+            if (i1 === 0 || i2 === -1) {
+                i1 = str.indexOf('=>') + 3
+                i2 = str.length
+                return 'return ' + str.slice(i1, i2)
+            }
+            return str.slice(i1, i2)
+        }
+        function runTests(args, body, tests) {
+            console.log(tests)
+            let f = new Function(args, body)
+            return tests.map(test => {
+                test.parameters = test.parameters.map((param, i) => {
+                    return types(param, test.paramter_types ? test.parameter_types[i] : "")
+                })
+                test.result = f.apply(null, test.parameters)
+                test.result_type = typeof test.result
+                test.expected_result = types(test.expected_result, test.expected_result_type)
+                test.passed = test.result === test.expected_result
+                // STRINGIFY THE RESULT TO PROTECT DATA IN APP
+                test.result = JSON.stringify(test.result)
+                return test
+            })
         }
 
-        switch (firstWord) {
-            case 'var':
-            case 'const':
-            case 'let':
-                if (fourthWord !== 'function') {
-                    let argsArea = str.slice(assignment, returning).trim()
-                    let last = argsArea.length - 1
-                    if (argsArea == '_') {
-                        return [""]
-                    }
-                    else if (argsArea[0] == '(' && argsArea[last] == ')') {
-                        return array(argsArea, 1, last)
-                    }
-                    else {
-                        return array(str, assignment, returning)
-                    }
-                }
-                break;
-            default:
-                return array(str, i1, i2)
-        }
-        return array(str, i1, i2)
-    }
-    function body(str) {
-        // THIS FUNCTION RETURNS THE BODY OUT OF A FUNCTION STRING
+        window.addEventListener('message', function (e) {
+            console.log(e.data)
+            let code = e.data.code;
 
-        let i1 = str.indexOf('{') + 1
-        let i2 = str.lastIndexOf('}')
-        if (i1 === 0 || i2 === -1) {
-            i1 = str.indexOf('=>') + 3
-            i2 = str.length
-            return 'return ' + str.slice(i1, i2)
-        }
-        return str.slice(i1, i2)
-    }
-    function runTests(args, body, tests) {
-        let f = new Function(args, body)
-        return tests.map(test => {
-            test.result = f.apply(null, test.parameters)
-            test.passed = test.result === test.expected_result
-            return test
-        })
-    }
+            // instantiate tests arrays
+            let { tests, hiddenTests } = e.data.fight
+            // console.log(tests, hiddenTests)
 
-        window.addEventListener('message', function(e) {
-                console.log(e.data)
-                let code = e.data.code;
-                let tests = e.data.fight.tests;
-                let result =  runTests(args(code), body(code), tests)
-               
-                var mainWindow = e.source;
-                mainWindow.postMessage(result, e.origin);
-            });
+            // run tests on tests arrays
+            tests = runTests(args(code), body(code), tests)
+            if (hiddenTests) {
+                hiddenTests = runTests(args(code), body(code), hiddenTests)
+            }
+            else {
+                hiddenTests = []
+            }
+
+            // send results object
+            result = {
+                tests,
+                hiddenTests
+            }
+
+            console.log(result)
+
+            var mainWindow = e.source;
+            mainWindow.postMessage(result, e.origin);
+        });
     </script>
 </body>
+
 </html>

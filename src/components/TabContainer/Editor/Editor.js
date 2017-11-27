@@ -13,13 +13,11 @@ class Editor extends Component {
 
     //this will wait for a new value of click to arrive and then will fire off the handleClick method
     componentWillReceiveProps(newProps) {
-        console.log(newProps.fight)
+        console.log(newProps)
         if(newProps.click === 1) {
             this.handleTestClick()
         } else if(newProps.click === 2) {
             this.handleAttemptClick()
-        } else {
-           
         }
     }
 
@@ -31,7 +29,6 @@ class Editor extends Component {
     //post a message tothe iframe with the content being what the user entered into ace
     handleAttemptClick() {
         let message = { code: this.props.code, fight: this.props.fight }
-        console.log(message)
         this.ifr.contentWindow.postMessage(message, "*")
     }        
     
@@ -50,10 +47,19 @@ class Editor extends Component {
                 <AceEditor
 				value={this.props.code}
 				mode="javascript"
-				theme="merbivore"
 				onChange={(e) => this.onChange(e)}
 				name="ace1"
-				editorProps={{$blockScrolling: true}}
+                editorProps={{$blockScrolling: true}}
+                //new properties look here if things get buggy
+                theme={this.props.hasOwnProperty("theme")?this.props.theme:"merbivore"}
+                showGutter={this.props.hasOwnProperty('gutter')?this.props.gutter:true} //keeping default as true
+                fontSize={this.props.hasOwnProperty('fontSize')?this.props.fontSize:'18px'} //default font size
+                readOnly={this.props.hasOwnProperty('readOnly')?this.props.readOnly:false} //default is false
+                height={this.props.hasOwnProperty('height')?this.props.height:'500px'} //default is still 500px
+                showPrintMargin={false}
+                highlightActiveLine={false}
+                maxLines={this.props.hasOwnProperty('maxLines')?this.props.minLines:null}
+                className={this.props.className}
 				/>
             </div>
         )

@@ -47,9 +47,9 @@
 .create_name-input-container {
   margin-top: 40px; }
   .create_name-input-container h3 {
+    display: inline-block;
     background-color: #2B2C2E;
     height: 30px;
-    width: 52px;
     color: #ebebeb;
     padding: 7px;
     font-size: 14px;
@@ -76,9 +76,9 @@
 .create_rank-container {
   margin-top: 30px; }
   .create_rank-container h3 {
+    display: inline-block;
     background-color: #2B2C2E;
     height: 30px;
-    width: 130px;
     color: #ebebeb;
     padding: 7px;
     font-size: 14px;
@@ -105,9 +105,9 @@
 .create_tags-input-container {
   margin-top: 30px; }
   .create_tags-input-container h3 {
+    display: inline-block;
     background-color: #2B2C2E;
     height: 30px;
-    width: 163px;
     color: #ebebeb;
     padding: 7px;
     font-size: 14px;
@@ -205,17 +205,47 @@
 
 .create_right-ace-buttons {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   background-color: #303133;
   padding-top: 10px; }
 
 .create_right-ace-buttons button {
-  width: 160px;
-  height: 31px;
+  min-width: 160px;
+  min-height: 31px;
+  padding: 0 10px;
   border-radius: 4px;
   background-color: #7c9a44;
   color: #131414;
   border: none; }
 
+.create_right-ace-buttons div {
+  min-width: 160px;
+  min-height: 31px;
+  border-radius: 4px;
+  padding: 0 10px;
+  background: #1C1C1C;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.unstarted {
+  border: 2px solid #6996DC;
+  color: #6996DC; }
+
+.failed-box {
+  animation-name: fail;
+  animation-duration: 1s;
+  animation-iteration-count: 3; }
+
 .create_right-ace-buttons button:hover {
   background-color: #8aac4c;
   cursor: pointer; }
+
+@keyframes fail {
+  from {
+    border: 4px solid red; }
+  30% {
+    border: 4px solid transparent; }
+  90% {
+    border: 4px solid red; } }

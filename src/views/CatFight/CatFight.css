@@ -80,7 +80,7 @@
 .catfight_editor-header {
   display: flex;
   justify-content: space-between;
-  width: 99.5%;
+  width: 100%;
   height: 35px;
   background-color: #262729;
   color: #efefef;
@@ -161,7 +161,8 @@
   color: #6795de;
   width: 65px;
   height: 31px;
-  margin-left: 0px; }
+  margin-left: 0px;
+  margin-right: 15px; }
 
 .catfight_button-container .catfight_reset-button {
   background-color: #181919;
@@ -195,11 +196,11 @@
   margin: 10px auto;
   border-radius: 4px;
   height: 50px;
-  padding: 0.75rem;
+  padding: 1rem;
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
-  overflow: auto; }
+  overflow: none; }
 
 .output_passed {
   border: 1px solid green;
@@ -224,3 +225,10 @@
   padding-left: 0.4rem; }
   .output_summary span {
     margin-right: 20px; }
+
+.tests-wrapper {
+  padding-top: 20px;
+  width: 97%;
+  margin: 0 auto;
+  overflow-y: scroll;
+  height: 85%; }

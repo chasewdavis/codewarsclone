@@ -1,6 +1,7 @@
 button{
     cursor: pointer;
     outline: none;
+    font-family: 'lato';
 }
 
 .button_solid{
@@ -35,4 +36,153 @@ button{
 
 .button_hollow:hover {
     background-color: #0B0C0C
+}
+
+.button_difficulty {
+    position: relative;
+    height: 28px;
+    width: 44px;
+    border: none;
+    background: #181919;
+    border-radius: 12px;
+    margin: 0 10px;
+    color:green;
+    div{
+        height: 14px;
+        width: 14px;
+    }
+    .skew-left {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 20px;
+        border-left:3px solid green;
+        border-top:3px solid green;
+        transform: skew(-30deg);
+    }
+    .skew-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width:20px;
+        border-right:3px solid green;
+        border-top:3px solid green;
+        transform: skew(30deg);
+    }
+    .skew-bottom-left{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width:20px;
+        border-left:3px solid green;
+        border-bottom:3px solid green;
+        transform: skew(30deg);
+    }
+    .skew-bottom-right{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width:20px;
+        border-right:3px solid green;
+        border-bottom:3px solid green;
+        transform: skew(-30deg);
+    }
+    .rating{
+        position: absolute;
+        top: 25%;
+        left: 8px;
+        height: 50%;
+        display: flex;
+        flex-direction: row;
+        div:nth-child(1){
+            margin-right: 4px;
+        }
+    }
+        
+}
+
+#white{
+    color:#E6E6E6;
+    div{
+        border-color: #E6E6E6;
+    }
+}
+#white:hover{
+    background-color: #E6E6E6;
+    color:#131414;
+    font-weight: bolder;
+    div{
+        background-color:#E6E6E6; 
+    }
+}
+#whiteNoHover{
+    color:#E6E6E6;
+    div{
+        border-color: #E6E6E6;
+    }
+}
+
+#blue{
+    color:#3F7FB9;
+    div{
+        border-color: #3F7FB9;
+    }
+}
+#blue:hover{
+    background-color: #3F7FB9;
+    color:#131414;
+    font-weight: bolder;
+    div{
+        background-color:#3F7FB9; 
+    }
+}
+#blueNoHover{
+    color:#3F7FB9;
+    div{
+        border-color: #3F7FB9
+    }
+}
+#purple{
+    color:#856EC5;
+    div{
+        border-color: #856EC5;
+    }
+}
+#purple:hover{
+    background-color: #856EC5;
+    color:#131414;
+    font-weight: bolder;
+    div{
+        background-color:#856EC5; 
+    }
+}
+#purpleNoHover{
+    color: #856EC5;
+    div{
+        border-color: #856EC5;
+    }
+}
+#gold{
+    color:#EBB52F;
+    div{
+        border-color: #EBB52F;
+    }
+}
+#gold:hover{
+    background-color: #EBB52F;
+    color:#131414;
+    font-weight: bolder;
+    div{
+        background-color:#EBB52F; 
+    }
+}
+#goldNoHover{
+    color:#EBB52F;
+    div{
+        border-color: #EBB52F;
+    }
+}
+
+.difficulty_readOnly {
+    cursor: text;
 }

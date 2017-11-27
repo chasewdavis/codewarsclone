@@ -6,19 +6,23 @@ import calls from '../../utilities/data/data';
 import Btn from '../../components/Buttons/Buttons';
 import './CatFight.css';
 import axios from 'axios';
+import Tests from './Tests/Tests.js';
+import { connect } from 'react-redux';
 
 
-export default class CatFight extends Component {
+class CatFight extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            cat: {},
             click: null,
             code: '',
             testResults: [],
             fight: {},
             tab: 1,
             //1 means all tests were passed. 2 means some tests failed. 3 is the default condition before any tests have been checked
-            testsPassed: 3
+            testsPassed: 3,
+            hiddenTests: false
         }
         this.baseState = this.state
         this.onChange = this.onChange.bind(this)
@@ -30,32 +34,53 @@ export default class CatFight extends Component {
     //set the event listener on the main window
     componentDidMount() {
         calls.getFightById(this.props.match.params.id).then(fight => {this.setState({ fight: fight, code: fight.placeholder }), console.log(this.state)})
+        calls.getCat(this.props.user.cats_id).then(cat => {
+         this.setState({
+             cat: cat.data[0]
+         }, () => {
+             const {cats_id} = this.state.cat;
+             const cat_fight_id = this.props.match.params.id
+             console.log(cat_fight_id)
+            calls.postFightInProgress({cats_id, cat_fight_id})
+         })   
+        })
+        
         window.addEventListener('message', this.handleReceivedMessage)
     }
 
     handleReceivedMessage(e) {
+        console.log(e.data)
         this.setState({
-            testResults: e.data,
+            testResults: e.data.tests,
             click: null
         }, ()=> {
-            if(this.state.testResults.source) {
-                console.log(this.state.testResults)
+            if(e.data.source) {
             } else {
-            console.log(this.state.testResults)
             let testFlag = true;
+            let hiddenTests = false
             this.state.testResults.map(test => {
-                
                 if(test.passed === false) {
                     testFlag = false;
                 }
+                if(test.hidden === true) {
+                    hiddenTests = true;
+                }
             })
-            if(testFlag === true) {
+            if(testFlag === true && hiddenTests === true) {
                 this.setState({
-                    testsPassed: 1
-                },()=>console.log(this.state))
+                    testsPassed: 1,
+                    testResults: e.data.tests,
+                    hiddenTests: true
+                })
+            }  else if(testFlag ===true) {
+                this.setState({
+                    testsPassed: 1,
+                    testResults: e.data.tests
+                })
             } else {
                 this.setState({
-                    testsPassed: 2
+                    testsPassed: 2,
+                    testResults: e.data.tests
                 })
             }
         }
@@ -74,8 +99,17 @@ export default class CatFight extends Component {
         this.setState({
             tab: 1,
             testResults: [],
-            testsPassed: 3
+            testsPassed: 3,
+            hiddenTests: false
         })
+    }
+
+    handleSaveClick() {
+        const catId = this.state.cat.cats_id;
+        const catFightId = this.props.match.params.id;
+        const userSolution = this.state.code;
+        const completed = false;
+        calls.putFightInProgress({catId, catFightId, userSolution, completed})
     }
 
     handleSampleClick() {
@@ -86,6 +120,17 @@ export default class CatFight extends Component {
     }
 
     handleSkipClick() {
+        calls.getRandomFight().then(res => {
+            console.log(res)
+            this.setState({
+                click: null,
+                code: res.placeholder,
+                testResults: [],
+                fight: res,
+                tab: 1,
+                testsPassed: 3
+            }, () => console.log(this.state))
+        })
 
     }
 
@@ -98,11 +143,17 @@ export default class CatFight extends Component {
             if(this.state.testsPassed === 1) {
                 //axios call to send data to the database
                 let body = {
-                    cat_fight_id: this.state.fight.cat_fight_id,
+                    //change this to the user on Redux ****************************************************
+                    catId: 1,
+                    catFightId: this.state.fight.cat_fight_id,
                     completed: true,
-                    user_solution: this.state.code,
+                    userSolution: this.state.code,
+                    // Change this too so that it accounts for the difficult of the kata ********************
+                    honor: 10
                 }
-                calls.postFightInProgress(body)
+                calls.postCompletedFightInProgress(body).then( resp => {
+                    this.props.history.push('/fightdetails/' + this.state.fight.cat_fight_id)
+                })
             }
         })
     }
@@ -132,17 +183,30 @@ export default class CatFight extends Component {
                         <Editor fight={this.state.fight} click={this.state.click} onChange={this.onChange} code={this.state.code} />
                         <div className="catfight_tests">
                             <div className='catfight_tests-div'>
-                                <div className="catfight_tests-header"><div>Sample Tests:</div><div><i className="fa fa-arrows-alt" aria-hidden="true"></i><i className="fa fa-question-circle" aria-hidden="true"></i></div></div>
+                                <div className="catfight_tests-header"><div>Sample Tests:</div>
+                                <div><i className="fa fa-arrows-alt" aria-hidden="true"></i><i className="fa fa-question-circle" aria-hidden="true"></i></div>
+                                
                             </div>
+                            <div className="tests-wrapper">
+                                <Tests 
+                                tests={this.state.fight ? this.state.fight.tests : null}
+                                change={() => console.log('')}
+                                addTest={() => console.log('')}
+                                creating={false}
+                                args={[]}
+                                />
+                            </div>
+                        </div>
                             <div className="catfight_button-container">
                                 <div>
                                     <button className='catfight_skip-button' onClick={() => this.handleSkipClick()}><i className="fa fa-forward" aria-hidden="true"></i>SKIP</button>
+                                    <button className='catfight_skip-button' onClick={() => this.handleSaveClick()}>SAVE</button>
                                 </div>
                                 <div>
                                     <button className='catfight_reset-button' onClick={() => this.handleResetClick()}>RESET</button>
                                     <button className='catfight_sample-button' onClick={() => this.handleSampleClick()}>RUN SAMPLE TESTS</button>
                                     {
-                                    this.state.testsPassed === 1 ? 
+                                    this.state.testsPassed === 1 && this.state.hiddenTests ? 
                                     <button className="catfight_submit-button" onClick={() => this.handleSubmitClick()}>SUBMIT FINAL</button>
                                     :
                                     <button className='catfight_attempt-button' onClick={() => this.handleClick()}><i className="fa fa-caret-right" aria-hidden="true"></i>ATTEMPT</button>
@@ -156,3 +220,11 @@ export default class CatFight extends Component {
         )
     }
 }
+
+function mapStateToProps({user}) {
+   return {
+       user
+   } 
+}
+
+export default connect(mapStateToProps)(CatFight);

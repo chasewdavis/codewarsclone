@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
+import SolutionHelp from '../../components/Help/SolutionHelp';
+import SolutionDesc from '../../components/Help/SolutionDesc';
+import SolutionTest from '../../components/Help/SolutionTest';
 import './Create.css';
 import axios from 'axios';
 
@@ -10,102 +13,205 @@ import html from '../../components/TabContainer/Instructions/html-rules';
 import Tests from '../CatFight/Tests/Tests';
 import f from '../../utilities/functions/functions';
 
+let initialState = {
+    leftAceActive: 1,
+    solution: '// type your solution here',
+    placeholder: '// type the initial code for your cat fight here',
+    rightAceActive: 1,
+    rightAceCode: '',
+    rightSlateActive: 1,
+    description: html.deserialize('<h1>Type your instructions here</h1>'),
+    name: '',
+    rank: '',
+    tags: [''],
+    argsCount: 0,
+    args: [],
+    tests: [
+        // {
+        //     parameters: [''],
+        //     parameter_types: [''],
+        //     expected_result: '',
+        //     passed: false,
+        //     hidden: false
+        // }
+    ],
+    hiddenTests: [],
+    // testResults: [
+    // {
+    //     parameters: [''],
+    //     parameter_types: [''],
+    //     expected_result: '',
+    //     passed: false
+    // }
+    // ],
+    click: null,
+    // passed: false,
+    publishing: false,
+    publishFailed: false
+}
+
 export default class Create extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            leftAceActive: 1,
-            solution: 'function (a, b, c) { return a + b + c }',
-            placeholder: '',
-            rightAceActive: 1,
-            rightAceCode: '',
-            rightSlateActive: 1,
-            description: html.deserialize('<h1>Instructions</h1>'),
-            name: '',
-            rank: '',
-            tags: [''],
-            argsCount: 0,
-            tests: [
-                {
-                    parameters: [''],
-                    paramTypes: [''],
-                    expected_result: '',
-                    passed: false
-                }
-            ],
-            testResults: [{}],
-            click: null
-        }
+        this.state = Object.assign({}, initialState)
+    }
+
+    publish = () => {
+        this.setState({
+            publishing: true,
+            passed: false
+        }, () => this.runTests())
+    }
+
+    reset = () => {
+        this.state = Object.assign({}, initialState)
+        delete this.state.passed
+        this.setState(initialState)
+    }
+
+    cancel = () => {
+        this.state = Object.assign({}, initialState)
+        delete this.state.passed
+        this.setState(initialState)
     }
 
     componentDidMount() {
         window.addEventListener('message', this.handleReceivedMessage)
+        this.handleChange('solution', this.state.solution)
     }
 
     handleReceivedMessage = e => {
         console.log(e.data)
+        if (e.data.source) {
+            // console.log(e.data)
+            return
+        }
+        let { tests, hiddenTests } = e.data
+        let passed = [...tests, ...hiddenTests].reduce((t1, t2) => (t1 && t2.passed), true)
+        console.log(passed)
         this.setState({
-            testResults: e.data,
-            click: null
-        }, () => {
-            if (this.state.testResults.source) {
-                console.log(this.state.testResults)
-            }
+            // testResults: e.data,
+            tests,
+            hiddenTests,
+            click: null,
+            passed
         })
+        if (this.state.publishing && passed) {
+            let description = html.serialize(this.state.description)
+            let fight = Object.assign({}, this.state, { description })
+            console.log(fight)
+            axios.post(`/api/createfight`, fight).then(response => {
+                console.log(response.data)
+            })
+        }
+        else if (this.state.publishing && !passed) {
+            this.setState({
+                publishing: false,
+                publishFailed: true
+            })
+        }
     }
 
     runTests = () => {
         let newClick
         this.setState({
-            click: 2
+            click: 2,
+            publishFailed: false
         })
-    }
-
-    save = () => {
-        let description = html.serialize(this.state.description)
-        let fight = Object.assign({}, this.state, { description })
-        console.log(fight)
-        // axios.post(`/api/createfight`, fight).then(response => {
-        //     console.log(response.data)
-        // })
     }
 
     handleTestChange = (i, str, value, j) => {
         console.log(i, str, value)
         let tests = this.state.tests.slice()
+        if (this.state.rightAceActive === 2) {
+            tests = this.state.hiddenTests.slice()
+        }
+        // // let testResults = this.state.testResults.slice()
         // let newTest = Object.assign({}, tests[i])
-        console.log(tests)
+        // console.log(tests)
         switch (str) {
             case 'params':
                 tests[i].parameters[j] = value
+                // testResults[i].parameters[j] = value
                 break
             case 'types':
-                tests[i].paramTypes[j] = value
+                tests[i].parameter_types[j] = value
+                // testResults[i].parameter_types[j] = value
                 break
             case 'result':
                 tests[i].expected_result = value
+                // testResults[i].expected_result = value
                 break
+            case 'result_type':
+                tests[i].expected_result_type = value
+            // testResults[i].expected_result_type = value
             default:
                 break
         }
-        this.setState({
-            tests
-        })
+        if (this.state.rightAceActive === 1) {
+            this.setState({
+                tests,
+                // testResults
+            })
+        }
+        else {
+            this.setState({
+                hiddenTests: tests,
+                // testResults
+            })
+        }
     }
 
     addTest = () => {
         let tests = this.state.tests.slice()
+        if (this.state.rightAceActive === 2) {
+            tests = this.state.hiddenTests.slice()
+        }
+        // // let testResults = this.state.testResults.slice()
         let parameters = Array(this.state.argsCount).fill('')
-        let paramTypes = Array(this.state.argsCount).fill('')
+        let parameter_types = Array(this.state.argsCount).fill('')
         tests.push({
             parameters,
-            paramTypes,
+            parameter_types,
             expected_result: '',
             passed: false
         })
-        this.setState({
-            tests
-        })
+        // testResults.push({
+        //     parameters,
+        //     parameter_types,
+        //     expected_result: '',
+        //     passed: false
+        // })
+        if (this.state.rightAceActive === 1) {
+            this.setState({
+                tests,
+                // testResults
+            })
+        }
+        else {
+            this.setState({
+                hiddenTests: tests,
+                // testResults
+            })
+        }
+    }
+
+    removeTest = index => {
+        let tests = this.state.tests.slice()
+        if (this.state.rightAceActive === 2) {
+            tests = this.state.hiddenTests.slice()
+        }
+        tests = tests.filter((test, i) => i !== index)
+        if (this.state.rightAceActive === 1) {
+            this.setState({
+                tests
+            })
+        }
+        else {
+            this.setState({
+                hiddenTests: tests
+            })
+        }
     }
 
     handleSlateChange = ({ value }) => {
@@ -157,44 +263,91 @@ export default class Create extends Component {
             case 'placeholder':
                 this.setState({
                     [target]: value,
-                    argsCount: f.args(value).length < this.state.argsCount ? this.state.argsCount : f.args(value).length
+                    argsCount: f.args(value).length < this.state.argsCount ? this.state.argsCount : f.args(value).length,
+                    args: f.args(value)
                 })
                 break
             case 'solution':
                 this.setState({
                     [target]: value,
-                    argsCount: f.args(value).length
-                }) 
+                    argsCount: f.args(value).length,
+                    args: f.args(value)
+                })
                 break
         }
         let tests = this.state.tests.slice()
         tests = tests.map(test => {
-            // console.log(test)
             for (let i = test.parameters.length; i < this.state.argsCount; i++) {
                 test.parameters.push('')
             }
-            for (let i = test.paramTypes.length; i < this.state.argsCount; i++) {
-                // console.log(test.paramTypes)
-                test.paramTypes.push('')
+            for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
+                test.parameter_types.push('')
+            }
+            return test
+        })
+        let hiddenTests = this.state.hiddenTests.slice()
+        hiddenTests = hiddenTests.map(test => {
+            for (let i = test.parameters.length; i < this.state.argsCount; i++) {
+                test.parameters.push('')
+            }
+            for (let i = test.parameter_types.length; i < this.state.argsCount; i++) {
+                test.parameter_types.push('')
             }
             return test
         })
         this.setState({
-            tests
+            tests,
+            hiddenTests
         })
-        // console.log(this.state.argsCount)
+    }
+
+    resetTests = () => {
+        let argsCount = f.args(this.state.solution).length
+        // console.log(argsCount)
+        let tests = this.state.tests.slice()
+        // console.log(tests)
+        tests = tests.map((test, i) => {
+            while (test.parameters.length > argsCount) {
+                test.parameters.pop()
+            }
+            while (test.parameter_types > argsCount) {
+                test.parameter_types.pop()
+            }
+            return test
+        })
+        let hiddenTests = this.state.hiddenTests.slice()
+        // console.log(hiddenTests)
+        hiddenTests = hiddenTests.map((test, i) => {
+            while (test.parameters.length > argsCount) {
+                test.parameters.pop()
+            }
+            while (test.parameter_types.length > argsCount) {
+                test.parameter_types.pop()
+            }
+            return test
+        })
+        // console.log(argsCount)
+        // console.log(tests)
+        // console.log(hiddenTests)
+        this.setState({
+            argsCount,
+            tests,
+            hiddenTests
+        })
     }
 
     render() {
+        // console.log(this.state)
+        // console.log(this.state.testResults)
         return (
             <div>
                 <Navbar />
                 <div className='create_main-wrapper'>
                     <div className="create_main-header">
-                        <div onClick={this.save} className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div>
-                        <div className="create_main-header-blue"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</div>
-                        <div className="create_main-header-blue"><i class="fa fa-paper-plane" aria-hidden="true"></i>Publish</div>
-                        <div className="create_main-header-red"><i class="fa fa-trash" aria-hidden="true"></i>Delete</div>
+                        {/* <div onClick={this.save} className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div> */}
+                        <div onClick={this.publish} className="create_main-header-blue"><i class="fa fa-paper-plane" aria-hidden="true"></i>Publish</div>
+                        <div onClick={this.reset} className="create_main-header-blue"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</div>
+                        <div onClick={this.cancel} className="create_main-header-red"><i class="fa fa-trash" aria-hidden="true"></i>Cancel</div>
                     </div>
                     <div className="create_left-inputs">
                         <div className="create_name-input-container">
@@ -222,7 +375,7 @@ export default class Create extends Component {
                     <div className='create_right-slate'>
                         <div className="create_left-ace-header">
                             <div onClick={() => this.handleRightSlateClick(1)} className={this.state.rightSlateActive === 1 ? "create_test create_active" : "create_test "}>Description</div>
-                            <div onClick={() => this.handleRightSlateClick(2)} className={this.state.rightSlateActive === 2 ? "create_preview create_active" : "create_preview"}><i class="fa fa-eye" aria-hidden="true"></i> Preview</div>
+                            {/* <div onClick={() => this.handleRightSlateClick(2)} className={this.state.rightSlateActive === 2 ? "create_preview create_active" : "create_preview"}><i class="fa fa-eye" aria-hidden="true"></i> Preview</div> */}
                             <div onClick={() => this.handleRightSlateClick(3)} className={this.state.rightSlateActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
                         <div className="create_editor-wrapper">
@@ -230,12 +383,26 @@ export default class Create extends Component {
                                 this.state.rightSlateActive === 1 ?
                                     <Instructions change={this.handleSlateChange} description={this.state.description} />
                                     :
-                                    null
+                                    this.state.rightSlateActive === 2 ? null
+                                        :
+                                        <SolutionDesc />
                                 // <InstructionsHelp/>
                             }
                         </div>
-                        <div className="create_right-ace-buttons" onClick={this.runTests} >
-                            <button><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
+                        <div className="create_right-ace-buttons" >
+                            <button onClick={this.runTests}><i class="fa fa-check" aria-hidden="true"></i> VALIDATE SOLUTION</button>
+                            <div className={this.state.publishFailed ? 'failed-box' : this.state.hasOwnProperty('passed') ? this.state.passed ? 'passed' : 'failed' : 'unstarted'}>
+                                {/*console.log(this.state.hasOwnProperty('passed'))*/}
+                                {
+                                    this.state.hasOwnProperty('passed') ?
+                                        this.state.passed ?
+                                            'Passed All Tests'
+                                            :
+                                            'Failed'
+                                        :
+                                        'Output'
+                                }
+                            </div>
                         </div>
                     </div>
                     <div className='create_left-ace'>
@@ -248,31 +415,57 @@ export default class Create extends Component {
                         <div className="create_editor-wrapper">
                             {
                                 this.state.leftAceActive === 1 ?
-                                    <Editor click={this.state.click} title="solution" code={this.state.solution} fight={Object.assign({}, this.state, {description: null})} onChange={e => this.handleChange('solution', e)} />
+                                    <Editor
+                                        click={this.state.click}
+                                        title="solution"
+                                        code={this.state.solution}
+                                        fight={Object.assign({}, this.state, { description: null })}
+                                        onChange={e => this.handleChange('solution', e)}
+                                        fontSize='1.25rem'
+                                    />
                                     :
                                     this.state.leftAceActive === 2 ?
-                                        <Editor title="placeholder" code={this.state.placeholder} onChange={e => this.handleChange('placeholder', e)} />
+                                        <Editor
+                                            title="placeholder"
+                                            code={this.state.placeholder}
+                                            onChange={e => this.handleChange('placeholder', e)}
+                                            fontSize='1.25rem'
+                                        />
                                         :
-                                        null
+                                        <SolutionHelp />
                                 // <SolutionHelp />
                             }
                         </div>
                     </div>
-                    <div className='create_right-ace'>
+                    <div className={'create_right-ace'}>
                         <div className="create_left-ace-header">
                             <div onClick={() => this.handleRightAceClick(1)} className={this.state.rightAceActive === 1 ? "create_test create_active" : "create_test "}>Test Cases</div>
-                            <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Example Test Cases</div>
+                            <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Hidden Tests</div>
                             <div onClick={() => this.handleRightAceClick(3)} className={this.state.rightAceActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
+                            <div onClick={this.resetTests} className="create_test"><i class="fa fa-repeat" aria-hidden="true"></i>&nbsp; Reset</div>
                         </div>
                         <div className="create_editor-wrapper">
                             {
-                                // this.state.rightAceActive === 1 ?
-                                <Tests tests={this.state.tests} change={this.handleTestChange} addTest={this.addTest} />
-                                // :
-                                // this.state.rightAceActive === 2 ?
-                                //     <Tests />
-                                //     :
-                                //     null
+                                this.state.rightAceActive === 1 ?
+                                    <Tests
+                                        tests={this.state.tests}
+                                        args={this.state.args}
+                                        change={this.handleTestChange}
+                                        addTest={this.addTest}
+                                        removeTest={this.removeTest}
+                                    />
+                                    :
+                                    this.state.rightAceActive === 2 ?
+                                        <Tests
+                                            hidden={true}
+                                            tests={this.state.hiddenTests}
+                                            args={this.state.args}
+                                            change={this.handleTestChange}
+                                            addTest={this.addTest}
+                                            removeTest={this.removeTest}
+                                        />
+                                        :
+                                        <SolutionTest />
                                 // <TestsHelp />
                             }
                         </div>
