@@ -24,7 +24,6 @@ class Tags extends Component {
     }
 
     render() {
-        console.log(this.state.tags)
 
         let tags = this.state.tags.map((tag,i )=> {
 
