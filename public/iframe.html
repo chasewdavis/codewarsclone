@@ -65,7 +65,7 @@
                     return parseInt(param)
                 case 'string':
                     return param
-                    // return String(param)
+                // return String(param)
                 // case 'symbol':
                 // return 
                 case 'object':
@@ -74,9 +74,9 @@
                 case 'array':
                     param = param.trim()
                     return eval(param)
-                    // if (param[0] !== '[' || param[param.length - 1] !== ']') {
-                    //     return param
-                    // }
+                // if (param[0] !== '[' || param[param.length - 1] !== ']') {
+                //     return param
+                // }
                 default:
                     return param;
             }
@@ -106,7 +106,13 @@
         }
         function runTests(args, body, tests) {
             // console.log(tests)
-            let f = new Function(args, body)
+            let f
+            // try {
+            f = new Function(args, body)
+            // }
+            // catch (e) {
+            //     console.log(e)
+            // }
             return tests.map(test => {
                 test.parameter_errors = []
                 test.typed_parameters = test.parameters.map((param, i) => {
@@ -148,6 +154,7 @@
                 // })
                 // STRINGIFY THE RESULT TO PROTECT DATA IN APP
                 test.result = JSON.stringify(test.result)
+                console.log(test.result)
                 return test
             })
         }
@@ -160,6 +167,9 @@
             let { tests, hiddenTests } = e.data.fight
             // console.log(tests, hiddenTests)
 
+            // declare function error variable
+            let function_error
+
             // run tests on tests arrays
             try {
                 tests = runTests(args(code), body(code), tests)
@@ -167,20 +177,21 @@
             }
             catch (e) {
                 // console.log(typeof e)
-                // console.log(e)
-                e
+                console.log(e)
+                function_error = String(e)
             }
             try {
                 hiddenTests = runTests(args(code), body(code), hiddenTests)
             }
             catch (e) {
                 // console.log(typeof e)
-                // console.log(e)
-                hiddenTests = []
+                console.log(e)
+                function_error = String(e)
             }
 
             // send results object
             result = {
+                function_error,
                 tests,
                 hiddenTests
             }

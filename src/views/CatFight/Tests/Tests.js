@@ -161,6 +161,26 @@ class Test extends Component {
     }
 }
 
+function FunctionError(props) {
+    if (!props.error) return null
+    return (
+        <div className='test-border failed'>
+            <div className='FunctionError Test'>
+                <div className='open-test'>
+                    <div className='test-title'>
+                        There was something wrong with your function
+                </div>
+                    <div className='parameter-box'>
+                        <div className='input-line'>
+                            {props.error}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 export default class Tests extends Component {
     constructor(props) {
         super(props)
@@ -171,9 +191,12 @@ export default class Tests extends Component {
     render() {
         // console.log(this.props)
         // console.log(this.props.tests)
+        // console.log(typeof this.props.function_error)
+        // console.log(this.props.function_error)
         return (
             <div className='Tests'>
                 {/* Finish Writing your function before you write your tests */}
+                <FunctionError error={this.props.function_error} />
                 {
                     this.props.tests ?
                         this.props.tests.map((test, i) => {
@@ -203,9 +226,15 @@ export default class Tests extends Component {
                         :
                         null
                 }
-                <div className='test-border'>
-                    <div onClick={this.props.addTest} className='Test closed'>+ ADD&nbsp;{this.props.hidden ? ' HIDDEN ' : ''}&nbsp;TEST</div>
-                </div>
+                {
+                    this.props.parent === 'create' ?
+                        <div className='test-border'>
+                            <div onClick={this.props.addTest} className='Test closed'>+ ADD&nbsp;{this.props.hidden ? ' HIDDEN ' : ''}&nbsp;TEST</div>
+                        </div>
+                        :
+                        null
+                }
+                
             </div>
         )
     }

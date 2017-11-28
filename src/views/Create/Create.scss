@@ -317,6 +317,10 @@ $tab-background-color: #131414;
     cursor: pointer;
 }
 
+.unfinished {
+    border: 2px solid red;
+}
+
 @keyframes fail {
     from {
         border: 4px solid red; // #c05c48;
