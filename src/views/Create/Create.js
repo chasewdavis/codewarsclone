@@ -18,9 +18,10 @@ import f from '../../utilities/functions/functions';
 let initialState = {
     redirect: false,
     redirectUrl: '',
+    unfinished: [],
     leftAceActive: 1,
     solution: '// type your solution here',
-    placeholder: '// type the initial code for your cat fight here',
+    placeholder: '// type your initial code here',
     rightAceActive: 1,
     rightAceCode: '',
     rightSlateActive: 1,
@@ -30,6 +31,7 @@ let initialState = {
     tags: [''],
     argsCount: 0,
     args: [],
+    function_error: '',
     tests: [
         // {
         //     parameters: [''],
@@ -63,6 +65,40 @@ class Create extends Component {
     }
 
     publish = () => {
+        let { name, solution, placeholder, tests, hiddenTests, tags, description, rank } = this.state
+        let unfinished = []
+        if (!name) {
+            unfinished.push('name')
+        }
+        if (solution === initialState.solution) {
+            unfinished.push('solution')
+        }
+        if (placeholder === initialState.placeholder) {
+            unfinished.push('placeholder')
+        }
+        if (tests.length < 3) {
+            unfinished.push('tests')
+        }
+        if (hiddenTests.length < 3) {
+            unfinished.push('hiddenTests')
+        }
+        if (!tags[0]) {
+            unfinished.push('tags')
+        }
+        if (description.startText.text === 'Type your instructions here') {
+            unfinished.push('description')
+        }
+        if (!rank) {
+            unfinished.push('rank')
+        }
+
+        if (unfinished.length) {
+            this.setState({
+                unfinished
+            })
+            return
+        }
+
         this.setState({
             publishing: true,
             passed: false
@@ -89,14 +125,25 @@ class Create extends Component {
     handleReceivedMessage = e => {
         console.log(e.data)
         if (e.data.source) {
-            // console.log(e.data)
             return
         }
-        let { tests, hiddenTests } = e.data
-        let passed = [...tests, ...hiddenTests].reduce((t1, t2) => (t1 && t2.passed), true)
-        console.log(passed)
+        if (!e.data.tests || !e.data.hiddenTests) {
+            return
+        }
+        let { function_error, tests, hiddenTests } = e.data
+        // console.log(tests)
+        // console.log(hiddenTests)
+        let passed = [...tests, ...hiddenTests]
+            .reduce((t1, t2) => {
+                return (t1 && t2.passed)
+            }, true)
+        // console.log(passed)
+        if (function_error) {
+            passed = false
+        }
         this.setState({
             // testResults: e.data,
+            function_error,
             tests,
             hiddenTests,
             click: null,
@@ -105,9 +152,9 @@ class Create extends Component {
         if (this.state.publishing && passed) {
             let description = html.serialize(this.state.description)
             let fight = Object.assign({}, this.state, { description })
-            console.log(fight)
+            // console.log(fight)
             axios.post(`/api/createfight`, fight).then(response => {
-                console.log(response.data)
+                // console.log(response.data)
                 this.setState({
                     redirect: true,
                     redirectUrl: `/catfight/${response.data[0].cat_fight_id}`
@@ -123,6 +170,17 @@ class Create extends Component {
     }
 
     runTests = () => {
+        let { tests, hiddenTests } = Object.assign({}, this.state)
+        let reset = test => {
+            delete test.typed_parameters
+            delete test.parameter_errors
+            delete test.result
+            delete test.result_error
+            delete test.result_type
+            return test
+        }
+        tests = tests.map(reset)
+        hiddenTests = hiddenTests.map(reset)
         let newClick
         this.setState({
             click: 2,
@@ -131,7 +189,7 @@ class Create extends Component {
     }
 
     handleTestChange = (i, str, value, j) => {
-        console.log(i, str, value)
+        // console.log(i, str, value)
         let tests = this.state.tests.slice()
         if (this.state.rightAceActive === 2) {
             tests = this.state.hiddenTests.slice()
@@ -351,7 +409,7 @@ class Create extends Component {
         if (event.metaKey) {
             this.metaKey = true
         }
-        console.log(this.ctrl, this.metaKey)
+        // console.log(this.ctrl, this.metaKey)
         if ((this.ctrl || this.metaKey) && event.key === 'Enter') {
             event.preventDefault()
             this.runTests()
@@ -370,13 +428,14 @@ class Create extends Component {
     render() {
         // console.log(this.state)
         // console.log(this.state.testResults)
+        let { unfinished } = this.state
         return (
             <div onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
                 {
                     this.state.redirect ?
                         <Redirect to={this.state.redirectUrl} />
                         :
-                        null    
+                        null
                 }
                 <Navbar />
                 <div className='create_main-wrapper'>
@@ -388,11 +447,11 @@ class Create extends Component {
                     </div>
                     <div className="create_left-inputs">
                         <div className="create_name-input-container">
-                            <h3>Name:</h3>
+                            <h3 className={unfinished.includes('name') ? 'unfinished' : null} >Name:</h3>
                             <input className="create_name-input" type="text" placeholder="Give your kata a name" onChange={(e) => this.handleNameChange(e.target.value)} />
                         </div>
                         <div className="create_rank-container">
-                            <h3><i class="fa fa-question-circle" aria-hidden="true"></i>Estimated Rank:</h3>
+                            <h3 className={unfinished.includes('rank') ? 'unfinished' : null} ><i class="fa fa-question-circle" aria-hidden="true"></i>Estimated Rank:</h3>
                             <select className="create_rank-selector" onChange={(e) => this.handleRankChange(e.target.value)}>
                                 <option value="8">8 kyu (white)</option>
                                 <option value="7">7 kyu (white)</option>
@@ -405,13 +464,15 @@ class Create extends Component {
                             </select>
                         </div>
                         <div className="create_tags-input-container">
-                            <h3>Tags (Comma separated):</h3>
+                            <h3 className={unfinished.includes('tags') ? 'unfinished' : null} >Tags (Comma separated):</h3>
                             <input className="create_name-input" type="text" onChange={(e) => this.handleTagChange(e.target.value)} />
                         </div>
                     </div>
                     <div className='create_right-slate'>
                         <div className="create_left-ace-header">
-                            <div onClick={() => this.handleRightSlateClick(1)} className={this.state.rightSlateActive === 1 ? "create_test create_active" : "create_test "}>Description</div>
+                            <div className={unfinished.includes('description') ? 'unfinished' : null}>
+                                <div onClick={() => this.handleRightSlateClick(1)} className={this.state.rightSlateActive === 1 ? "create_test create_active" : "create_test "}>Description</div>
+                            </div>
                             {/* <div onClick={() => this.handleRightSlateClick(2)} className={this.state.rightSlateActive === 2 ? "create_preview create_active" : "create_preview"}><i class="fa fa-eye" aria-hidden="true"></i> Preview</div> */}
                             <div onClick={() => this.handleRightSlateClick(3)} className={this.state.rightSlateActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
@@ -444,8 +505,12 @@ class Create extends Component {
                     </div>
                     <div className='create_left-ace'>
                         <div className="create_left-ace-header">
-                            <div onClick={() => this.handleLeftAceClick(1)} className={this.state.leftAceActive === 1 ? "create_complete create_active" : "create_complete "}>Complete Solution</div>
-                            <div onClick={() => this.handleLeftAceClick(2)} className={this.state.leftAceActive === 2 ? "create_initial create_active" : "create_initial "}>Initial Solution</div>
+                            <div className={unfinished.includes('solution') ? 'unfinished' : null}>
+                                <div onClick={() => this.handleLeftAceClick(1)} className={this.state.leftAceActive === 1 ? "create_complete create_active" : "create_complete "}>Complete Solution</div>
+                            </div>
+                            <div className={unfinished.includes('placeholder') ? 'unfinished' : null}>
+                                <div onClick={() => this.handleLeftAceClick(2)} className={this.state.leftAceActive === 2 ? "create_initial create_active" : "create_initial "}>Initial Solution</div>
+                            </div>
                             {/* <div onClick={() => this.handleLeftAceClick(3)} className={this.state.leftAceActive === 3 ? "create_preloaded create_active" : "create_preloaded"}>Preloaded</div> */}
                             <div onClick={() => this.handleLeftAceClick(4)} className={this.state.leftAceActive === 4 ? "create_help create_active" : "create_help "}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                         </div>
@@ -482,8 +547,12 @@ class Create extends Component {
                     </div>
                     <div className={'create_right-ace'}>
                         <div className="create_left-ace-header">
-                            <div onClick={() => this.handleRightAceClick(1)} className={this.state.rightAceActive === 1 ? "create_test create_active" : "create_test "}>Test Cases</div>
-                            <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Hidden Tests</div>
+                            <div className={unfinished.includes('tests') ? 'unfinished' : null}>
+                                <div onClick={() => this.handleRightAceClick(1)} className={this.state.rightAceActive === 1 ? "create_test create_active" : "create_test "}>Test Cases</div>
+                            </div>
+                            <div className={unfinished.includes('hiddenTests') ? 'unfinished' : null}>
+                                <div onClick={() => this.handleRightAceClick(2)} className={this.state.rightAceActive === 2 ? "create_example create_active" : "create_example"}>Hidden Tests</div>
+                            </div>
                             <div onClick={() => this.handleRightAceClick(3)} className={this.state.rightAceActive === 3 ? "create_help create_active" : "create_help"}><i class="fa fa-question-circle" aria-hidden="true"></i> Help</div>
                             <div onClick={this.resetTests} className="create_test"><i class="fa fa-repeat" aria-hidden="true"></i>&nbsp; Reset</div>
                         </div>
@@ -491,21 +560,25 @@ class Create extends Component {
                             {
                                 this.state.rightAceActive === 1 ?
                                     <Tests
+                                        function_error={this.state.function_error}
                                         tests={this.state.tests}
                                         args={this.state.args}
                                         change={this.handleTestChange}
                                         addTest={this.addTest}
                                         removeTest={this.removeTest}
+                                        parent='create'
                                     />
                                     :
                                     this.state.rightAceActive === 2 ?
                                         <Tests
                                             hidden={true}
+                                            function_error={this.state.function_error}
                                             tests={this.state.hiddenTests}
                                             args={this.state.args}
                                             change={this.handleTestChange}
                                             addTest={this.addTest}
                                             removeTest={this.removeTest}
+                                            parent='create'
                                         />
                                         :
                                         <SolutionTest />
@@ -513,8 +586,8 @@ class Create extends Component {
                             }
                         </div>
                     </div>
-                </div>
-            </div>
+                </div >
+            </div >
         )
     }
 }

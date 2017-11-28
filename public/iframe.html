@@ -52,8 +52,8 @@
             return array(str, i1, i2)
         }
         function types(param, type) {
-            console.log(param)
-            console.log(type)
+            // console.log(param)
+            // console.log(type)
             switch (type) {
                 case 'boolean':
                     return param === 'true' ? true : false
@@ -64,15 +64,19 @@
                 case 'number':
                     return parseInt(param)
                 case 'string':
-                    return String(param)
+                    return param
+                // return String(param)
                 // case 'symbol':
                 // return 
                 case 'object':
 
                     return param
                 case 'array':
-
-                    return param
+                    param = param.trim()
+                    return eval(param)
+                // if (param[0] !== '[' || param[param.length - 1] !== ']') {
+                //     return param
+                // }
                 default:
                     return param;
             }
@@ -89,47 +93,110 @@
             }
             return str.slice(i1, i2)
         }
+        function equalArrays(arr1, arr2) {
+            if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+                return false
+            }
+            arr1.map((a, i) => {
+                if (a !== arr2[i]) {
+                    return false
+                }
+            })
+            return true
+        }
         function runTests(args, body, tests) {
-            console.log(tests)
-            let f = new Function(args, body)
+            // console.log(tests)
+            let f
+            // try {
+            f = new Function(args, body)
+            // }
+            // catch (e) {
+            //     console.log(e)
+            // }
             return tests.map(test => {
-                test.parameters = test.parameters.map((param, i) => {
-                    return types(param, test.parameter_types ? test.parameter_types[i] : "")
+                test.parameter_errors = []
+                test.typed_parameters = test.parameters.map((param, i) => {
+                    try {
+                        test.parameter_errors.push('')
+                        return types(param, test.parameter_types ? test.parameter_types[i] : "")
+                    }
+                    catch (e) {
+                        test.parameter_errors[i] = String(e)
+                        return param
+                    }
                 })
-                test.result = f.apply(null, test.parameters)
+                // console.log(test)
+                try {
+                    test.result = f.apply(null, test.typed_parameters)
+                }
+                catch (e) {
+                    // console.log(e)
+                    test.result_error = String(e)
+                    test.passed = false
+                    // return test
+                }
+                // console.log(test)
                 test.result_type = typeof test.result
-                test.expected_result = types(test.expected_result, test.expected_result_type)
-                test.passed = test.result === test.expected_result
+                test.typed_expected_result = types(test.expected_result, test.expected_result_type)
+                // CHECK IF TESTS PASSED
+                test.passed = test.result === test.typed_expected_result
+                if (test.expected_result_type === 'array') {
+                    test.passed = equalArrays(test.result, test.typed_expected_result)
+                    // RESET EXPECTED RESULT TO JSON
+                    // test.expected_result = JSON.stringify(test.expected_result)
+                }
+                if (test.parameter_errors.join('')) {
+                    test.passed = false
+                }
+                // RESET ARRAY PARAMETERS BACK TO JSON
+                // test.parameters = test.parameters.map((param, i) => {
+                //     return test.parameter_types[i] === 'array' ? JSON.stringify(param) : param
+                // })
                 // STRINGIFY THE RESULT TO PROTECT DATA IN APP
                 test.result = JSON.stringify(test.result)
+                console.log(test.result)
                 return test
             })
         }
 
         window.addEventListener('message', function (e) {
-            console.log(e.data)
+            // console.log(e.data)
             let code = e.data.code;
 
             // instantiate tests arrays
             let { tests, hiddenTests } = e.data.fight
             // console.log(tests, hiddenTests)
 
+            // declare function error variable
+            let function_error
+
             // run tests on tests arrays
-            tests = runTests(args(code), body(code), tests)
-            if (hiddenTests) {
+            try {
+                tests = runTests(args(code), body(code), tests)
+                // console.log(tests)
+            }
+            catch (e) {
+                // console.log(typeof e)
+                console.log(e)
+                function_error = String(e)
+            }
+            try {
                 hiddenTests = runTests(args(code), body(code), hiddenTests)
             }
-            else {
-                hiddenTests = []
+            catch (e) {
+                // console.log(typeof e)
+                console.log(e)
+                function_error = String(e)
             }
 
             // send results object
             result = {
+                function_error,
                 tests,
                 hiddenTests
             }
 
-            console.log(result)
+            // console.log(result)
 
             var mainWindow = e.source;
             mainWindow.postMessage(result, e.origin);
