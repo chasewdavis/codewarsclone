@@ -20,7 +20,7 @@ let initialState = {
     redirectUrl: '',
     leftAceActive: 1,
     solution: '// type your solution here',
-    placeholder: '// type the initial code for your cat fight here',
+    placeholder: '// type your initial code here',
     rightAceActive: 1,
     rightAceCode: '',
     rightSlateActive: 1,

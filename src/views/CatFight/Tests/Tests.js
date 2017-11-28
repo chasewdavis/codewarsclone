@@ -50,29 +50,42 @@ class Test extends Component {
                                         props.parameters.map((param, i) => {
                                             console.log(props.parameter_errors ? props.parameter_errors[i] : null)
                                             return (
-                                                <div key={i} className='input-line' >
-                                                    <div>Parameter {i + 1}:</div>
-                                                    <input
-                                                        onChange={e => props.change(props.id, 'params', e.target.value, i)}
-                                                        value={param}
-                                                        placeholder={props.args ?props.args.length ? props.args[i]: null : null}
-                                                    />
-                                                    <select
-                                                        onChange={e => props.change(props.id, 'types', e.target.value, i)}
+                                                <div key={i}>
+                                                    <div className='input-line' >
+                                                        <div>Parameter {i + 1}:</div>
+                                                        <input
+                                                            onChange={e => props.change(props.id, 'params', e.target.value, i)}
+                                                            value={param}
+                                                            placeholder={props.args ? props.args.length ? props.args[i] : null : null}
+                                                        />
+                                                        <select
+                                                            onChange={e => props.change(props.id, 'types', e.target.value, i)}
 
-                                                        defaultValue={props.parameter_types ? props.parameter_types.length ? props.parameter_types[i] : "Data Type" : "Data Type"}
-                                                    >
-                                                        <option disabled>Data Type</option>
-                                                        {
-                                                            dataTypes.map((type, i) => {
-                                                                return (
-                                                                    <option key={i} value={type}>
-                                                                        {type}
-                                                                    </option>
-                                                                )
-                                                            })
-                                                        }
-                                                    </select>
+                                                            defaultValue={props.parameter_types ? props.parameter_types.length ? props.parameter_types[i] : "Data Type" : "Data Type"}
+                                                        >
+                                                            <option disabled>Data Type</option>
+                                                            {
+                                                                dataTypes.map((type, i) => {
+                                                                    return (
+                                                                        <option key={i} value={type}>
+                                                                            {type}
+                                                                        </option>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    {
+                                                        props.parameter_errors ?
+                                                            props.parameter_errors[i] ?
+                                                                <div className='input-line'>
+                                                                    {props.parameter_errors[i]}
+                                                                </div>
+                                                                :
+                                                                null
+                                                            :
+                                                            null
+                                                    }
                                                 </div>
                                             )
                                         })
@@ -117,6 +130,14 @@ class Test extends Component {
                                         }
                                     </select>
                                 </div>
+                                {
+                                    props.result_error ?
+                                        <div className="input-line">
+                                            {props.result_error}
+                                        </div>
+                                        :
+                                        null
+                                }
                             </div>
                             <div onClick={this.toggle} className="done-button">
                                 Done
@@ -172,6 +193,7 @@ export default class Tests extends Component {
                                         expected_result={test.expected_result}
                                         expected_result_type={test.expected_result_type}
                                         result={test.result}
+                                        result_error={test.result_error}
                                         passed={!test.hasOwnProperty('result') || test.passed}
                                         removeTest={() => this.props.removeTest(i)}
                                     />
