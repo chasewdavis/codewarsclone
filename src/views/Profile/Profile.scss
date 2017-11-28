@@ -49,7 +49,7 @@
         margin-top: 10px;
     }
 
-    button {
+    .profile_button {
         margin-top: 25px;
         border-radius: 4px;
         border: 1px solid #6795de;
@@ -60,7 +60,7 @@
         cursor: pointer;
     }
 
-    button:hover {
+    .profile_button:hover {
         border: 1px solid #91b2e7;
         color: #91b2e7;
     }
@@ -70,7 +70,7 @@
 
 .profile_progress-div {
     width: 100%;
-    height: 900px;
+    height: 160vh;
     background-color: #262729;
     padding: 15px;
     min-width: 580px;
@@ -107,10 +107,11 @@
 
 .profile_progress-div2 {
     margin-top: 40px;
+    margin-bottom: 40px;
 
     h2 {
         text-align: center;
         font-size: 18px;
-        margin-bottom: 10px;
+        margin-bottom: 30px;
     }
 }

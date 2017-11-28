@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import Navbar from '../../components/Navbar/Navbar';
 import { Diff } from '../../components/Buttons/Buttons';
 import calls from '../../utilities/data/data';
-import {Bar} from 'react-chartjs-2';
+import {Bar, Pie} from 'react-chartjs-2';
 
 class Profile extends Component {
     constructor(props) {
@@ -13,7 +13,9 @@ class Profile extends Component {
         this.state = {
             numberOfAllies: 0,
             rank: 0,
-            data: [5,0,0,0,1,2,2]
+            data: [5,0,0,0,1,2,2],
+            pieData: [10, 90],
+            leve: 8
         }
     }
 
@@ -26,7 +28,49 @@ class Profile extends Component {
                 numberOfAllies: resp.data.resp1[0].count,
                 rank: resp.data.resp2[0].position,
                 data: newData
-            }, () => console.log(this.state))
+            }, () => {
+                if(this.props.user.honor <= 150) {
+                    this.setState({
+                    level:  8,
+                    pieData: [this.props.user.honor, 150 - this.props.user.honor]
+                    })
+                } else if(this.props.user.honor <= 420) {
+                    this.setState({
+                    level: 7,
+                    pieData: [this.props.user.honor, 420 - this.props.user.honor]
+                    })
+                } else if(this.props.user.honor <= 906) {
+                    this.setState({
+                    level: 6,
+                    pieData: [this.props.user.honor, 906 - this.props.user.honor]
+                    })
+                } else if(this.props.user.honor <= 1780) {
+                    this.setState({
+                    level: 5,
+                    pieData: [this.props.user.honor, 1780 - this.props.user.honor]
+                    })
+                } else if(this.props.user.honor <= 3355) {
+                    this.setState({
+                    level: 4,
+                    pieData: [this.props.user.honor, 3355 - this.props.user.honor]
+                    })
+                } else if(this.props.user.honor <=6189) {
+                    this.setState({
+                    level: 3,
+                    pieData: [this.props.user.honor, 6189 - this.props.user.honor]
+                    })
+                } else if(this.props.user.honor <=11291) {
+                    this.setState({
+                    level: 2,
+                    pieData: [this.props.user.honor, 11291 - this.props.user.honor]
+                    })
+                } else if(this.props.user.honor > 11291){
+                    this.setState({
+                    level: 1,
+                    pieData: [this.props.user.honor, 20471 - this.props.user.honor]
+                    })
+                }
+            })
         })
     }
 
@@ -44,6 +88,15 @@ class Profile extends Component {
             }]
         }
 
+        const pieData = {
+            labels:["Current Honor", "Honor Needed To Level Up"],
+            datasets: [{
+                data: this.state.pieData,
+                backgroundColor: ["#307BBE", '#404143'],
+                borderColor: "#404143"
+            }]
+        }
+
         return (
             <div className="profile_super">
                 <Navbar username={this.props.user.username} image_url={this.props.user.image_url} honor={this.props.user.honor}/>
@@ -53,10 +106,11 @@ class Profile extends Component {
                         <div className="profile_flexbox-1">
                         <img src={this.props.user.image_url} />
                             <div className="profile_flex-container">
-                                <div>{this.props.user.username} - {this.props.user.honor} </div>
+                                <div className="profile_diff-holder"><Diff isButton={false} rating={this.state.level}/></div>
+                                <div ><span>{this.props.user.username}</span></div>
                                 <div>Name: Unknown</div>
                                 <div>Clan: {this.props.user.clan}</div>
-                                <button>View Profile Badges</button>
+                                <button className="profile_button">View Profile Badges</button>
                             </div>
 
                             <div className="profile_flex-container">
@@ -83,17 +137,17 @@ class Profile extends Component {
                                 <div className="profile_stats-row">
 
                                     <div clasName="profile_stat-box1">
-                                        <div>Rank: 5 kyu</div>
+                                        <div>Rank: {this.state.level}</div>
                                         <div>Honor: {this.props.user.honor}</div>
                                         <div>Leaderboard Position: #{this.state.rank}</div>
                                         <div>Honor Percentile: 92nd</div>
-                                        <div>Total Completed Kata: 39</div>
+                                        <div>Total Completed Kata: {this.state.data[0]}</div>
                                     </div>
 
                                     <div clasName="profile_stat-box">
                                         <h2><i class="fa fa-code" aria-hidden="true"></i> Languages: </h2>
                                         <div>Total Languages Trained: 1</div>
-                                        <div>Highest Trained: JavaScript (5 kyu)</div>
+                                        <div>Highest Trained: JavaScript ({this.state.data[0]})</div>
                                         <div>Most Recent: JavaScript</div>
                                     </div>
 
@@ -107,7 +161,7 @@ class Profile extends Component {
                         </div>
 
                         <div className="profile_progress-div2">
-                            <h2>Honor Breakdown</h2>
+                            <h2>Stats</h2>
                             <Bar 
                             data={data}
                             width={1000}
@@ -128,6 +182,18 @@ class Profile extends Component {
                             />
                         </div>
 
+                        <div className="profile_progress-div2">
+                            <h2>Rank Breakdown</h2>
+                            <Pie 
+                            data={pieData}
+                            options={{
+                                cutoutPercentage: 70,
+                                legend: {
+                                    display: false
+                                },
+                            }}
+                            />
+                        </div>
                     </div>
 
                 </div>
