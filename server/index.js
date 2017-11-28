@@ -9,8 +9,6 @@ const cors = require('cors');
 const controller = require('./controllers/controller');
 
 
-
-
 const app = express();
 
 //app.use( express.static( `${__dirname}/../build`));
@@ -101,27 +99,7 @@ app.get(`/api/catfight/:id`, (req, res, next) => {
     })
 })
 
-//update this function so that it can add tags to database
-app.post(`/api/createfight`, (req, res, next) => {
-    // console.log(req.body)
-    const db = app.get('db')
-    db.create_fight([1, req.body.name, req.body.description, req.body.rank, req.body.solution, req.body.name, req.body.placeholder])
-        .then(newFight => {
-            req.body.tests.map((test, i) => {
-                // console.log(test)
-                db.create_test(newFight[0].cat_fight_id, test.parameters, test.parameter_types, test.expected_result, test.expected_result_type, false)
-                    // .then(tests => tests)
-            })
-            req.body.hiddenTests.map((test, i) => {
-                db.create_test(newFight[0].cat_fight_id, test.parameters, test.parameter_types, test.expected_result, test.expected_result_type, true)
-            })
-            req.body.tags.map((tag, i) => {
-                db.create_tag(newFight[0].cat_fight_id, tag)
-            })
-
-            res.send(newFight)
-        })
-})
+app.post(`/api/createfight`, controller.createCatFight)
 
 app.post('/api/fightinprogress', controller.postFightInProgress)
 app.post('/api/completedfight', controller.completedFight)
@@ -135,6 +113,7 @@ app.get(`/api/fightTagsByDifficulty`, controller.fightTagsByDifficulty)
 app.get(`/api/searchByInput/:input`, controller.searchByInput)
 app.get(`/api/searchByDifficulty/:difficulty`, controller.searchByDifficulty)
 app.get(`/api/searchByTagName/:tag`, controller.searchByTagName)
+app.get('/api/numberofallies/:clanname/:catsid', controller.numberOfAllies)
 
 // OUR ENDPOINTS ABOVE
 

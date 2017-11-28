@@ -6,6 +6,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
+    "chart.js": "^2.7.1",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
@@ -20,6 +21,7 @@
     "prismjs": "^1.8.4",
     "react": "^16.1.1",
     "react-ace": "^5.5.0",
+    "react-chartjs-2": "^2.6.4",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
@@ -29,7 +31,8 @@
     "redux-promise-middleware": "^4.4.2",
     "slate": "^0.30.7",
     "slate-html-serializer": "^0.4.7",
-    "slate-react": "^0.10.12"
+    "slate-react": "^0.10.12",
+    "wait-until": "0.0.2"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
