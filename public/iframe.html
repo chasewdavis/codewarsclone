@@ -139,6 +139,9 @@
                     // RESET EXPECTED RESULT TO JSON
                     // test.expected_result = JSON.stringify(test.expected_result)
                 }
+                if (test.parameter_errors.join('')) {
+                    test.passed = false
+                }
                 // RESET ARRAY PARAMETERS BACK TO JSON
                 // test.parameters = test.parameters.map((param, i) => {
                 //     return test.parameter_types[i] === 'array' ? JSON.stringify(param) : param
