@@ -79,7 +79,7 @@ class Test extends Component {
                                                         props.parameter_errors ?
                                                             props.parameter_errors[i] ?
                                                                 <div className='input-line'>
-                                                                    {props.parameter_errors[i]}
+                                                                    &nbsp;---&nbsp;{props.parameter_errors[i]}
                                                                 </div>
                                                                 :
                                                                 null
@@ -131,9 +131,9 @@ class Test extends Component {
                                     </select>
                                 </div>
                                 {
-                                    props.result_error ?
+                                    props.expected_result_error ?
                                         <div className="input-line">
-                                            {props.result_error}
+                                            &nbsp;---&nbsp;{props.expected_result_error}
                                         </div>
                                         :
                                         null
@@ -216,7 +216,7 @@ export default class Tests extends Component {
                                         expected_result={test.expected_result}
                                         expected_result_type={test.expected_result_type}
                                         result={test.result}
-                                        result_error={test.result_error}
+                                        expected_result_error={test.expected_result_error}
                                         passed={!test.hasOwnProperty('result') || test.passed}
                                         removeTest={() => this.props.removeTest(i)}
                                     />

@@ -1,4 +1,36 @@
+const waitUntil = require('wait-until');
+
 module.exports = {
+    createCatFight: (req, res, next) => {
+        // console.log(req.body)
+        const db = app.get('db')
+        db.create_fight([1, req.body.name, req.body.description, req.body.rank, req.body.solution, req.body.name, req.body.placeholder])
+            .then(newFight => {
+
+                let a = req.body.tests.length
+                let b = req.body.hiddenTests.length
+                let c = req.body.tags.length
+
+                req.body.tests.map((test, i) => {
+                    // console.log(test)
+                    db.create_test(newFight[0].cat_fight_id, test.parameters, test.parameter_types, test.expected_result, test.expected_result_type, false)
+                        .then(() => a--)
+                })
+                req.body.hiddenTests.map((test, i) => {
+                    db.create_test(newFight[0].cat_fight_id, test.parameters, test.parameter_types, test.expected_result, test.expected_result_type, true)
+                        .then(() => b--)
+                })
+                req.body.tags.map((tag, i) => {
+                    db.create_tag(newFight[0].cat_fight_id, tag)
+                        .then(() => c--)
+                })
+
+                waitUntil(50, 400, () => a + b + c === 0, () => {
+                    res.send(newFight)
+                })
+
+            })
+    },
     randomCatFight: ( req, res ) => {
         
         req.app.get('db').find_random_fight([]).then(fight=>{

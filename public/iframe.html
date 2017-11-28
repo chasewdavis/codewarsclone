@@ -97,11 +97,14 @@
             if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
                 return false
             }
-            arr1.map((a, i) => {
-                if (a !== arr2[i]) {
+            for (let i = 0; (i < arr1.length || i < arr2.length); i++) {
+                if (Array.isArray(arr1[i]) || Array.isArray(arr2[i])) {
+                    return equalArrays(arr1[i], arr2[i])
+                }
+                if (arr1[i] !== arr2[i]) {
                     return false
                 }
-            })
+            }
             return true
         }
         function runTests(args, body, tests) {
@@ -122,6 +125,7 @@
                     }
                     catch (e) {
                         test.parameter_errors[i] = String(e)
+                        console.log(test.parameter_errors)
                         return param
                     }
                 })
@@ -137,7 +141,12 @@
                 }
                 // console.log(test)
                 test.result_type = typeof test.result
-                test.typed_expected_result = types(test.expected_result, test.expected_result_type)
+                try {
+                    test.typed_expected_result = types(test.expected_result, test.expected_result_type)
+                }
+                catch (e) {
+                    test.expected_result_error = String(e)
+                }
                 // CHECK IF TESTS PASSED
                 test.passed = test.result === test.typed_expected_result
                 if (test.expected_result_type === 'array') {
