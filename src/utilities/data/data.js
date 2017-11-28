@@ -19,5 +19,8 @@ module.exports = {
     },
     postCompletedFightInProgress(body) {
         return axios.post(`http://localhost:3030/api/completedfight`, body)
+    },
+    getNumberOfAllies(clanName, catsId) {
+        return axios.get(`http://localhost:3030/api/numberofallies/${clanName}/${catsId}`)
     }
 }

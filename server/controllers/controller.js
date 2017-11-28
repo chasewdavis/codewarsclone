@@ -104,6 +104,25 @@ module.exports = {
                 res.status(200).send(resp)
             })
         })
+    },
+    numberOfAllies: function(req, res, next) {
+        const db = req.app.get('db');
+        const clanName = req.params.clanname;
+        const catsId = req.params.catsid
+
+        db.number_of_allies([clanName]).then(resp1 => {
+            let resp = {resp1}
+            db.find_overall_rank([catsId]).then(resp2 => {
+                resp.resp2 = resp2
+                db.get_completed_fights([catsId]).then(resp3 => {
+                    resp.resp3 = resp3
+                    db.get_authored_fights([catsId]).then(resp4 => {
+                        resp.resp4 = resp4
+                        res.status(200).send(resp)
+                    })
+                })
+            })
+        })
     }
     
 }
