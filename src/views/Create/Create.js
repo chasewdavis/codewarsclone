@@ -174,6 +174,8 @@ class Create extends Component {
         let reset = test => {
             delete test.typed_parameters
             delete test.parameter_errors
+            delete test.typed_expected_result
+            delete test.expected_result_error
             delete test.result
             delete test.result_error
             delete test.result_type
