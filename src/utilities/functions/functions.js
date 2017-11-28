@@ -82,5 +82,11 @@ module.exports = {
             test.passed = test.result === test.expected_result
             return test
         })
+    },
+    convertCase(str) {
+        var lower = str.toLowerCase();
+        return lower.replace(/(^| )(\w)/g, function(x) {
+          return x.toUpperCase();
+        });
     }
 }

@@ -133,3 +133,13 @@ describe('Function Parsing and Creating Algorithms:', () => {
         })
     })
 })
+
+describe('Tests related to Search folder', () => {
+    test('proper data type', () => {
+        let type = typeof f.convertCase('55');
+        expect(type).toEqual('string')
+    })
+    test('proper capitalization', () => {
+        expect(f.convertCase('hElLo')).toEqual('Hello');
+    })
+})
