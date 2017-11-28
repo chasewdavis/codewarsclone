@@ -3,6 +3,7 @@ import './Tags.css';
 import axios from 'axios';
 import { transferSearchResults } from '../../../../ducks/reducer';
 import { connect } from 'react-redux';
+import { convertCase } from '../../../../utilities/functions/functions';
 
 class Tags extends Component {
     constructor(props) {
@@ -12,32 +13,54 @@ class Tags extends Component {
         }
     }
     componentDidMount(){
-        // go grab all the tags use the group by sql file
         axios.get(`/api/fightTagsByDifficulty`).then(tags=>{
-            this.setState({tags:tags.data})
+            this.setState({tags:this.mergeTagsByIgnoringCase(tags.data)})
         })
     }
 
     searchByTagName(tag){
-        console.log(tag)
-        axios.get(`/api/SearchByTagName/${tag}`).then(fights=>{
+        return axios.get(`/api/SearchByTagName/${tag}`).then(fights=>{
             this.props.transferSearchResults(fights.data)
         })
     }
 
-    convert_case(str) {
-        var lower = str.toLowerCase();
-        return lower.replace(/(^| )(\w)/g, function(x) {
-          return x.toUpperCase();
-        });
+    // mergeTagsByIgnoringLetterS(array){
+    //     console.log('ignoring s', array)
+    // }
+
+    mergeTagsByIgnoringCase(array){
+        let newObjects = [];
+        for(let i = array.length - 1; i > 0; i--){
+            for(let j = 0; j < i; j++){
+                if(array[i].tag_name.toLowerCase() === array[j].tag_name.toLowerCase()){
+                    let newCount = ( array[i].count * 1 ) + ( array[j].count * 1 )
+                    let newObj = {};
+                    newObj.count = newCount.toString()
+                    newObj.tag_name = array[i].tag_name.toUpperCase()
+                    newObjects.push(newObj)
+                    array[i].destroy = true;
+                    array[j].destroy = true;
+                }
+            }
+        }
+        for(let i = array.length - 1; i > 0; i--){
+            if(array[i].destroy){
+                array.splice(i,1)
+            }
+        }
+        array = [...array, ...newObjects]
+        array.sort((a,b) => {
+            return b.count - a.count
+        })
+        return array;
     }
 
     render() {
-
+        
         let tags = this.state.tags.map((tag,i )=> {
 
             return (
-                <div key={i} className='tags_list'><span onClick={()=>this.searchByTagName(tag.tag_name)}>{this.convert_case(tag.tag_name)} ({tag.count})</span></div>
+                <div key={i} className='tags_list'><span onClick={()=>this.searchByTagName(tag.tag_name)}>{convertCase(tag.tag_name)} ({tag.count})</span></div>
             )
         })
 
