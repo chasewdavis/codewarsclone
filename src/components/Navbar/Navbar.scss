@@ -48,8 +48,8 @@
     align-items: center;
     width:38px;
     height: 38px;
-    box-shadow: inset 0 0 10px rgb(88, 21, 19);
-    background: #AC3028;
+    //box-shadow: inset 0 0 10px rgb(88, 21, 19);
+    //background: #AC3028;
 }
 
 .hide-pull-down {
@@ -123,15 +123,16 @@
     justify-content: space-around;
     color: white;
     height: 100%;
-    width: 30%;
-    max-width: 400px;
+    width: 20%;
+    max-width: 350px;
+    min-width: 270px;
     z-index: 12;
     float: right;
 
     img { 
-        height: 44px;
+        height: 40px;
         border-radius: 4px;
-        width: 44px
+        width: 40px;
     } 
 
     div {

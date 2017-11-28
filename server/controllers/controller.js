@@ -78,8 +78,19 @@ module.exports = {
     },
     searchByInput: (req, res) => {
         const db = req.app.get('db');
-        // console.log(req.params.input);
         db.get_fights_by_input([req.params.input]).then(fights => {
+            res.status(200).send(fights)
+        })
+    },
+    searchByDifficulty: (req, res) => {
+        const db = req.app.get('db');
+        db.get_fights_by_difficulty([req.params.difficulty]).then(fights => {
+            res.status(200).send(fights)
+        })
+    },
+    searchByTagName: (req, res) => {
+        const db = req.app.get('db');
+        db.get_fights_by_tag_name([req.params.tag]).then(fights => {
             res.status(200).send(fights)
         })
     },

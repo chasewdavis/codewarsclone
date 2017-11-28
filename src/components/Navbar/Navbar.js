@@ -3,6 +3,7 @@ import './Navbar.css';
 import lion from '../svgs/lion.svg';
 import { NavLink } from 'react-router-dom';
 import { Diff } from '../Buttons/Buttons';
+import background from '../svgs/background.png';
 
 
 class Navbar extends Component {
@@ -11,6 +12,44 @@ class Navbar extends Component {
         this.state = {
             hover:null,
             level: 8
+        }
+    }
+
+    componentWillReceiveProps(newProps) {
+        if(newProps != this.state.props) {
+            if(newProps.honor <= 150) {
+                this.setState({
+                level:  8
+                })
+            } else if(newProps.honor <= 420) {
+                this.setState({
+                level: 7
+                })
+            } else if(newProps.honor <= 906) {
+                this.setState({
+                level: 6
+                })
+            } else if(newProps.honor <= 1780) {
+                this.setState({
+                level: 5
+                })
+            } else if(newProps.honor <= 3355) {
+                this.setState({
+                level: 4
+                })
+            } else if(newProps.honor <=6189) {
+                this.setState({
+                level: 3
+                })
+            } else if(newProps.honor <=11291) {
+                this.setState({
+                level: 2
+                })
+            } else if(newProps.honor > 11291){
+                this.setState({
+                level: 1 
+                })
+            }
         }
     }
 
@@ -53,13 +92,17 @@ class Navbar extends Component {
 
     render() {
 
+        var imageStyle = {
+            backgroundImage: 'url(' + background +  ')'    
+        }
+
         return (
             <div className='navbar-parent'>
 
                 <div className='navbar'>
                     <div className='navbar-hover' onMouseOver={()=>this.setState({hover:'downwards'})}>
                         <div className='lion-box'>
-                            <img src={lion} alt='lion'></img>
+                            <img style={imageStyle} src={lion} alt='lion'></img>
                         </div>
                     </div>
 

@@ -34,9 +34,7 @@
   justify-content: center;
   align-items: center;
   width: 38px;
-  height: 38px;
-  box-shadow: inset 0 0 10px #581513;
-  background: #AC3028; }
+  height: 38px; }
 
 .hide-pull-down {
   display: none; }
@@ -93,13 +91,14 @@
   justify-content: space-around;
   color: white;
   height: 100%;
-  width: 30%;
-  max-width: 400px;
+  width: 20%;
+  max-width: 350px;
+  min-width: 270px;
   z-index: 12;
   float: right; }
   .navbar_right img {
-    height: 44px;
+    height: 40px;
     border-radius: 4px;
-    width: 44px; }
+    width: 40px; }
   .navbar_right div {
     width: 44px; }
