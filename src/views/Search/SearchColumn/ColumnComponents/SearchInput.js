@@ -19,7 +19,6 @@ class SearchInput extends Component {
     searchByInput(){
         //may want to use redux here so that this component's uncle can display these results
         axios.get(`/api/searchByInput/${this.state.userInput}`).then(fights=>{
-            console.log(fights.data)
             this.props.transferSearchResults(fights.data)
         })
     }

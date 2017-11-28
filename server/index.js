@@ -133,7 +133,8 @@ app.get(`/api/getCatFight/:id`, controller.getCatFight)
 app.get(`/api/getcat/:catId`, controller.getCat)
 app.get(`/api/fightTagsByDifficulty`, controller.fightTagsByDifficulty)
 app.get(`/api/searchByInput/:input`, controller.searchByInput)
-
+app.get(`/api/searchByDifficulty/:difficulty`, controller.searchByDifficulty)
+app.get(`/api/searchByTagName/:tag`, controller.searchByTagName)
 
 // OUR ENDPOINTS ABOVE
 

@@ -2,5 +2,5 @@ SELECT cat_fights.cat_fight_id, cat_fights.name, cat_fights.difficulty, cats.use
 FROM cat_fights
 JOIN cats on cats.cats_id = cat_fights.author_id
 JOIN tags on cat_fights.cat_fight_id = tags.cat_fight_id
-WHERE cat_fights.name ILIKE '%' || $1 || '%'
+WHERE cat_fights.difficulty = $1 
 GROUP BY cat_fights.cat_fight_id, cats.username
