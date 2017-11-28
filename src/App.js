@@ -13,6 +13,7 @@ import Search from './views/Search/Search';
 // will remove instructions after testing
 import Instructions from './components/TabContainer/Instructions/Instructions';
 import SlateExample from './components/TabContainer/Instructions/SlateExample/SlateExample';
+import Profile from './views/Profile/Profile';
 
 
 class App extends Component {
@@ -28,6 +29,7 @@ class App extends Component {
         {/* will remove /edit + instructions after testing */}
         <Route path='/edit' component={Instructions} />
         <Route path='/example' component={SlateExample} />
+        <Route path="/profile" component={Profile} />
       </Switch>
     );
   }
