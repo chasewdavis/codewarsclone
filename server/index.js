@@ -135,6 +135,7 @@ app.get(`/api/fightTagsByDifficulty`, controller.fightTagsByDifficulty)
 app.get(`/api/searchByInput/:input`, controller.searchByInput)
 app.get(`/api/searchByDifficulty/:difficulty`, controller.searchByDifficulty)
 app.get(`/api/searchByTagName/:tag`, controller.searchByTagName)
+app.get('/api/numberofallies/:clanname/:catsid', controller.numberOfAllies)
 
 // OUR ENDPOINTS ABOVE
 
