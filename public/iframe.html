@@ -73,16 +73,10 @@
                     return param
                 case 'array':
                     param = param.trim()
-                    if (param[0] !== '[' || param[param.length - 1] !== ']') {
-                        // return param
-                    }
-                    try {
-                        return eval(param)
-                    }
-                    catch (e) {
-                        // console.log(e)
-                        return param
-                    }
+                    return eval(param)
+                    // if (param[0] !== '[' || param[param.length - 1] !== ']') {
+                    //     return param
+                    // }
                 default:
                     return param;
             }
@@ -114,12 +108,14 @@
             // console.log(tests)
             let f = new Function(args, body)
             return tests.map(test => {
+                test.parameter_errors = []
                 test.typed_parameters = test.parameters.map((param, i) => {
                     try {
+                        test.parameter_errors.push('')
                         return types(param, test.parameter_types ? test.parameter_types[i] : "")
                     }
                     catch (e) {
-                        test.param_error = String(e)
+                        test.parameter_errors[i] = String(e)
                         return param
                     }
                 })
@@ -135,14 +131,14 @@
                 }
                 // console.log(test)
                 test.result_type = typeof test.result
-                test.expected_result = types(test.expected_result, test.expected_result_type)
+                test.typed_expected_result = types(test.expected_result, test.expected_result_type)
                 // CHECK IF TESTS PASSED
-                test.passed = test.result === test.expected_result
-                // if (test.expected_result_type === 'array') {
-                //     test.passed = equalArrays(test.result, test.expected_result)
-                //     // RESET EXPECTED RESULT TO JSON
-                //     test.expected_result = JSON.stringify(test.expected_result)
-                // }
+                test.passed = test.result === test.typed_expected_result
+                if (test.expected_result_type === 'array') {
+                    test.passed = equalArrays(test.result, test.typed_expected_result)
+                    // RESET EXPECTED RESULT TO JSON
+                    // test.expected_result = JSON.stringify(test.expected_result)
+                }
                 // RESET ARRAY PARAMETERS BACK TO JSON
                 // test.parameters = test.parameters.map((param, i) => {
                 //     return test.parameter_types[i] === 'array' ? JSON.stringify(param) : param

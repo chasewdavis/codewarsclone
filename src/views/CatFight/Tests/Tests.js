@@ -48,6 +48,7 @@ class Test extends Component {
                                 {
                                     props.parameters.length ?
                                         props.parameters.map((param, i) => {
+                                            console.log(props.parameter_errors ? props.parameter_errors[i] : null)
                                             return (
                                                 <div key={i} className='input-line' >
                                                     <div>Parameter {i + 1}:</div>
@@ -148,13 +149,15 @@ export default class Tests extends Component {
     }
     render() {
         // console.log(this.props)
-        console.log(this.props.tests)
+        // console.log(this.props.tests)
         return (
             <div className='Tests'>
                 {/* Finish Writing your function before you write your tests */}
                 {
                     this.props.tests ?
                         this.props.tests.map((test, i) => {
+                            console.log(test.result_error)
+                            console.log(test.parameter_errors)
                             return (
                                 <div key={i} className={test.hasOwnProperty('result') ? test.passed ? 'test-border passed' : 'test-border failed' : 'test-border'}>
 
@@ -164,6 +167,7 @@ export default class Tests extends Component {
                                         change={this.props.change}
                                         parameters={test.parameters}
                                         parameter_types={test.parameter_types}
+                                        parameter_errors={test.parameter_errors}
                                         types={test.paramTypes}
                                         expected_result={test.expected_result}
                                         expected_result_type={test.expected_result_type}

@@ -133,7 +133,7 @@ class Create extends Component {
         let { tests, hiddenTests } = Object.assign({}, this.state)
         let reset = test => {
             delete test.typed_parameters
-            delete test.param_error
+            delete test.parameter_errors
             delete test.result
             delete test.result_error
             delete test.result_type
