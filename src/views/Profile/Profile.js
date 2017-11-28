@@ -13,17 +13,20 @@ class Profile extends Component {
         this.state = {
             numberOfAllies: 0,
             rank: 0,
-            data: [1,2,3,4,5,6,7]
+            data: [5,0,0,0,1,2,2]
         }
     }
 
     componentDidMount() {
         calls.getNumberOfAllies(this.props.user.clan, this.props.user.cats_id).then(resp => {
             console.log(resp)
+            let newData = [resp.data.resp3[0].count, resp.data.resp4[0].count, 0, 0, 1, 2, 2];
+
             this.setState({
                 numberOfAllies: resp.data.resp1[0].count,
-                rank: resp.data.resp2[0].position
-            })
+                rank: resp.data.resp2[0].position,
+                data: newData
+            }, () => console.log(this.state))
         })
     }
 
@@ -31,12 +34,12 @@ class Profile extends Component {
     render() {
 
         const data = {
-            labels: ["Completed Kata", "Authored Kata", "Kumite", "Comments", "Up Votes", "Referrals", "Achievements"],
+            labels: ["Completed Kata", "Authored Kata" , "Comments", "Up Votes", "Referrals", "Achievements"],
             datasets: [{
                 label: "Number",
                 data: this.state.data,
-                backgroundColor: ['rgba(255,99,132,0.2)','rgba(255,99,132,0.2)','rgba(255,99,132,0.2)','rgba(255,99,132,0.2)','rgba(255,99,132,0.2)','rgba(255,99,132,0.2)','rgba(255,99,132,0.2)'],
-                borderColor: ['rgba(255,99,132,1)','rgba(255,99,132,1)','rgba(255,99,132,1)','rgba(255,99,132,1)','rgba(255,99,132,1)','rgba(255,99,132,1)','rgba(255,99,132,1)'],
+                backgroundColor: ['rgba(255,99,132,0.2)','rgba(255,99,132,0.2)','rgba(255,99,132,0.2)','rgba(255,99,132,0.2)','rgba(255,99,132,0.2)','rgba(255,99,132,0.2)'],
+                borderColor: ['rgba(255,99,132,1)','rgba(255,99,132,1)','rgba(255,99,132,1)','rgba(255,99,132,1)','rgba(255,99,132,1)','rgba(255,99,132,1)'],
                 borderWidth: 1
             }]
         }

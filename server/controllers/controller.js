@@ -114,7 +114,13 @@ module.exports = {
             let resp = {resp1}
             db.find_overall_rank([catsId]).then(resp2 => {
                 resp.resp2 = resp2
-                res.status(200).send(resp)
+                db.get_completed_fights([catsId]).then(resp3 => {
+                    resp.resp3 = resp3
+                    db.get_authored_fights([catsId]).then(resp4 => {
+                        resp.resp4 = resp4
+                        res.status(200).send(resp)
+                    })
+                })
             })
         })
     }
