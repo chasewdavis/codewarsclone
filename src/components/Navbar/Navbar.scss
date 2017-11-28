@@ -1,6 +1,7 @@
 .navbar-parent {
     height: 55px;
     color: #C1C1C1;
+    font-family: "Lato";
     a, button {
         width: 100%;
     }
@@ -116,18 +117,24 @@
 }
 
 .navbar_right {
+    font-size: 12px;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: space-around;
     color: white;
     height: 100%;
-    width: 20%;
-    max-width: 300px;
+    width: 30%;
+    max-width: 400px;
     z-index: 12;
     float: right;
 
     img { 
-        height: 70%;
+        height: 44px;
         border-radius: 4px;
-        margin-top: 5px;
+        width: 44px
     } 
+
+    div {
+        width: 44px;
+    }
 }
