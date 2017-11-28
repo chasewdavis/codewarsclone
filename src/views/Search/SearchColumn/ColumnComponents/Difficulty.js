@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './Difficulty.css';
 import { Diff } from '../../../../components/Buttons/Buttons';
+import axios from 'axios';
+import { transferSearchResults } from '../../../../ducks/reducer';
+import { connect } from 'react-redux';
 
 class Difficulty extends Component {
     constructor(props) {
@@ -13,6 +16,9 @@ class Difficulty extends Component {
 
     searchByDifficulty(difficulty){
         console.log(difficulty)
+        axios.get(`/api/SearchByDifficulty/${difficulty}`).then(fights=>{
+            this.props.transferSearchResults(fights.data)
+        })
     }
 
     render() {
@@ -38,4 +44,4 @@ class Difficulty extends Component {
     }
 }
 
-export default Difficulty;
+export default connect(null,{transferSearchResults})(Difficulty);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Diff, Hollow } from '../../../components/Buttons/Buttons';
+import axios from 'axios';
 import './SearchResults.css';
 
 class SearchResults extends Component {
@@ -11,6 +12,11 @@ class SearchResults extends Component {
             results: []
         }
         this.train = this.train.bind(this);
+    }
+
+    ComponentDidMount(){
+        // can grab fights that are within the user's ability
+        
     }
 
     train(id){
