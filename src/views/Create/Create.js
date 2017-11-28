@@ -87,13 +87,20 @@ class Create extends Component {
     }
 
     handleReceivedMessage = e => {
-        // console.log(e.data)
+        console.log(e.data)
         if (e.data.source) {
-            // console.log(e.data)
+            return
+        }
+        if (!e.data.tests || !e.data.hiddenTests) {
             return
         }
         let { tests, hiddenTests } = e.data
-        let passed = [...tests, ...hiddenTests].reduce((t1, t2) => (t1 && t2.passed), true)
+        // console.log(tests)
+        // console.log(hiddenTests)
+        let passed = hiddenTests.concat(tests) // [...tests, ...hiddenTests]
+            .reduce((t1, t2) => {
+                return (t1 && t2.passed)
+            }, true)
         // console.log(passed)
         this.setState({
             // testResults: e.data,
@@ -123,6 +130,17 @@ class Create extends Component {
     }
 
     runTests = () => {
+        let { tests, hiddenTests } = Object.assign({}, this.state)
+        let reset = test => {
+            delete test.typed_parameters
+            delete test.param_error
+            delete test.result
+            delete test.result_error
+            delete test.result_type
+            return test
+        }
+        tests = tests.map(reset)
+        hiddenTests = hiddenTests.map(reset)
         let newClick
         this.setState({
             click: 2,
@@ -376,7 +394,7 @@ class Create extends Component {
                     this.state.redirect ?
                         <Redirect to={this.state.redirectUrl} />
                         :
-                        null    
+                        null
                 }
                 <Navbar />
                 <div className='create_main-wrapper'>

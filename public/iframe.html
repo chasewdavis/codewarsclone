@@ -52,8 +52,8 @@
             return array(str, i1, i2)
         }
         function types(param, type) {
-            console.log(param)
-            console.log(type)
+            // console.log(param)
+            // console.log(type)
             switch (type) {
                 case 'boolean':
                     return param === 'true' ? true : false
@@ -64,7 +64,8 @@
                 case 'number':
                     return parseInt(param)
                 case 'string':
-                    return String(param)
+                    return param
+                    // return String(param)
                 // case 'symbol':
                 // return 
                 case 'object':
@@ -72,14 +73,14 @@
                     return param
                 case 'array':
                     param = param.trim()
-                    if (param[0] !== '[' || param[param.length-1] !==']') {
+                    if (param[0] !== '[' || param[param.length - 1] !== ']') {
                         // return param
                     }
                     try {
                         return eval(param)
                     }
                     catch (e) {
-                        console.log(e)
+                        // console.log(e)
                         return param
                     }
                 default:
@@ -110,42 +111,42 @@
             return true
         }
         function runTests(args, body, tests) {
-            console.log(tests)
+            // console.log(tests)
             let f = new Function(args, body)
             return tests.map(test => {
-                test.parameters = test.parameters.map((param, i) => {
+                test.typed_parameters = test.parameters.map((param, i) => {
                     try {
                         return types(param, test.parameter_types ? test.parameter_types[i] : "")
                     }
                     catch (e) {
-                        // test.error = e 
+                        test.param_error = String(e)
                         return param
                     }
                 })
-                console.log(test)
+                // console.log(test)
                 try {
-                    test.result = f.apply(null, test.parameters)
+                    test.result = f.apply(null, test.typed_parameters)
                 }
                 catch (e) {
-                    console.log(e)
-                    // test.error = e
+                    // console.log(e)
+                    test.result_error = String(e)
                     test.passed = false
                     // return test
                 }
-                console.log(test)
+                // console.log(test)
                 test.result_type = typeof test.result
                 test.expected_result = types(test.expected_result, test.expected_result_type)
                 // CHECK IF TESTS PASSED
                 test.passed = test.result === test.expected_result
-                if (test.expected_result_type === 'array') {
-                    test.passed = equalArrays(test.result, test.expected_result)
-                    // RESET EXPECTED RESULT TO JSON
-                    test.expected_result = JSON.stringify(test.expected_result)
-                }
+                // if (test.expected_result_type === 'array') {
+                //     test.passed = equalArrays(test.result, test.expected_result)
+                //     // RESET EXPECTED RESULT TO JSON
+                //     test.expected_result = JSON.stringify(test.expected_result)
+                // }
                 // RESET ARRAY PARAMETERS BACK TO JSON
-                test.parameters = test.parameters.map((param, i) => {
-                    return test.parameter_types[i] === 'array' ? JSON.stringify(param) : param
-                })
+                // test.parameters = test.parameters.map((param, i) => {
+                //     return test.parameter_types[i] === 'array' ? JSON.stringify(param) : param
+                // })
                 // STRINGIFY THE RESULT TO PROTECT DATA IN APP
                 test.result = JSON.stringify(test.result)
                 return test
@@ -153,7 +154,7 @@
         }
 
         window.addEventListener('message', function (e) {
-            console.log(e.data)
+            // console.log(e.data)
             let code = e.data.code;
 
             // instantiate tests arrays
@@ -163,18 +164,21 @@
             // run tests on tests arrays
             try {
                 tests = runTests(args(code), body(code), tests)
-                console.log(tests)
+                // console.log(tests)
             }
             catch (e) {
-                console.log(typeof e)
-                console.log(e)
+                // console.log(typeof e)
+                // console.log(e)
+                e
             }
-            // if (hiddenTests) {
-            //     hiddenTests = runTests(args(code), body(code), hiddenTests)
-            // }
-            // else {
-            //     hiddenTests = []
-            // }
+            try {
+                hiddenTests = runTests(args(code), body(code), hiddenTests)
+            }
+            catch (e) {
+                // console.log(typeof e)
+                // console.log(e)
+                hiddenTests = []
+            }
 
             // send results object
             result = {
@@ -182,10 +186,9 @@
                 hiddenTests
             }
 
-            console.log(result)
+            // console.log(result)
 
             var mainWindow = e.source;
-            mainWindow.postMessage('it worked', e.origin);
             mainWindow.postMessage(result, e.origin);
         });
     </script>
