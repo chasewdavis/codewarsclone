@@ -73,9 +73,15 @@
                 case 'array':
                     param = param.trim()
                     if (param[0] !== '[' || param[param.length-1] !==']') {
+                        // return param
+                    }
+                    try {
+                        return eval(param)
+                    }
+                    catch (e) {
+                        console.log(e)
                         return param
                     }
-                    return eval(param)
                 default:
                     return param;
             }
@@ -108,9 +114,25 @@
             let f = new Function(args, body)
             return tests.map(test => {
                 test.parameters = test.parameters.map((param, i) => {
-                    return types(param, test.parameter_types ? test.parameter_types[i] : "")
+                    try {
+                        return types(param, test.parameter_types ? test.parameter_types[i] : "")
+                    }
+                    catch (e) {
+                        // test.error = e 
+                        return param
+                    }
                 })
-                test.result = f.apply(null, test.parameters)
+                console.log(test)
+                try {
+                    test.result = f.apply(null, test.parameters)
+                }
+                catch (e) {
+                    console.log(e)
+                    // test.error = e
+                    test.passed = false
+                    // return test
+                }
+                console.log(test)
                 test.result_type = typeof test.result
                 test.expected_result = types(test.expected_result, test.expected_result_type)
                 // CHECK IF TESTS PASSED
@@ -139,13 +161,19 @@
             // console.log(tests, hiddenTests)
 
             // run tests on tests arrays
-            tests = runTests(args(code), body(code), tests)
-            if (hiddenTests) {
-                hiddenTests = runTests(args(code), body(code), hiddenTests)
+            try {
+                tests = runTests(args(code), body(code), tests)
+                console.log(tests)
             }
-            else {
-                hiddenTests = []
+            catch (e) {
+                console.log(e)
             }
+            // if (hiddenTests) {
+            //     hiddenTests = runTests(args(code), body(code), hiddenTests)
+            // }
+            // else {
+            //     hiddenTests = []
+            // }
 
             // send results object
             result = {
@@ -156,6 +184,7 @@
             console.log(result)
 
             var mainWindow = e.source;
+            mainWindow.postMessage('it worked', e.origin);
             mainWindow.postMessage(result, e.origin);
         });
     </script>
