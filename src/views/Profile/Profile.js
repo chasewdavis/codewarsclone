@@ -15,7 +15,8 @@ class Profile extends Component {
             rank: 0,
             data: [5,0,0,0,1,2,2],
             pieData: [10, 90],
-            leve: 8
+            level: 8,
+            clan: ''
         }
     }
 
@@ -27,7 +28,8 @@ class Profile extends Component {
             this.setState({
                 numberOfAllies: resp.data.resp1[0].count,
                 rank: resp.data.resp2[0].position,
-                data: newData
+                data: newData,
+                clan: this.props.user.clan
             }, () => {
                 if(this.props.user.honor <= 150) {
                     this.setState({
@@ -74,6 +76,23 @@ class Profile extends Component {
         })
     }
 
+    handleClanChange(clan) {
+        this.setState({
+            clan: clan
+        })
+    }
+
+    updateClan() {
+        let bod = {clan: this.state.clan,
+                    catsId: this.props.user.cats_id
+                    }
+        calls.updateClan(bod).then(resp => {
+            this.setState({
+                clan: resp.data[0].clan
+            }, ()=> console.log(this.state))
+        })
+    }
+
 
     render() {
 
@@ -106,17 +125,16 @@ class Profile extends Component {
                         <div className="profile_flexbox-1">
                         <img src={this.props.user.image_url} />
                             <div className="profile_flex-container">
-                                <div className="profile_diff-holder"><Diff isButton={false} rating={this.state.level}/></div>
-                                <div ><span>{this.props.user.username}</span></div>
+                                <div><span className="profile_main-username">{this.props.user.username}</span></div>
                                 <div>Name: Unknown</div>
-                                <div>Clan: {this.props.user.clan}</div>
+                                <div>Clan: <input className="clan-input" type="text" value={this.state.clan} onChange={(e) => this.handleClanChange(e.target.value)}/><button className="profile_button" onClick={() => this.updateClan()}>Update</button></div>
                                 <button className="profile_button">View Profile Badges</button>
                             </div>
 
                             <div className="profile_flex-container">
                                 <div>Member Since: {this.props.user.created_at}</div>
                                 <div>Last Seen: {this.props.user.last_seen_at}</div>
-                                <div>Profiles: </div>
+                                <div>Profiles: <i className="fa fa-github" aria-hidden="true"></i> <i className="fa fa-twitter" aria-hidden="true"></i> </div>
                             </div>
 
                             <div id="last_div" className="profile_flex-container">
@@ -136,7 +154,7 @@ class Profile extends Component {
                                 <h2 id="progress">Progress</h2>
                                 <div className="profile_stats-row">
 
-                                    <div clasName="profile_stat-box1">
+                                    <div clasName="profile_stat-box profile_stat-box1">
                                         <div>Rank: {this.state.level}</div>
                                         <div>Honor: {this.props.user.honor}</div>
                                         <div>Leaderboard Position: #{this.state.rank}</div>
@@ -161,11 +179,11 @@ class Profile extends Component {
                         </div>
 
                         <div className="profile_progress-div2">
-                            <h2>Stats</h2>
+                            <h2><i className="fa fa-bar-chart" aria-hidden="true"></i> Stats</h2>
                             <Bar 
                             data={data}
                             width={1000}
-                            height={300}
+                            height={100}
                             options={{
                                 maintainAspectRatio: false,
                                 scales: {
@@ -183,7 +201,7 @@ class Profile extends Component {
                         </div>
 
                         <div className="profile_progress-div2">
-                            <h2>Rank Breakdown</h2>
+                            <h2><i class="fa fa-trophy" aria-hidden="true"></i> Rank Breakdown</h2>
                             <Pie 
                             data={pieData}
                             options={{
@@ -191,11 +209,15 @@ class Profile extends Component {
                                 legend: {
                                     display: false
                                 },
+                                maintainAspectRatio: false
                             }}
                             />
                         </div>
                     </div>
 
+                    <div className="profile_footer">
+
+                    </div>
                 </div>
             </div>
         )

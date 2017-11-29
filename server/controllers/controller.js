@@ -182,6 +182,13 @@ module.exports = {
                 })
             })
         })
+    },
+    updateClan: function(req, res, next) {
+        const db = req.app.get('db');
+        console.log(req.body)
+        db.update_clan([req.body.clan, req.body.catsId]).then(resp => {
+            res.status(200).send(resp)
+        })
     }
 
 }

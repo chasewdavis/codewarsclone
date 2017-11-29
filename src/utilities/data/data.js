@@ -22,5 +22,8 @@ module.exports = {
     },
     getNumberOfAllies(clanName, catsId) {
         return axios.get(`http://localhost:3030/api/numberofallies/${clanName}/${catsId}`)
+    },
+    updateClan(body) {
+        return axios.post('http://localhost:3030/api/updateClan', body)
     }
 }

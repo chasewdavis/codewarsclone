@@ -104,6 +104,7 @@ app.post(`/api/createfight`, controller.createCatFight)
 app.post('/api/fightinprogress', controller.postFightInProgress)
 app.post('/api/completedfight', controller.completedFight)
 app.put('/api/fightinprogress', controller.updateFightInProgress)
+app.post('/api/updateClan', controller.updateClan)
 
 app.get('/api/oneRandomCatFight', controller.oneRandomCatFight)
 app.get(`/api/randomCatFight`, controller.randomCatFight)

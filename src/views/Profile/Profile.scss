@@ -46,7 +46,7 @@
     justify-content: space-between;
 
     div {
-        margin-top: 10px;
+        margin-top: 6px;
     }
 
     .profile_button {
@@ -64,13 +64,16 @@
         border: 1px solid #91b2e7;
         color: #91b2e7;
     }
+
+    i {
+        margin-left: 5px;
+    }
 }
 
 /* Second Div */
 
 .profile_progress-div {
     width: 100%;
-    height: 160vh;
     background-color: #262729;
     padding: 15px;
     min-width: 580px;
@@ -80,7 +83,7 @@
 
 #progress {
     font-size: 20px;
-    color: #EBEBEB;
+    color: #EFEFEF;
     margin-left: 35px;
     margin-bottom: 16px;
 }
@@ -96,22 +99,54 @@
     }
 
     i {
-        color: #C92A17;
+        color: rgba(255,99,132,0.7);
         margin-right: 5px;
     }
 }
 
-.profile_stat-box1 {
-    margin-left: 50px;
-}
-
 .profile_progress-div2 {
     margin-top: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 80px;
+    height: 200px;
+    width: 100%;
 
     h2 {
         text-align: center;
         font-size: 18px;
         margin-bottom: 30px;
     }
+
+    i {
+        margin-right: 5px;
+        color: rgba(255,99,132,0.7);
+    }
+}
+
+.clan-input {
+    background-color: #1D1D1F;
+    border: 2px solid #292b2b;
+    border-radius: 4px;
+    width: 100px;
+    height: 1.6rem;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #B5B5B5;
+    padding: 0.5rem;
+}
+
+.clan-input:focus{
+    outline: none;
+    border: 1px solid #6795de;
+    color: #6795de;
+}
+
+.profile_footer {
+    width: 100%;
+    height: 65px;
+    background-color: #1D1D1F;
+}
+
+.profile_main-username {
+    font-size: 20px;
+    color: #E8E8E2;
 }
