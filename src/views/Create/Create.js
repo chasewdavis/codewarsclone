@@ -157,7 +157,7 @@ class Create extends Component {
                 // console.log(response.data)
                 this.setState({
                     redirect: true,
-                    redirectUrl: `/catfight/${response.data[0].cat_fight_id}`
+                    redirectUrl: `/fightdetails/${response.data.cat_fight_id}`
                 })
             })
         }
@@ -455,6 +455,7 @@ class Create extends Component {
                         <div className="create_rank-container">
                             <h3 className={unfinished.includes('rank') ? 'unfinished' : null} ><i class="fa fa-question-circle" aria-hidden="true"></i>Estimated Rank:</h3>
                             <select className="create_rank-selector" onChange={(e) => this.handleRankChange(e.target.value)}>
+                                <option value="" disabled selected>Select Rank</option>
                                 <option value="8">8 kyu (white)</option>
                                 <option value="7">7 kyu (white)</option>
                                 <option value="6">6 kyu (yellow)</option>
