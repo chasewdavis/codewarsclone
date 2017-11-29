@@ -118,6 +118,7 @@ class Navbar extends Component {
                 <div onMouseLeave={()=>this.setState({hover:'upwards'})} className={this.state.hover? this.state.hover==='downwards'? 'pull-down-menu':'pull-up-menu' :'hide-pull-down'}>
                     <NavLink to='/'><button><i class="fa fa-home" aria-hidden="true"></i> Home</button></NavLink>
                     {/* <NavLink to={`/fightdetails/`}><button>Random Fight</button></NavLink> */}
+                    <NavLink to='/profile'><button><i class="fa fa-user" aria-hidden="true"></i> Profile</button></NavLink>
                     <NavLink to='/search'><button><i class="fa fa-circle-o-notch" aria-hidden="true"></i> Search</button></NavLink>
                     <NavLink to='/create'><button><i class="fa fa-plus-square" aria-hidden="true"></i> Create</button></NavLink>
                     
