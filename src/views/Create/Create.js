@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import SolutionHelp from '../../components/Help/SolutionHelp';
 import SolutionDesc from '../../components/Help/SolutionDesc';
@@ -445,7 +445,7 @@ class Create extends Component {
                         {/* <div onClick={this.save} className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div> */}
                         <div onClick={this.publish} className="create_main-header-blue"><i class="fa fa-paper-plane" aria-hidden="true"></i>Publish</div>
                         <div onClick={this.reset} className="create_main-header-blue"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</div>
-                        <div onClick={this.cancel} className="create_main-header-red"><i class="fa fa-trash" aria-hidden="true"></i>Cancel</div>
+                        <Link to="/home" className="create_main-header-red"><div className="link"><i class="fa fa-trash" aria-hidden="true"></i>Cancel</div></Link>
                     </div>
                     <div className="create_left-inputs">
                         <div className="create_name-input-container">
@@ -454,8 +454,8 @@ class Create extends Component {
                         </div>
                         <div className="create_rank-container">
                             <h3 className={unfinished.includes('rank') ? 'unfinished' : null} ><i class="fa fa-question-circle" aria-hidden="true"></i>Estimated Rank:</h3>
-                            <select className="create_rank-selector" onChange={(e) => this.handleRankChange(e.target.value)}>
-                                <option value="" disabled selected>Select Rank</option>
+                            <select className="create_rank-selector" onChange={(e) => this.handleRankChange(e.target.value)} defaultValue="Select Rank">
+                                <option value="Select Rank" disabled>Select Rank</option>
                                 <option value="8">8 kyu (white)</option>
                                 <option value="7">7 kyu (white)</option>
                                 <option value="6">6 kyu (yellow)</option>

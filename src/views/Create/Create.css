@@ -17,6 +17,8 @@
   grid-row: 1 / 2;
   margin-top: 30px;
   display: flex; }
+  .create_main-header .link {
+    text-decoration: none; }
 
 .create_main-header div {
   padding-top: 12px;
@@ -24,7 +26,8 @@
   width: 104px;
   font-size: 14px;
   color: #BDBDBD;
-  text-align: center; }
+  text-align: center;
+  text-decoration: none; }
 
 .create_main-header div i {
   margin-right: 6px; }

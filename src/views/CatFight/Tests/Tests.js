@@ -60,11 +60,9 @@ class Test extends Component {
                                                         />
                                                         <select
                                                             onChange={e => props.change(props.id, 'types', e.target.value, i)}
-                                                            defaultValue={null
-                                                                // props.parameter_types ? props.parameter_types.length ? props.parameter_types[i] : "Data Type" : "Data Type"
-                                                            }
+                                                            defaultValue={"Data Type"}
                                                         >
-                                                            <option selected disabled>Data Type</option>
+                                                            <option value="Data Type" disabled>Data Type</option>
                                                             {
                                                                 dataTypes.map((type, i) => {
                                                                     return (
