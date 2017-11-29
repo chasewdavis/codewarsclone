@@ -17,7 +17,7 @@ class SearchInput extends Component {
     }
 
     searchByInput(){
-        //may want to use redux here so that this component's uncle can display these results
+        // using redux here so that this component's uncle can display these results
         axios.get(`/api/searchByInput/${this.state.userInput}`).then(fights=>{
             this.props.transferSearchResults(fights.data)
         })
@@ -27,7 +27,11 @@ class SearchInput extends Component {
         return (
             <div className='searchInput'>
                 <div className='parent'>
-                    <input onChange={(e)=>this.handleChange(e.target.value)} placeholder='Search'></input>
+                    <input 
+                        onKeyPress={(e) => {if(e.key==="Enter")this.searchByInput()}}
+                        onChange={(e)=>this.handleChange(e.target.value)} 
+                        placeholder='Search'>
+                    </input>
                     <button onClick={()=>this.searchByInput()}>
                         <i className='fa fa-search'></i>
                     </button>

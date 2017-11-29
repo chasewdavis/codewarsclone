@@ -88,5 +88,61 @@ module.exports = {
         return lower.replace(/(^| )(\w)/g, function(x) {
           return x.toUpperCase();
         });
+    },
+    mergeTagsByIgnoringLetterS(arr){
+        arr.sort((a,b) => {
+            a.count = a.count * 1;
+            b.count = b.count * 1;
+            a.tag_name = a.tag_name.toUpperCase();
+            b.tag_name = b.tag_name.toUpperCase();
+            if(a.tag_name < b.tag_name) {
+                return -1;
+            }
+            if(a.tag_name > b.tag_name) {
+                return 1;
+            }
+            return 0
+        });
+        for(let i = 1; i < arr.length; i++) {
+            // since tag_names are sorted alphabetically checking the second word's last letter works 
+            if(arr[i].tag_name.slice(arr[i].tag_name.length - 1) === "S"){
+                // now check if tag names are the same other than last letter (which we know is "S")
+                if(arr[i].tag_name.slice(0,-1) === arr[i-1].tag_name){
+                    // here we know the words are a match so we can merge the two
+                    // we will keep the first get rid of the second
+                    arr[i-1].tag_name = arr[i].tag_name
+                    arr[i-1].count += arr[i].count
+                    arr.splice(i,1)
+                    i--;
+                }
+                
+            }
+        }
+        return arr.sort((a,b) => b.count - a.count);
+    },
+
+    mergeTagsByIgnoringCase(arr){
+        arr.sort((a,b) => {
+            a.count = a.count * 1;
+            b.count = b.count * 1;
+            a.tag_name = a.tag_name.toUpperCase();
+            b.tag_name = b.tag_name.toUpperCase();
+            if(a.tag_name < b.tag_name) {
+                return -1;
+            }
+            if(a.tag_name > b.tag_name) {
+                return 1;
+            }
+            return 0
+        });
+        for(let i = 1; i < arr.length; i++) {
+            if(arr[i - 1].tag_name === arr[i].tag_name) {
+                arr[i - 1].count = (arr[i-1].count * 1 ) + ( arr[i].count * 1 );
+                arr.splice(i, 1);
+                i--;
+            }
+        }
+        return arr.sort((a,b) => b.count - a.count);
     }
+
 }
