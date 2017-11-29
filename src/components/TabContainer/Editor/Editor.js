@@ -15,7 +15,7 @@ class Editor extends Component {
 
     //this will wait for a new value of click to arrive and then will fire off the handleClick method
     componentWillReceiveProps(newProps) {
-        console.log(newProps)
+        // console.log(newProps)
         if (newProps.click === 1) {
             this.handleTestClick()
         } else if (newProps.click === 2) {

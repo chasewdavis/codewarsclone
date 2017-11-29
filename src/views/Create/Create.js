@@ -20,7 +20,7 @@ let initialState = {
     redirectUrl: '',
     unfinished: [],
     leftAceActive: 1,
-    solution: '// type your solution here',
+    solution: 'function (a) {return Number(a)}', // '// type your solution here',
     placeholder: '// type your initial code here',
     rightAceActive: 1,
     rightAceCode: '',
@@ -65,6 +65,9 @@ class Create extends Component {
     }
 
     publish = () => {
+        this.setState({
+            unfinished: []
+        })
         let { name, solution, placeholder, tests, hiddenTests, tags, description, rank } = this.state
         let unfinished = []
         if (!name) {
@@ -305,7 +308,7 @@ class Create extends Component {
     handleTagChange(tags) {
         // console.log()
         this.setState({
-            tags: tags.split(',').map(tag => tag.trim())
+            tags: tags.split(',').map(tag => tag.trim().toUpperCase())
         })
     }
 
@@ -445,7 +448,7 @@ class Create extends Component {
                         {/* <div onClick={this.save} className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div> */}
                         <div onClick={this.publish} className="create_main-header-blue"><i class="fa fa-paper-plane" aria-hidden="true"></i>Publish</div>
                         <div onClick={this.reset} className="create_main-header-blue"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</div>
-                        <Link to="/home" className="create_main-header-red"><div className="link"><i class="fa fa-trash" aria-hidden="true"></i>Cancel</div></Link>
+                        <Link to="/" className="create_main-header-red"><div className="link"><i class="fa fa-trash" aria-hidden="true"></i>Cancel</div></Link>
                     </div>
                     <div className="create_left-inputs">
                         <div className="create_name-input-container">
