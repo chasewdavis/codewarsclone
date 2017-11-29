@@ -102,28 +102,38 @@
 
             let f = new Function(args, body)
 
+            // MAPPING THROUGH TESTS ARRAY TO EVALUATE EACH TEST
+            // --- ADDING NEW PROPERTIES
+            // --- LEAVING OLD PROPERTIES UNTOUCHED
+            // --- NEW PROPERTIES MAY BE DELETED ON FRONT END TO REVERT BACK TO ORIGINAL TESTS ARRAY
             return tests.map(test => {
                 test.parameter_errors = []
+                // MAPPING THROUGH PARAMETERS TO CREATE CORRECT PARAMETER TYPES
                 test.typed_parameters = test.parameters.map((param, i) => {
+                    // IF TYPES FUNCTION SUCCEEDS, ADD '' TO PARAMETER_ERRORS
                     try {
                         test.parameter_errors.push('')
                         return types(param, test.parameter_types ? test.parameter_types[i] : "")
                     }
+                    // IF TYPES FUNCTION FAILS, RETURN ORIGINAL PARAM AND ADD ERROR TO PARAMETER_ERRORS
                     catch (e) {
                         test.parameter_errors[i] = String(e)
                         console.log(test.parameter_errors)
                         return param
                     }
                 })
+                // IF SUBMITTED FUNCTION SUCCEEDS, ADD TEST RESULT TO TEST
                 try {
                     test.result = f.apply(null, test.typed_parameters)
                     console.log(test.result)
                 }
+                // IF SUBMITTED FUNCTION FAILS, ADD RESULT_ERROR TO TEST
                 catch (e) {
                     test.result_error = String(e)
                     test.passed = false
                 }
                 test.result_type = typeof test.result
+                // CONVERT EXPECTED_RESULT TO CORRECT TYPE
                 try {
                     test.typed_expected_result = types(test.expected_result, test.expected_result_type)
                     console.log(test.typed_expected_result)
@@ -132,10 +142,16 @@
                     test.expected_result_error = String(e)
                 }
                 // CHECK IF TESTS PASSED
-                test.passed = test.result === test.typed_expected_result
+                test.passed = test.result === test.typed_expected_result 
+                // CHECK FOR NAN (( NaN is the only JavaScript object that does not equal itself :O :O :O ))
+                if (test.result !== test.result && test.typed_expected_result !== test.typed_expected_result) {
+                    test.passed = true
+                }
+                // CHECK FOR ARRAYS
                 if (test.expected_result_type === 'array') {
                     test.passed = equalArrays(test.result, test.typed_expected_result)
                 }
+                // CHECK FOR ERRORS
                 if (test.parameter_errors.join('')) {
                     test.passed = false
                 }

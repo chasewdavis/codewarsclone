@@ -2,7 +2,7 @@ const waitUntil = require('wait-until');
 
 module.exports = {
     createCatFight: (req, res, next) => {
-        // console.log(req.body)
+        console.log(req.body)
         const db = req.app.get('db')
         db.create_fight([1, req.body.name, req.body.description, req.body.rank, req.body.solution, req.body.name, req.body.placeholder])
             .then(newFight => {
@@ -36,14 +36,14 @@ module.exports = {
                 })
 
                 waitUntil(50, 400, () => {
-                    // console.log(res.headersSent)
+                    console.log(res.headersSent)
                     return a + b + c === 0 || res.headersSent
                 }, () => {
-                    // console.log('done')
+                    console.log('done')
                     if (res.headersSent) {
                         return console.log('header already sent')
                     }
-                    // console.log(newFight[0])
+                    console.log(newFight[0])
                     db.get_fight(newFight[0].cat_fight_id)
                         .then(catFight => {
                             db.get_tests([newFight[0].cat_fight_id])

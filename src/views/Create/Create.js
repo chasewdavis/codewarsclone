@@ -20,7 +20,7 @@ let initialState = {
     redirectUrl: '',
     unfinished: [],
     leftAceActive: 1,
-    solution: 'function (a) {return Number(a)}', // '// type your solution here',
+    solution: '// type your solution here', // 'function (a) {return Number(a)}',
     placeholder: '// type your initial code here',
     rightAceActive: 1,
     rightAceCode: '',
