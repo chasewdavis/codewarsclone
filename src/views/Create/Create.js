@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import SolutionHelp from '../../components/Help/SolutionHelp';
 import SolutionDesc from '../../components/Help/SolutionDesc';
@@ -20,7 +20,7 @@ let initialState = {
     redirectUrl: '',
     unfinished: [],
     leftAceActive: 1,
-    solution: '// type your solution here',
+    solution: 'function (a) {return Number(a)}', // '// type your solution here',
     placeholder: '// type your initial code here',
     rightAceActive: 1,
     rightAceCode: '',
@@ -65,6 +65,9 @@ class Create extends Component {
     }
 
     publish = () => {
+        this.setState({
+            unfinished: []
+        })
         let { name, solution, placeholder, tests, hiddenTests, tags, description, rank } = this.state
         let unfinished = []
         if (!name) {
@@ -157,7 +160,7 @@ class Create extends Component {
                 // console.log(response.data)
                 this.setState({
                     redirect: true,
-                    redirectUrl: `/catfight/${response.data[0].cat_fight_id}`
+                    redirectUrl: `/fightdetails/${response.data.cat_fight_id}`
                 })
             })
         }
@@ -305,7 +308,7 @@ class Create extends Component {
     handleTagChange(tags) {
         // console.log()
         this.setState({
-            tags: tags.split(',').map(tag => tag.trim())
+            tags: tags.split(',').map(tag => tag.trim().toUpperCase())
         })
     }
 
@@ -445,7 +448,7 @@ class Create extends Component {
                         {/* <div onClick={this.save} className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div> */}
                         <div onClick={this.publish} className="create_main-header-blue"><i class="fa fa-paper-plane" aria-hidden="true"></i>Publish</div>
                         <div onClick={this.reset} className="create_main-header-blue"><i class="fa fa-repeat" aria-hidden="true"></i>Reset</div>
-                        <div onClick={this.cancel} className="create_main-header-red"><i class="fa fa-trash" aria-hidden="true"></i>Cancel</div>
+                        <Link to="/" className="create_main-header-red"><div className="link"><i class="fa fa-trash" aria-hidden="true"></i>Cancel</div></Link>
                     </div>
                     <div className="create_left-inputs">
                         <div className="create_name-input-container">
@@ -454,7 +457,8 @@ class Create extends Component {
                         </div>
                         <div className="create_rank-container">
                             <h3 className={unfinished.includes('rank') ? 'unfinished' : null} ><i class="fa fa-question-circle" aria-hidden="true"></i>Estimated Rank:</h3>
-                            <select className="create_rank-selector" onChange={(e) => this.handleRankChange(e.target.value)}>
+                            <select className="create_rank-selector" onChange={(e) => this.handleRankChange(e.target.value)} defaultValue="Select Rank">
+                                <option value="Select Rank" disabled>Select Rank</option>
                                 <option value="8">8 kyu (white)</option>
                                 <option value="7">7 kyu (white)</option>
                                 <option value="6">6 kyu (yellow)</option>

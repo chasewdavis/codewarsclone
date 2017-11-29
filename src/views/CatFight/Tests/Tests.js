@@ -48,7 +48,7 @@ class Test extends Component {
                                 {
                                     props.parameters.length ?
                                         props.parameters.map((param, i) => {
-                                            console.log(props.parameter_errors ? props.parameter_errors[i] : null)
+                                            props.parameter_errors ? console.log(props.parameter_errors[i]) : null
                                             return (
                                                 <div key={i}>
                                                     <div className='input-line' >
@@ -60,10 +60,9 @@ class Test extends Component {
                                                         />
                                                         <select
                                                             onChange={e => props.change(props.id, 'types', e.target.value, i)}
-
-                                                            defaultValue={props.parameter_types ? props.parameter_types.length ? props.parameter_types[i] : "Data Type" : "Data Type"}
+                                                            defaultValue={"Data Type"}
                                                         >
-                                                            <option disabled>Data Type</option>
+                                                            <option value="Data Type" disabled>Data Type</option>
                                                             {
                                                                 dataTypes.map((type, i) => {
                                                                     return (
@@ -200,8 +199,8 @@ export default class Tests extends Component {
                 {
                     this.props.tests ?
                         this.props.tests.map((test, i) => {
-                            console.log(test.result_error)
-                            console.log(test.parameter_errors)
+                            test.result_error ? console.log(test.result_error) : null
+                            test.parameter_errors ? test.parameter_errors.join('') ? console.log(test.parameter_errors) : null : null
                             return (
                                 <div key={i} className={test.hasOwnProperty('result') ? test.passed ? 'test-border passed' : 'test-border failed' : 'test-border'}>
 

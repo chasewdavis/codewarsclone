@@ -21,6 +21,9 @@ $tab-background-color: #131414;
     grid-row: 1 / 2;
     margin-top: 30px;
     display: flex;
+    .link {
+        text-decoration: none;
+    }
 }
 
 .create_main-header div {
@@ -30,6 +33,7 @@ $tab-background-color: #131414;
     font-size: 14px;
     color: #BDBDBD;
     text-align: center;
+    text-decoration: none;
 }
 .create_main-header div i {
     margin-right: 6px;

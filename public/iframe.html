@@ -52,8 +52,6 @@
             return array(str, i1, i2)
         }
         function types(param, type) {
-            // console.log(param)
-            // console.log(type)
             switch (type) {
                 case 'boolean':
                     return param === 'true' ? true : false
@@ -62,21 +60,14 @@
                 case 'undefined':
                     return undefined
                 case 'number':
-                    return parseInt(param)
+                    return Number(param)
                 case 'string':
                     return param
-                // return String(param)
-                // case 'symbol':
-                // return 
                 case 'object':
-
                     return param
                 case 'array':
                     param = param.trim()
                     return eval(param)
-                // if (param[0] !== '[' || param[param.length - 1] !== ']') {
-                //     return param
-                // }
                 default:
                     return param;
             }
@@ -108,14 +99,9 @@
             return true
         }
         function runTests(args, body, tests) {
-            // console.log(tests)
-            let f
-            // try {
-            f = new Function(args, body)
-            // }
-            // catch (e) {
-            //     console.log(e)
-            // }
+
+            let f = new Function(args, body)
+
             return tests.map(test => {
                 test.parameter_errors = []
                 test.typed_parameters = test.parameters.map((param, i) => {
@@ -129,20 +115,18 @@
                         return param
                     }
                 })
-                // console.log(test)
                 try {
                     test.result = f.apply(null, test.typed_parameters)
+                    console.log(test.result)
                 }
                 catch (e) {
-                    // console.log(e)
                     test.result_error = String(e)
                     test.passed = false
-                    // return test
                 }
-                // console.log(test)
                 test.result_type = typeof test.result
                 try {
                     test.typed_expected_result = types(test.expected_result, test.expected_result_type)
+                    console.log(test.typed_expected_result)
                 }
                 catch (e) {
                     test.expected_result_error = String(e)
@@ -151,30 +135,22 @@
                 test.passed = test.result === test.typed_expected_result
                 if (test.expected_result_type === 'array') {
                     test.passed = equalArrays(test.result, test.typed_expected_result)
-                    // RESET EXPECTED RESULT TO JSON
-                    // test.expected_result = JSON.stringify(test.expected_result)
                 }
                 if (test.parameter_errors.join('')) {
                     test.passed = false
                 }
-                // RESET ARRAY PARAMETERS BACK TO JSON
-                // test.parameters = test.parameters.map((param, i) => {
-                //     return test.parameter_types[i] === 'array' ? JSON.stringify(param) : param
-                // })
                 // STRINGIFY THE RESULT TO PROTECT DATA IN APP
-                test.result = JSON.stringify(test.result)
+                test.result = JSON.stringify(String(test.result))
                 console.log(test.result)
                 return test
             })
         }
 
         window.addEventListener('message', function (e) {
-            // console.log(e.data)
             let code = e.data.code;
 
             // instantiate tests arrays
             let { tests, hiddenTests } = e.data.fight
-            // console.log(tests, hiddenTests)
 
             // declare function error variable
             let function_error
@@ -182,10 +158,8 @@
             // run tests on tests arrays
             try {
                 tests = runTests(args(code), body(code), tests)
-                // console.log(tests)
             }
             catch (e) {
-                // console.log(typeof e)
                 console.log(e)
                 function_error = String(e)
             }
@@ -193,7 +167,6 @@
                 hiddenTests = runTests(args(code), body(code), hiddenTests)
             }
             catch (e) {
-                // console.log(typeof e)
                 console.log(e)
                 function_error = String(e)
             }
@@ -204,8 +177,6 @@
                 tests,
                 hiddenTests
             }
-
-            // console.log(result)
 
             var mainWindow = e.source;
             mainWindow.postMessage(result, e.origin);
