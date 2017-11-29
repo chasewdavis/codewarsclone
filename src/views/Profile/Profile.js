@@ -83,8 +83,14 @@ class Profile extends Component {
     }
 
     updateClan() {
-        let bod = this.state.clan
-        calls.updateClan(bod)
+        let bod = {clan: this.state.clan,
+                    catsId: this.props.user.cats_id
+                    }
+        calls.updateClan(bod).then(resp => {
+            this.setState({
+                clan: resp.data[0].clan
+            }, ()=> console.log(this.state))
+        })
     }
 
 
