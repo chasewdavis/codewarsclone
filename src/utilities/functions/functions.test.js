@@ -15,7 +15,23 @@ let s = {
     noArgs: 'function add() {return 5}',
     // anonNoArgs: 'function () {return 5}',
     es6NoArgs: 'const add = () => 5',
-    es6_: 'var add = _ => 5'
+    es6_: 'var add = _ => 5',
+    // test arrays with built in corner cases
+    array1: [
+        {count: "14", tag_name: "MATHEMATICS"},
+        {count: "2", tag_name: "CONCATENATION"},
+        {count: "442", tag_name: "nUmBeRs"},
+        {count: "4", tag_name: "nUmBeRS"}
+    ],
+    array2: [
+        {count: "4", tag_name: "NUMBERS"},
+        {count: "4", tag_name: "MATHEMATICS"},
+        {count: "3", tag_name: "ARRAY"},
+        {count: "4", tag_name: "NUMBER"},
+        {count: "22", tag_name: "LOGIC"},
+        {count: "3", tag_name: "ARRAYS"}
+    ]
+
 }
 
 // find let, const, var --- then find no function keyword --- then find what is between = and =>
@@ -135,11 +151,50 @@ describe('Function Parsing and Creating Algorithms:', () => {
 })
 
 describe('Tests related to Search folder', () => {
-    test('proper data type', () => {
-        let type = typeof f.convertCase('55');
-        expect(type).toEqual('string')
+    describe('mergeTagsByIgnoringLetterS', () => {
+        test('check that array is now correct (properly merging)', () => {
+            expect.assertions(1);
+            let long = f.mergeTagsByIgnoringLetterS(s.array2.slice()).length
+            expect(long).toEqual(4)
+        })
+        test('check that array sorts properly', () => {
+            expect.assertions(1);
+            let newArray = f.mergeTagsByIgnoringLetterS(s.array2.slice())
+            expect(newArray[0].tag_name).toEqual("LOGIC")
+        })
     })
-    test('proper capitalization', () => {
-        expect(f.convertCase('hElLo')).toEqual('Hello');
+
+    describe('asdf', () => {
+        test('proper data type', () => {
+            let type = typeof f.convertCase('55');
+            expect(type).toEqual('string')
+        })
+        test('proper capitalization', () => {
+            expect(f.convertCase('hElLo')).toEqual('Hello');
+        })
+        test('check to see that function sorts properly', () => {
+            let newArray = f.mergeTagsByIgnoringCase(s.array1)
+            expect(newArray[0].tag_name).toEqual('NUMBERS');
+        })
+        test('check to see that all tag names are now uppercase', () => {
+            let newArray = f.mergeTagsByIgnoringCase(s.array1)
+            let foundLowerCase = false;
+
+            // PROVE THAT TEST WILL FAIL WITH CODE BELOW
+            // newArray = [
+            //     {count: "2", tag_name: "logic"},
+            //     {count: "2", tag_name: "CONCATENATION"},
+            //     {count: "2", tag_name: "Math"}
+            // ]
+
+            newArray.forEach(e=>{
+                if(e.tag_name !== e.tag_name.toUpperCase()){
+                    foundLowerCase = true;
+                }
+            })
+            expect(foundLowerCase).toEqual(false);
+        })
     })
+
+    
 })
