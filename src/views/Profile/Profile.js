@@ -125,22 +125,22 @@ class Profile extends Component {
                         <div className="profile_flexbox-1">
                         <img src={this.props.user.image_url} />
                             <div className="profile_flex-container">
-                                <div><span className="profile_main-username">{this.props.user.username}</span></div>
-                                <div>Name: Unknown</div>
-                                <div>Clan: <input className="clan-input" type="text" value={this.state.clan} onChange={(e) => this.handleClanChange(e.target.value)}/><button className="profile_button" onClick={() => this.updateClan()}>Update</button></div>
+                                <div className="profile_stats profile_username-header">  <Diff isButton={false} rating={this.state.level}/> <span className="profile_main-username">{this.props.user.username}</span> </div>
+                                <div> Name: Unknown</div>
+                                <div> Clan: <input className="clan-input" type="text" value={this.state.clan} onChange={(e) => this.handleClanChange(e.target.value)}/><button className="profile_button" onClick={() => this.updateClan()}>Update</button></div>
                                 <button className="profile_button">View Profile Badges</button>
                             </div>
 
                             <div className="profile_flex-container">
-                                <div>Member Since: {this.props.user.created_at}</div>
-                                <div>Last Seen: {this.props.user.last_seen_at}</div>
-                                <div>Profiles: <i className="fa fa-github" aria-hidden="true"></i> <i className="fa fa-twitter" aria-hidden="true"></i> </div>
+                                <div className="profile_stats">Member Since: {this.props.user.created_at}</div>
+                                <div className="profile_stats">Last Seen: {this.props.user.last_seen_at}</div>
+                                <div className="profile_stats">Profiles: <i className="fa fa-github" aria-hidden="true"></i> <i className="fa fa-twitter" aria-hidden="true"></i> </div>
                             </div>
 
                             <div id="last_div" className="profile_flex-container">
-                                <div>Following: {this.state.numberOfAllies}</div>
-                                <div>Followers: {this.state.numberOfAllies}</div>
-                                <div>Allies: {this.state.numberOfAllies}</div>
+                                <div className="profile_stats">Following: {this.state.numberOfAllies}</div>
+                                <div className="profile_stats">Followers: {this.state.numberOfAllies}</div>
+                                <div className="profile_stats">Allies: {this.state.numberOfAllies}</div>
                             </div>
 
                         </div>
@@ -216,7 +216,7 @@ class Profile extends Component {
                     </div>
 
                     <div className="profile_footer">
-
+                            <div><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></div>
                     </div>
                 </div>
             </div>

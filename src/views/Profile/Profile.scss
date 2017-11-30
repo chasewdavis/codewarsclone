@@ -45,8 +45,11 @@
     flex-direction: column;
     justify-content: space-between;
 
-    div {
-        margin-top: 6px;
+
+    .profile_stats {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
     }
 
     .profile_button {
@@ -144,9 +147,23 @@
     width: 100%;
     height: 65px;
     background-color: #1D1D1F;
+    text-align: center;    
+    div {
+       padding-top: 25px;
+
+       a {
+           text-decoration: none;
+           color: #6795de;
+       }
+    }
 }
 
 .profile_main-username {
+    display: inline-block;
     font-size: 20px;
     color: #E8E8E2;
+}
+
+.profile_username-header {
+    background-color: #303133;
 }
