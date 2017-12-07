@@ -129,6 +129,11 @@ passport.deserializeUser(function (id, done) {
         })
 })
 
+const path = require('path')
+// app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, '../build/index.html'));
+// })
+
 const PORT = process.env.PORT || 3030;
 
 app.listen(PORT, () => console.log(`CatFights running on port ${PORT}`))
