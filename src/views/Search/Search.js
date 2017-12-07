@@ -3,6 +3,7 @@ import SearchColumn from './SearchColumn/SearchColumn';
 import SearchResults from './SearchResults/SearchResults';
 import Navbar from '../../components/Navbar/Navbar';
 import './Search.css';
+import {connect} from 'react-redux';
 
 class Search extends Component {
     constructor(props) {
@@ -15,7 +16,7 @@ class Search extends Component {
     render() {
         return (
             <div className='search'>
-                <Navbar/>
+                <Navbar username={this.props.user.username} image_url={this.props.user.image_url} honor={this.props.user.honor}/>
                 <div className='container'>
                     <div className='column'><SearchColumn/></div>
                     <div className='results'><SearchResults/></div>
@@ -25,5 +26,11 @@ class Search extends Component {
     }
 }
 
+function mapStateToProps({user}) {
+    return {
+        user
+    }
+}
 
-export default Search;
+
+export default connect(mapStateToProps)(Search);

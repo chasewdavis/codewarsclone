@@ -442,7 +442,7 @@ class Create extends Component {
                         :
                         null
                 }
-                <Navbar />
+                <Navbar username={this.props.user.username} image_url={this.props.user.image_url} honor={this.props.user.honor}/>
                 <div className='create_main-wrapper'>
                     <div className="create_main-header">
                         {/* <div onClick={this.save} className="create_main-header-blue"><i class="fa fa-database" aria-hidden="true"></i>Save</div> */}

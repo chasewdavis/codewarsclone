@@ -173,7 +173,7 @@ class CatFight extends Component {
     render() {
         return (
             <div>
-                <Navbar />
+                <Navbar username={this.props.user.username} image_url={this.props.user.image_url} honor={this.props.user.honor}/>
                 <div className="catfight_wrapper">
                     <div className='catfight_top-header'>
                         <div className="catfight_top-header-left"> <Headers difficulty={this.state.fight.difficulty} name={this.state.fight.name} author={this.state.fight.username}/></div>

@@ -8,6 +8,7 @@ import Solutions from './Solutions/Solutions.js';
 import html from '../../components/TabContainer/Instructions/html-rules';
 import axios from 'axios';
 import { withRouter } from 'react-router';
+import {connect} from 'react-redux';
 
 class FightDetails extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class FightDetails extends Component {
 
         return (
             <div className='fightdetails'>
-                <Navbar/>
+                <Navbar username={this.props.user.username} image_url={this.props.user.image_url} honor={this.props.user.honor}/>
 
                 <div className='fightdetails_body'>
                     <div className='fightdetails_full-header'>
@@ -98,4 +99,10 @@ class FightDetails extends Component {
     }
 }
 
-export default withRouter(FightDetails)
+function mapStateToProps({user}) {
+    return {
+        user
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(FightDetails))
