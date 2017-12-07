@@ -4,8 +4,10 @@ module.exports = {
     createCatFight: (req, res, next) => {
         console.log(req.body)
         const db = req.app.get('db')
+        // CREATE FIGHT
         db.create_fight([1, req.body.name, req.body.description, req.body.rank, req.body.solution, req.body.name, req.body.placeholder])
             .then(newFight => {
+                // SET FLAGS FOR TESTS, HIDDENTESTS, AND TAGS ARRAYS
                 let a, b, c
 
                 if (req.body.tests) {
@@ -18,34 +20,65 @@ module.exports = {
                     c = req.body.tags.length
                 }
 
+                // CREATE EACH TEST
                 req.body.tests.map((test, i) => {
                     // console.log(test)
                     db.create_test(newFight[0].cat_fight_id, test.parameters, test.parameter_types, test.expected_result, test.expected_result_type, false)
                         .then(() => a--)
-                        .catch(() => res.status(500).send(`Create Test Error at fight.tests[${i}]`))
+                        .catch(() => {
+                            console.log(`deleting fight: #${newFight[0].cat_fight_id}`)
+                            db.delete_fight([newFight[0].cat_fight_id])
+                            .then(() => {
+                                res.status(500).send(`Create Test Error at fight.tests[${i}]`)
+                            })
+                            .catch(() => res.status(500).send(`something went really wrong...`))
+                        })
                 })
+                // CREATE EACH HIDDEN TEST
                 req.body.hiddenTests.map((test, i) => {
                     db.create_test(newFight[0].cat_fight_id, test.parameters, test.parameter_types, test.expected_result, test.expected_result_type, true)
                         .then(() => b--)
-                        .catch(() => res.status(500).send(`Create Hidden Test Error at fight.hiddenTests[${i}]`))
+                        .catch(() => {
+                            console.log(`deleting fight: #${newFight[0].cat_fight_id}`)
+                            db.delete_fight([newFight[0].cat_fight_id])
+                            .then(() => {
+                                res.status(500).send(`Create Hidden Test Error at fight.hiddenTests[${i}]`)
+                            })
+                            .catch(() => res.status(500).send(`something went really wrong...`))
+                        })
                 })
+                // CREATE EACH TAG
                 req.body.tags.map((tag, i) => {
                     db.create_tag(newFight[0].cat_fight_id, tag)
                         .then(() => c--)
-                        .catch(() => res.status(500).send(`Create Tags Error at fight.tags[${i}]`))
+                        .catch(() => {
+                            console.log(`deleting fight: #${newFight[0].cat_fight_id}`)
+                            db.delete_fight([newFight[0].cat_fight_id])
+                            .then(() => {
+                                res.status(500).send(`Create Tags Error at fight.tags[${i}]`)
+                            })
+                            .catch(() => res.status(500).send(`something went really wrong...`))
+                        })
                 })
 
-                waitUntil(50, 400, () => {
+                // RETURN TRUE WHEN FLAGS HAVE REACHED ZERO, OR WHEN ERROR IS THROWN
+                let finished = () => {
                     console.log(res.headersSent)
                     return a + b + c === 0 || res.headersSent
-                }, () => {
+                }
+
+                // SEND ENTIRE FIGHT, OR DO NOTHING IF ERROR HAS BEEN THROWN
+                let respond = () => {
                     console.log('done')
+                    // IF HEADER HAS BEEN SENT
                     if (res.headersSent) {
                         return console.log('header already sent')
                     }
                     console.log(newFight[0])
+                    // ELSE SEND ENTIRE FIGHT
                     db.get_fight(newFight[0].cat_fight_id)
                         .then(catFight => {
+                            // ...WITH TESTS
                             db.get_tests([newFight[0].cat_fight_id])
                                 .then(tests => {
                                     let fight = Object.assign({}, catFight[0], { tests })
@@ -53,7 +86,10 @@ module.exports = {
                                 })
                         })
                         .catch(() => res.status(500).send(`something went wrong`))
-                })
+                }
+
+                // WAIT FOR FINISHED TO RETURN TRUE, THEN FIRE RESPONSE
+                waitUntil(50, 400, finished, respond)
 
             })
             .catch(() => res.status(500).send(`Create Fight Error`))

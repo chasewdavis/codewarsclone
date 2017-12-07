@@ -51,27 +51,6 @@
             }
             return array(str, i1, i2)
         }
-        function types(param, type) {
-            switch (type) {
-                case 'boolean':
-                    return param === 'true' ? true : false
-                case 'null':
-                    return null
-                case 'undefined':
-                    return undefined
-                case 'number':
-                    return Number(param)
-                case 'string':
-                    return param
-                case 'object':
-                    return param
-                case 'array':
-                    param = param.trim()
-                    return eval(param)
-                default:
-                    return param;
-            }
-        }
         function body(str) {
             // THIS FUNCTION RETURNS THE BODY OUT OF A FUNCTION STRING
 
@@ -93,10 +72,60 @@
                     return equalArrays(arr1[i], arr2[i])
                 }
                 if (arr1[i] !== arr2[i]) {
+                    console.log(arr1[i])
+                    console.log(arr2[i])
                     return false
                 }
+                console.log(arr1[i])
+                console.log(arr2[i])
             }
             return true
+        }
+        function typify(param, type) {
+            switch (type) {
+                case 'boolean':
+                    return param === 'true' ? true : false
+                case 'null':
+                    return null
+                case 'undefined':
+                    return undefined
+                case 'number':
+                    return Number(param)
+                case 'string':
+                    return param
+                case 'object':
+                    return param
+                case 'array':
+                    // console.log(param)
+                    param = param.trim()
+                    // console.log(param)
+                    return eval(param)
+                default:
+                    return param;
+            }
+        }
+        function stringify(val) {
+            if (Array.isArray(val)) {
+                return val.map(a => stringify(a))
+            }
+            switch (val) {
+                case false:
+                    return 'false'
+                case true:
+                    return 'true'
+                case null:
+                    return 'null'
+                case undefined:
+                    return 'undefined'
+            }
+            switch (typeof val) {
+                case 'number':
+                case 'string':
+                case 'object':
+                    return String(val)
+                default:
+                    return val;
+            }
         }
         function runTests(args, body, tests) {
 
@@ -113,7 +142,7 @@
                     // IF TYPES FUNCTION SUCCEEDS, ADD '' TO PARAMETER_ERRORS
                     try {
                         test.parameter_errors.push('')
-                        return types(param, test.parameter_types ? test.parameter_types[i] : "")
+                        return typify(param, test.parameter_types ? test.parameter_types[i] : "")
                     }
                     // IF TYPES FUNCTION FAILS, RETURN ORIGINAL PARAM AND ADD ERROR TO PARAMETER_ERRORS
                     catch (e) {
@@ -135,14 +164,14 @@
                 test.result_type = typeof test.result
                 // CONVERT EXPECTED_RESULT TO CORRECT TYPE
                 try {
-                    test.typed_expected_result = types(test.expected_result, test.expected_result_type)
+                    test.typed_expected_result = typify(test.expected_result, test.expected_result_type)
                     console.log(test.typed_expected_result)
                 }
                 catch (e) {
                     test.expected_result_error = String(e)
                 }
                 // CHECK IF TESTS PASSED
-                test.passed = test.result === test.typed_expected_result 
+                test.passed = test.result === test.typed_expected_result
                 // CHECK FOR NAN (( NaN is the only JavaScript object that does not equal itself :O :O :O ))
                 if (test.result !== test.result && test.typed_expected_result !== test.typed_expected_result) {
                     test.passed = true
@@ -155,8 +184,8 @@
                 if (test.parameter_errors.join('')) {
                     test.passed = false
                 }
-                // STRINGIFY THE RESULT TO PROTECT DATA IN APP
-                test.result = JSON.stringify(String(test.result))
+                // STRINGIFY THE RESULT TO PROTECT DATA IN APP --- stringify function is defined above --- to protect null and undefined in JSON
+                test.result = JSON.stringify(stringify(test.result))
                 console.log(test.result)
                 return test
             })
