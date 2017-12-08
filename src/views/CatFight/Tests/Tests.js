@@ -21,6 +21,17 @@ export default class Tests extends Component {
                 <FunctionError error={this.props.function_error} />
                 {
                     this.props.tests ?
+                        this.props.tests.length ?
+                            this.props.tests.map((test, i) => {
+                                return <FunctionError error={test.result_error} />
+                            }).filter(a => a)[0]
+                            :
+                            null
+                        :
+                        null
+                }
+                {
+                    this.props.tests ?
                         this.props.tests.map((test, i) => {
                             test.result_error ? console.log(test.result_error) : null
                             test.parameter_errors ? test.parameter_errors.join('') ? console.log(test.parameter_errors) : null : null
@@ -56,7 +67,7 @@ export default class Tests extends Component {
                         :
                         null
                 }
-                
+
             </div>
         )
     }
