@@ -27,7 +27,7 @@ class Login extends Component {
                     <img style={imageStyle} src={lion} />
                     <h1>Cat Fights</h1>
                     <div className='subtitle-box'>
-                        <a href={process.env.REACT_APP_LOGIN}>LOGIN / REGISTER</a>
+                        <a href={process.env.REACT_APP_LOGIN}>Login / Register</a>
                     </div>
                     <div className='login_footer'>
 

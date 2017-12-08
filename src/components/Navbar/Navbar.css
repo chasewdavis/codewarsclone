@@ -29,6 +29,7 @@
   justify-content: center; }
 
 .lion-box {
+  border: 3px solid #A32024;
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -97,6 +98,7 @@
   z-index: 12;
   float: right; }
   .navbar_right img {
+    margin-left: 32px;
     height: 40px;
     border-radius: 4px;
     width: 40px; }
