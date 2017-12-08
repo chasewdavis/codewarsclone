@@ -42,6 +42,7 @@
 .lion-box {
     // border: 3px solid #AC3028;
     // box-sizing: border-box;
+    border: 3px solid #A32024;
     border-radius:5px;
     display: flex;
     justify-content: center;
@@ -130,6 +131,7 @@
     float: right;
 
     img { 
+        margin-left: 32px;
         height: 40px;
         border-radius: 4px;
         width: 40px;

@@ -1,3 +1,9 @@
+.Login {
+  font-family: 'Lato'; }
+  .Login .login_wrapper img {
+    border: 10px solid #B90F17;
+    border-radius: 10px; }
+
 .dashboard {
   display: flex;
   flex-direction: column;
