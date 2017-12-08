@@ -13,9 +13,15 @@ export default class Header extends Component {
     }
 
     render() {
-        console.log(this.props)
+        console.log('this.props is...', this.props.solutions)
         let solutions = this.props.solutions.map((e,i)=>{
-            console.log(html.deserialize(e.user_solution))
+            // console.log('html.desiralbe',html.deserialize(e.user_solution))
+
+            console.log('user solution is...', e.user_solution.split('') );
+            let breaks = e.user_solution.split('').filter(e => e.charCodeAt(0)===10).length;
+            let height = breaks * 31; 
+            console.log('breaks are', breaks)
+
             return (
                 <div className='solutions_solution' key={i}>
                     <div>{e.username}</div>
@@ -27,7 +33,7 @@ export default class Header extends Component {
                                 gutter={false} 
                                 code={e.user_solution} 
                                 readOnly={true}
-                                height={'62px'}
+                                height={`${height}px`}
                                 maxLines={1}
                                 showPrintMargin={false}
                                 highlightActiveLine={false}
