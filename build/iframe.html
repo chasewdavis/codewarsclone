@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        function args(str, function_name) {
+            // THIS FUNCTION EXTRACTS THE ARGUMENTS OUT OF A FUNCTION STRING
+
+            let i1 = str.indexOf('(') + 1
+            let i2 = str.indexOf(')')
+
+
+            let firstWord = str.split(' ')[0]
+            let fourthWord = str.split(' ')[3]
+
+            let assignment = str.indexOf('=') + 1
+            let returning = str.indexOf('=>')
+
+            function array(string, i, j) {
+                return string.slice(i, j).split(',').map(p => p.trim())
+            }
+
+            switch (firstWord) {
+                case 'var':
+                case 'const':
+                case 'let':
+                    if (fourthWord !== 'function') {
+                        let argsArea = str.slice(assignment, returning).trim()
+                        let last = argsArea.length - 1
+                        if (argsArea == '_') {
+                            return [""]
+                        }
+                        else if (argsArea[0] == '(' && argsArea[last] == ')') {
+                            return array(argsArea, 1, last)
+                        }
+                        else {
+                            return array(str, assignment, returning)
+                        }
+                    }
+                    break;
+                default:
+                    return array(str, i1, i2)
+            }
+            return array(str, i1, i2)
+        }
+        function body(str) {
+            // THIS FUNCTION RETURNS THE BODY OUT OF A FUNCTION STRING
+
+            let i1 = str.indexOf('{') + 1
+            let i2 = str.lastIndexOf('}')
+            if (i1 === 0 || i2 === -1) {
+                i1 = str.indexOf('=>') + 3
+                i2 = str.length
+                return 'return ' + str.slice(i1, i2)
+            }
+            return str.slice(i1, i2)
+        }
+        function equalArrays(arr1, arr2) {
+            if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+                return false
+            }
+            for (let i = 0; (i < arr1.length || i < arr2.length); i++) {
+                if (Array.isArray(arr1[i]) || Array.isArray(arr2[i])) {
+                    return equalArrays(arr1[i], arr2[i])
+                }
+                if (arr1[i] !== arr2[i]) {
+                    console.log(arr1[i])
+                    console.log(arr2[i])
+                    return false
+                }
+                console.log(arr1[i])
+                console.log(arr2[i])
+            }
+            return true
+        }
+        function typify(param, type) {
+            switch (type) {
+                case 'boolean':
+                    return param === 'true' ? true : false
+                case 'null':
+                    return null
+                case 'undefined':
+                    return undefined
+                case 'number':
+                    return Number(param)
+                case 'string':
+                    return param
+                case 'object':
+                    return param
+                case 'array':
+                    // console.log(param)
+                    param = param.trim()
+                    // console.log(param)
+                    return eval(param)
+                default:
+                    return param;
+            }
+        }
+        function stringify(val) {
+            if (Array.isArray(val)) {
+                return val.map(a => stringify(a))
+            }
+            switch (val) {
+                case false:
+                    return 'false'
+                case true:
+                    return 'true'
+                case null:
+                    return 'null'
+                case undefined:
+                    return 'undefined'
+            }
+            switch (typeof val) {
+                case 'number':
+                case 'string':
+                case 'object':
+                    return String(val)
+                default:
+                    return val;
+            }
+        }
+        function runTests(args, body, tests) {
+
+            let f = new Function(args, body)
+
+            // MAPPING THROUGH TESTS ARRAY TO EVALUATE EACH TEST
+            // --- ADDING NEW PROPERTIES
+            // --- LEAVING OLD PROPERTIES UNTOUCHED
+            // --- NEW PROPERTIES MAY BE DELETED ON FRONT END TO REVERT BACK TO ORIGINAL TESTS ARRAY
+            return tests.map(test => {
+                test.parameter_errors = []
+                // MAPPING THROUGH PARAMETERS TO CREATE CORRECT PARAMETER TYPES
+                test.typed_parameters = test.parameters.map((param, i) => {
+                    // IF TYPES FUNCTION SUCCEEDS, ADD '' TO PARAMETER_ERRORS
+                    try {
+                        test.parameter_errors.push('')
+                        return typify(param, test.parameter_types ? test.parameter_types[i] : "")
+                    }
+                    // IF TYPES FUNCTION FAILS, RETURN ORIGINAL PARAM AND ADD ERROR TO PARAMETER_ERRORS
+                    catch (e) {
+                        test.parameter_errors[i] = String(e)
+                        console.log(test.parameter_errors)
+                        return param
+                    }
+                })
+                // IF SUBMITTED FUNCTION SUCCEEDS, ADD TEST RESULT TO TEST
+                try {
+                    test.result = f.apply(null, test.typed_parameters)
+                    console.log(test.result)
+                }
+                // IF SUBMITTED FUNCTION FAILS, ADD RESULT_ERROR TO TEST
+                catch (e) {
+                    test.result_error = String(e)
+                    test.passed = false
+                }
+                test.result_type = typeof test.result
+                // CONVERT EXPECTED_RESULT TO CORRECT TYPE
+                try {
+                    test.typed_expected_result = typify(test.expected_result, test.expected_result_type)
+                    console.log(test.typed_expected_result)
+                }
+                catch (e) {
+                    test.expected_result_error = String(e)
+                }
+                // CHECK IF TESTS PASSED
+                test.passed = test.result === test.typed_expected_result
+                // CHECK FOR NAN (( NaN is the only JavaScript object that does not equal itself :O :O :O ))
+                if (test.result !== test.result && test.typed_expected_result !== test.typed_expected_result) {
+                    test.passed = true
+                }
+                // CHECK FOR ARRAYS
+                if (test.expected_result_type === 'array') {
+                    test.passed = equalArrays(test.result, test.typed_expected_result)
+                }
+                // CHECK FOR ERRORS
+                if (test.parameter_errors.join('')) {
+                    test.passed = false
+                }
+                // STRINGIFY THE RESULT TO PROTECT DATA IN APP --- stringify function is defined above --- to protect null and undefined in JSON
+                test.result = JSON.stringify(stringify(test.result))
+                console.log(test.result)
+                return test
+            })
+        }
+
+        window.addEventListener('message', function (e) {
+            let code = e.data.code;
+
+            // instantiate tests arrays
+            let { tests, hiddenTests } = e.data.fight
+
+            // declare function error variable
+            let function_error
+
+            // run tests on tests arrays
+            try {
+                tests = runTests(args(code), body(code), tests)
+            }
+            catch (e) {
+                console.log(e)
+                function_error = String(e)
+            }
+            try {
+                hiddenTests = runTests(args(code), body(code), hiddenTests)
+            }
+            catch (e) {
+                console.log(e)
+                function_error = String(e)
+            }
+
+            // send results object
+            result = {
+                function_error,
+                tests,
+                hiddenTests
+            }
+
+            var mainWindow = e.source;
+            mainWindow.postMessage(result, e.origin);
+        });
+    </script>
+</body>
+
+</html>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { withRouter } from 'react-router';
 
 import Navbar from '../../../components/Navbar/Navbar';
-import './NextFight.css';
+// import './NextFight.css';
 
 import { Solid, Hollow, Diff } from '../../../components/Buttons/Buttons';
 import { unescape } from 'querystring';

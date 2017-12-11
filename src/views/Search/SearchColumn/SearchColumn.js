@@ -3,7 +3,7 @@ import SearchInput from './ColumnComponents/SearchInput';
 import Difficulty from './ColumnComponents/Difficulty';
 import Tags from './ColumnComponents/Tags';
 
-import './SearchColumn.css';
+// import './SearchColumn.css';
 
 class SearchColumn extends Component {
     constructor(props) {

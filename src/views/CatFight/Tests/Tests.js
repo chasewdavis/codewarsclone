@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Test from './Test/Test';
 import FunctionError from './FunctionError/FunctionError';
-import './Tests.css';
+// import './Tests.css';
 
 export default class Tests extends Component {
     constructor(props) {

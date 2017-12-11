@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './utilities/reset.css';
-import './App.css';
+// import './utilities/reset.css';
+// import '/build/static/css/main.c1abfd78.css';
+
+// import './App.css';
 import { Switch, Route } from 'react-router-dom';
 
 import Login from './views/Dashboard/Login';

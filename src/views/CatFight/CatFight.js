@@ -4,7 +4,7 @@ import Editor from '../../components/TabContainer/Editor/Editor';
 import Output from './Output/Output';
 import calls from '../../utilities/data/data';
 import Btn from '../../components/Buttons/Buttons';
-import './CatFight.css';
+// import './CatFight.css';
 import axios from 'axios';
 import Tests from './Tests/Tests.js';
 import { connect } from 'react-redux';
