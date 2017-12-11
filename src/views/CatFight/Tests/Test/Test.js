@@ -46,7 +46,7 @@ export default class Test extends Component {
                             <div className='parameter-box'>
                                 {
                                     props.parameters.length ?
-                                        props.parameters.map((param, i) => {
+                                        props.parameters.map((param, i) => {                                          
                                             props.parameter_errors ? console.log(props.parameter_errors[i]) : null
                                             return (
                                                 <div key={i}>

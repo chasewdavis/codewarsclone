@@ -36,7 +36,7 @@ class FightDetails extends Component {
 
     showTags(){
 
-        console.log('show tags...', this.state.fight.tags)
+        // console.log('show tags...', this.state.fight.tags)
         let tags = "";
 
         if(this.state.fight.tags){
@@ -60,7 +60,7 @@ class FightDetails extends Component {
     
     render() {
         
-        console.log('fight is now..', this.state.fight)
+        // console.log('fight is now..', this.state.fight)
 
         return (
             <div className='fightdetails'>

@@ -19,7 +19,7 @@ describe("api calls for fights", function() {
     test("get random fight returns an array", function() {
         expect.assertions(1);
         return calls.getRandomFight().then(res => {
-            console.log(res);
+            // console.log(res);
             expect(typeof res).toEqual('object')
         })
     })

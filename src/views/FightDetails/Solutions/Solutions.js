@@ -17,10 +17,10 @@ export default class Header extends Component {
         let solutions = this.props.solutions.map((e,i)=>{
             // console.log('html.desiralbe',html.deserialize(e.user_solution))
 
-            console.log('user solution is...', e.user_solution.split('') );
+            // console.log('user solution is...', e.user_solution.split('') );
             let breaks = e.user_solution.split('').filter(e => e.charCodeAt(0)===10).length;
             let height = breaks * 31; 
-            console.log('breaks are', breaks)
+            // console.log('breaks are', breaks)
 
             return (
                 <div className='solutions_solution' key={i}>

@@ -15,9 +15,9 @@ class Tags extends Component {
     }
     componentDidMount(){
         axios.get(`/api/fightTagsByDifficulty`).then(tags=>{
-            console.log('original tags are...', tags.data.slice())
+            // console.log('original tags are...', tags.data.slice())
             let newTags = mergeTagsByIgnoringCase(tags.data.slice())
-            console.log('tags after func', newTags)
+            // console.log('tags after func', newTags)
             newTags = mergeTagsByIgnoringLetterS(newTags)
             this.setState({tags:newTags})
         })

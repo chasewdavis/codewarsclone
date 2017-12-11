@@ -7,13 +7,13 @@ import './Instructions.css';
 // SLATE EDITOR NODE & MARK COMPONENTS
 
 function CodeLine(props) {
-    console.log('code line')
+    // console.log('code line')
     // console.log(props)
     return <code {...props.attributes}>{props.children}</code>
 }
 
 function CodeBlock(props) {
-    console.log('code block')
+    // console.log('code block')
     // console.log(props)
     return (
         <div class="code-block" >
@@ -27,7 +27,7 @@ function CodeBlock(props) {
 }
 
 function BoldMark(props) {
-    console.log('bold mark')
+    // console.log('bold mark')
     // console.log(props)
     return <b>{props.children}</b>
 }
@@ -58,7 +58,7 @@ export default class Instructions extends Component {
     onKeyDown = (event, change) => {
         // console.log(change)
         if (event.key == 'Control' || event.metaKey) {
-            console.log(event.key)
+            // console.log(event.key)
             this.ctrl = true
             return
         }

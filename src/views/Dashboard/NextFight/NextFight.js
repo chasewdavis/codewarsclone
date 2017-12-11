@@ -35,7 +35,7 @@ class NextFight extends Component {
         
             axios.get(`http://localhost:3030/api/randomCatFight`).then(res=>{
 
-                console.log('res.data from api call is...', res.data)
+                // console.log('res.data from api call is...', res.data)
 
                 let temp = this.state.fights
                 
@@ -64,7 +64,7 @@ class NextFight extends Component {
 
     render() {
 
-        console.log('the state of fights is...', this.state.fights)
+        // console.log('the state of fights is...', this.state.fights)
 
         let tags = "";
 

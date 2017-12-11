@@ -11,7 +11,8 @@ const controller = require('./controllers/controller');
 
 const app = express();
 
-//app.use( express.static( `${__dirname}/../build`));
+// for hosting
+app.use( express.static( `${__dirname}/../build` ) );
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -36,7 +37,7 @@ passport.use(new Auth0Strategy({
 }, function (accessToken, refreshToken, extraParams, profile, done) {
     const db = app.get('db');
     db.find_cat([String(profile.identities[0].user_id)]).then(user => {
-        console.log("user from Auth0Strat", user)        //edit for our app
+        //console.log("user from Auth0Strat", user)        //edit for our app
         if (user[0]) {
             // db.add_visit([String(user[0].user_id)])                             // edit for our app
             return done(null, user[0].auth_id)
@@ -63,7 +64,7 @@ app.get(`/auth/callback`, passport.authenticate(`auth0`, {
     failureRedirect: process.env.FAILURE_REDIRECT
 }))
 app.get(`/auth/me`, (req, res, next) => {
-    console.log("/auth/me user:", req.user)
+    // console.log("/auth/me user:", req.user)
     if (!req.user) {
         return res.status(400).send('user not found');
     }
@@ -129,11 +130,13 @@ passport.deserializeUser(function (id, done) {
         })
 })
 
+// required for hosting
 const path = require('path')
-// app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, '../build/index.html'));
-// })
 
-const PORT = process.env.PORT || 3030;
+app.get('*', (req, res)=>{
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+})
+
+const PORT = process.env.PORT || 8090;
 
 app.listen(PORT, () => console.log(`CatFights running on port ${PORT}`))

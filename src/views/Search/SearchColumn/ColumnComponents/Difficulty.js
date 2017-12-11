@@ -15,7 +15,7 @@ class Difficulty extends Component {
     }
 
     searchByDifficulty(difficulty){
-        console.log(difficulty)
+        // console.log(difficulty)
         axios.get(`/api/SearchByDifficulty/${difficulty}`).then(fights=>{
             this.props.transferSearchResults(fights.data)
         })

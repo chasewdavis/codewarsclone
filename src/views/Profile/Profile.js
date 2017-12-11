@@ -22,7 +22,7 @@ class Profile extends Component {
 
     componentDidMount() {
         calls.getNumberOfAllies(this.props.user.clan, this.props.user.cats_id).then(resp => {
-            console.log(resp)
+            // console.log(resp)
             let newData = [resp.data.resp3[0].count, resp.data.resp4[0].count, 0, 0, 1, 2, 2];
 
             this.setState({

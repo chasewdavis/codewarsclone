@@ -24,9 +24,9 @@ class SearchResults extends Component {
     }
 
     styleTags(arr){
-        console.log(arr)
+        // console.log(arr)
         return arr.map((tag,i) => {
-            console.log(tag);
+            // console.log(tag);
             return (
                 <div key={i}>
                     {tag.toUpperCase()}
@@ -37,7 +37,7 @@ class SearchResults extends Component {
     
     render() {
 
-        console.log('from search results...', this.props.searchResults)
+        // console.log('from search results...', this.props.searchResults)
 
         let results = this.props.searchResults.map(challenge => {
             return (

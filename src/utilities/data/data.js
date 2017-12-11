@@ -7,8 +7,8 @@ module.exports = {
         axios.post(`http://localhost:3030/api/fightinprogress`, body)
     },
     putFightInProgress(body) {
-        console.log(body)
-        console.log("COMPONENT IS UNMOUNTING")
+        // console.log(body)
+        // console.log("COMPONENT IS UNMOUNTING")
         axios.put(`http://localhost:3030/api/fightinprogress`, body)
     },
     getRandomFight() {
