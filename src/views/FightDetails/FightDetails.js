@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import Header from '../../components/Headers/Headers';
-// import './FightDetails.css';
+import './FightDetails.css';
 import {Solid, Hollow} from '../../components/Buttons/Buttons';
 import Instructions from '../../components/TabContainer/Instructions/Instructions';
 import Solutions from './Solutions/Solutions.js';

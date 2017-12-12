@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import './Navbar.css';
+import './Navbar.css';
 import lion from '../svgs/lion.svg';
 import { NavLink } from 'react-router-dom';
 import { Diff } from '../Buttons/Buttons';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AceEditor from 'react-ace';
-// import './Editor.css'
+import './Editor.css'
 
 
 import 'brace/mode/javascript';

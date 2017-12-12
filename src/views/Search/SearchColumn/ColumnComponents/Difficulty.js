@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import './Difficulty.css';
+import './Difficulty.css';
 import { Diff } from '../../../../components/Buttons/Buttons';
 import axios from 'axios';
 import { transferSearchResults } from '../../../../ducks/reducer';

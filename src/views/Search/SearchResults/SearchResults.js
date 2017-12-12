@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Diff, Hollow } from '../../../components/Buttons/Buttons';
 import axios from 'axios';
-// import './SearchResults.css';
+import './SearchResults.css';
 
 class SearchResults extends Component {
     constructor(props) {

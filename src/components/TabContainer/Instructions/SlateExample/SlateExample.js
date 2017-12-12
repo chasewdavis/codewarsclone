@@ -4,7 +4,7 @@ import { Value } from 'slate'
 import Prism from 'prismjs'
 import React from 'react'
 import initialValue from './value.json';
-// import './SlateExample.css';
+import './SlateExample.css';
 
 /**
  * Define our code components.

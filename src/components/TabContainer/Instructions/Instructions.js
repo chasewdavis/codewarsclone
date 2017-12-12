@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Prism from 'prismjs'
 import { Editor } from 'slate-react';
 import html, { initialValue } from './html-rules';
-// import './Instructions.css';
+import './Instructions.css';
 
 // SLATE EDITOR NODE & MARK COMPONENTS
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import NextFight from './NextFight/NextFight';
-// import './Dashboard.css';
+import './Dashboard.css';
 import {getUserInfo} from '../../ducks/reducer';
 import {connect} from 'react-redux';
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SearchColumn from './SearchColumn/SearchColumn';
 import SearchResults from './SearchResults/SearchResults';
 import Navbar from '../../components/Navbar/Navbar';
-// import './Search.css';
+import './Search.css';
 import {connect} from 'react-redux';
 
 class Search extends Component {

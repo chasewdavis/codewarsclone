@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import SolutionHelp from '../../components/Help/SolutionHelp';
 import SolutionDesc from '../../components/Help/SolutionDesc';
 import SolutionTest from '../../components/Help/SolutionTest';
-// import './Create.css';
+import './Create.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import './Solutions.css';
+import './Solutions.css';
 // import Instructions from '../../../components/TabContainer/Instructions/Instructions.js';
 import Editor from '../../../components/TabContainer/Editor/Editor.js';
 import html from '../../../components/TabContainer/Instructions/html-rules';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import './Profile.css';
+import './Profile.css';
 import {connect} from 'react-redux';
 import Navbar from '../../components/Navbar/Navbar';
 import { Diff } from '../../components/Buttons/Buttons';

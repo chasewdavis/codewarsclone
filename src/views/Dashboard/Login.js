@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import './Dashboard.css';
+import './Dashboard.css';
 import lion from '../../components/svgs/lion.svg';
 import background from '../../components/svgs/background.png';
 

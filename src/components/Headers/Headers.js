@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import './Headers.css';
+import './Headers.css';
 import { Diff } from '../../components/Buttons/Buttons'
 
 export default class Header extends Component {

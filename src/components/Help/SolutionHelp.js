@@ -1,5 +1,5 @@
 import React from 'react';
-// import './Solutions.css';
+import './Solutions.css';
 export default function() {
 return <div className="solutions-comp">
     <h2>What is the correct solution block?</h2>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import './Tags.css';
+import './Tags.css';
 import axios from 'axios';
 import { transferSearchResults } from '../../../../ducks/reducer';
 import { connect } from 'react-redux';
