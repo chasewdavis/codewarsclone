@@ -23,7 +23,7 @@ class NextFight extends Component {
     }
 
     componentDidMount(){
-        axios.get(`http://localhost:3030/api/randomCatFight`).then(res=>{
+        axios.get(`/api/randomCatFight`).then(res=>{
             this.setState({fights:res.data})
         })
     }
@@ -33,7 +33,7 @@ class NextFight extends Component {
         let nextFight = this.state.fights.slice(1)
         this.setState({fights: nextFight })
         
-            axios.get(`http://localhost:3030/api/randomCatFight`).then(res=>{
+            axios.get(`/api/randomCatFight`).then(res=>{
 
                 // console.log('res.data from api call is...', res.data)
 

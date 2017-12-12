@@ -76,7 +76,7 @@ class Editor extends Component {
     render() {
         return (
             <div className='ace-editor' onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
-                <iframe style={{ display: "none" }} title='sandbox' src="http://localhost:3000/iframe.html" sandbox="allow-scripts" ref={(f) => { this.ifr = f }} />
+                <iframe style={{ display: "none" }} title='sandbox' src="http://codewarsclone.chasedavis.io/iframe.html" sandbox="allow-scripts" ref={(f) => { this.ifr = f }} />
                 <AceEditor
                     value={this.props.code}
                     mode="javascript"
