@@ -82,8 +82,8 @@ class NextFight extends Component {
                     <i className="fa fa-cogs icon72" aria-hidden="true"></i>
                     </header>
                     
-                    <div className="nextfight_language"><i class="fa fa-code" aria-hidden="true"></i>JavaScript</div>
-                    <div className="nextfight_language"><i class="fa fa-level-up" aria-hidden="true"></i>Rank Up</div>
+                    <div className="nextfight_language"><i className="fa fa-code" aria-hidden="true"></i>JavaScript</div>
+                    <div className="nextfight_language"><i className="fa fa-level-up" aria-hidden="true"></i>Rank Up</div>
 
                     <footer>
                         <Solid name='TRAIN' clicked={() => this.trainChallenge()}/>

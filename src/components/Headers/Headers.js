@@ -15,11 +15,11 @@ export default class Header extends Component {
         return (
             <div className='header'>
                             
-                <top><Diff isButton={false} rating={this.props.difficulty}/> {this.props.name}</top>
-                <bottom>
+                <div className='top'><Diff isButton={false} rating={this.props.difficulty}/> {this.props.name}</div>
+                <div className='bottom'>
                     <div><i className="fa fa-user"></i> {this.props.author}</div>
-                    <div><i class="fa fa-bullseye" aria-hidden="true"></i> Completion Count</div>
-                </bottom>
+                    <div><i className="fa fa-bullseye" aria-hidden="true"></i> Completion Count</div>
+                </div>
             </div>
         )
     }

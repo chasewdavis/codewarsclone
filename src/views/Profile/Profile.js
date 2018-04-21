@@ -163,14 +163,14 @@ class Profile extends Component {
                                     </div>
 
                                     <div clasName="profile_stat-box">
-                                        <h2><i class="fa fa-code" aria-hidden="true"></i> Languages: </h2>
+                                        <h2><i className="fa fa-code" aria-hidden="true"></i> Languages: </h2>
                                         <div>Total Languages Trained: 1</div>
                                         <div>Highest Trained: JavaScript ({this.state.data[0]})</div>
                                         <div>Most Recent: JavaScript</div>
                                     </div>
 
                                     <div clasName="profile_stat-box">
-                                        <h2><i class="fa fa-caret-up" aria-hidden="true"></i> Up Votes: </h2>
+                                        <h2><i className="fa fa-caret-up" aria-hidden="true"></i> Up Votes: </h2>
                                         <div>Upgrade To Red</div>
                                     </div>
 
@@ -201,7 +201,7 @@ class Profile extends Component {
                         </div>
 
                         <div className="profile_progress-div2">
-                            <h2><i class="fa fa-trophy" aria-hidden="true"></i> Rank Breakdown</h2>
+                            <h2><i className="fa fa-trophy" aria-hidden="true"></i> Rank Breakdown</h2>
                             <Pie 
                             data={pieData}
                             options={{
@@ -216,7 +216,7 @@ class Profile extends Component {
                     </div>
 
                     <div className="profile_footer">
-                            <div><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></div>
+                            <div><a href="#"><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</a></div>
                     </div>
                 </div>
             </div>

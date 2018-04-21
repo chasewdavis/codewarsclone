@@ -180,10 +180,10 @@ class CatFight extends Component {
                         <div className='catfight_top-header-right'>
                             <ul>
                                 <li>
-                                    <i class="fa fa-sun-o" aria-hidden="true"></i>
+                                    <i className="fa fa-sun-o" aria-hidden="true"></i>
                                 </li>
                                 <li>
-                                    <i class="fa fa-moon-o" aria-hidden="true"></i>
+                                    <i className="fa fa-moon-o" aria-hidden="true"></i>
                                 </li>
                             </ul>
                         </div>

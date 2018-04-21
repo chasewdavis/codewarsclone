@@ -16,7 +16,7 @@ function CodeBlock(props) {
     // console.log('code block')
     // console.log(props)
     return (
-        <div class="code-block" >
+        <div className="code-block" >
             <pre>
                 <code {...props.attributes}>
                     {props.children}

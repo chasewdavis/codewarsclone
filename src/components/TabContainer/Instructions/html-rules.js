@@ -29,7 +29,7 @@ const rules = [
             if (object.kind != 'block') return
             switch (object.type) {
                 case 'paragraph': return <p>{children}</p>
-                case 'codeblock': return <div class="code-block"><pre><code>{children}</code></pre></div>    
+                case 'codeblock': return <div className="code-block"><pre><code>{children}</code></pre></div>    
             }
         }
     },
