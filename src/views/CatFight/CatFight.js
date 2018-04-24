@@ -34,8 +34,7 @@ class CatFight extends Component {
     // get a fight by id
     //set the event listener on the main window
     componentDidMount() {
-        console.log(this.props.user)
-        calls.getFightById(this.props.match.params.id).then(fight => {this.setState({ fight: fight, code: fight.placeholder}), console.log(this.state)})
+        calls.getFightById(this.props.match.params.id).then(fight => {this.setState({ fight: fight, code: fight.placeholder})})
         calls.getCat(this.props.user.cats_id).then(cat => {
          this.setState({
              cat: cat.data[0]
@@ -47,44 +46,50 @@ class CatFight extends Component {
         })
         
         window.addEventListener('message', this.handleReceivedMessage)
+
     }
 
     handleReceivedMessage(e) {
-        this.setState({
-            testResults: e.data.tests,
-            click: null
-        }, ()=> {
-            if(e.data.source) {
-            } else {
-            let testFlag = true;
-            let hiddenTests = false
-            this.state.testResults.map(test => {
-                if(test.passed === false) {
-                    testFlag = false;
+
+        if(typeof e.data === 'object'){
+
+            this.setState({
+                testResults: e.data.tests,
+                click: null
+            }, ()=> {
+                if(e.data.source) {
+                } else {
+                let testFlag = true;
+                let hiddenTests = false
+                this.state.testResults.map(test => {
+                    if(test.passed === false) {
+                        testFlag = false;
+                    }
+                    if(test.hidden === true) {
+                        hiddenTests = true;
+                    }
+                })
+                if(testFlag === true && hiddenTests === true) {
+                    this.setState({
+                        testsPassed: 1,
+                        testResults: e.data.tests,
+                        hiddenTests: true
+                    })
+                }  else if(testFlag ===true) {
+                    this.setState({
+                        testsPassed: 1,
+                        testResults: e.data.tests
+                    })
+                } else {
+                    this.setState({
+                        testsPassed: 2,
+                        testResults: e.data.tests
+                    })
                 }
-                if(test.hidden === true) {
-                    hiddenTests = true;
-                }
-            })
-            if(testFlag === true && hiddenTests === true) {
-                this.setState({
-                    testsPassed: 1,
-                    testResults: e.data.tests,
-                    hiddenTests: true
-                })
-            }  else if(testFlag ===true) {
-                this.setState({
-                    testsPassed: 1,
-                    testResults: e.data.tests
-                })
-            } else {
-                this.setState({
-                    testsPassed: 2,
-                    testResults: e.data.tests
-                })
             }
+            })
+
         }
-        })
     }
 
     //will toggle click state property and send a message
