@@ -214,8 +214,8 @@ class Profile extends Component {
                         </div>
                     </div>
 
-                    <div className="profile_footer debug">
-                            <div><a onClick={()=>console.log('clicked on link')} href={process.env.REACT_APP_LOGOUT}><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</a></div>
+                    <div className="profile_footer">
+                            <div><a href={process.env.REACT_APP_LOGOUT}><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</a></div>
                     </div>
                 </div>
             </div>

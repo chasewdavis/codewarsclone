@@ -73,7 +73,7 @@ app.get(`/auth/me`, (req, res, next) => {
 app.get(`/auth/logout`, (req, res, next) => {
     let { user } = req
     req.logOut();
-    res.redirect(302, `/`)
+    res.redirect(302, `/login`)
 })
 
 
@@ -138,7 +138,5 @@ app.get('*', (req, res)=>{
 })
 
 const PORT = process.env.PORT || 8090;
-
-// const PORT = 3030;
 
 app.listen(PORT, () => console.log(`CatFights running on port ${PORT}`))

@@ -26,7 +26,7 @@ module.exports = {
                     db.create_test(newFight[0].cat_fight_id, test.parameters, test.parameter_types, test.expected_result, test.expected_result_type, false)
                         .then(() => a--)
                         .catch(() => {
-                            console.log(`deleting fight: #${newFight[0].cat_fight_id}`)
+                            // console.log(`deleting fight: #${newFight[0].cat_fight_id}`)
                             db.delete_fight([newFight[0].cat_fight_id])
                             .then(() => {
                                 res.status(500).send(`Create Test Error at fight.tests[${i}]`)
@@ -39,7 +39,7 @@ module.exports = {
                     db.create_test(newFight[0].cat_fight_id, test.parameters, test.parameter_types, test.expected_result, test.expected_result_type, true)
                         .then(() => b--)
                         .catch(() => {
-                            console.log(`deleting fight: #${newFight[0].cat_fight_id}`)
+                            // console.log(`deleting fight: #${newFight[0].cat_fight_id}`)
                             db.delete_fight([newFight[0].cat_fight_id])
                             .then(() => {
                                 res.status(500).send(`Create Hidden Test Error at fight.hiddenTests[${i}]`)
@@ -52,7 +52,7 @@ module.exports = {
                     db.create_tag(newFight[0].cat_fight_id, tag)
                         .then(() => c--)
                         .catch(() => {
-                            console.log(`deleting fight: #${newFight[0].cat_fight_id}`)
+                            // console.log(`deleting fight: #${newFight[0].cat_fight_id}`)
                             db.delete_fight([newFight[0].cat_fight_id])
                             .then(() => {
                                 res.status(500).send(`Create Tags Error at fight.tags[${i}]`)
@@ -63,13 +63,13 @@ module.exports = {
 
                 // RETURN TRUE WHEN FLAGS HAVE REACHED ZERO, OR WHEN ERROR IS THROWN
                 let finished = () => {
-                    console.log(res.headersSent)
+                    // console.log(res.headersSent)
                     return a + b + c === 0 || res.headersSent
                 }
 
                 // SEND ENTIRE FIGHT, OR DO NOTHING IF ERROR HAS BEEN THROWN
                 let respond = () => {
-                    console.log('done')
+                    // console.log('done')
                     // IF HEADER HAS BEEN SENT
                     if (res.headersSent) {
                         return console.log('header already sent')
@@ -100,7 +100,6 @@ module.exports = {
 
             fight.map((obj, obj_index) => {
                 obj.tagsArray = [];
-                console.log('mapping over fights')
                 req.app.get('db').find_tags([obj.cat_fight_id])
                     .then(tags => {
                         tags.map((tag, tag_index) => {
@@ -132,7 +131,7 @@ module.exports = {
 
             db.get_tests([fight_id]).then(tests => {
                 fight[0].tests = tests
-                console.log(fight)
+                // console.log(fight)
                 res.status(200).send(fight)
             })
         })
@@ -142,7 +141,7 @@ module.exports = {
         const db = req.app.get('db');
         const catId = req.params.catId
         db.get_cat([catId]).then(resp => {
-            console.log(resp)
+            // console.log(resp)
             res.status(200).send(resp)
         })
     },
@@ -150,16 +149,16 @@ module.exports = {
         const db = req.app.get('db');
         const { cats_id, cat_fight_id } = req.body;
         db.create_fight_in_progress([cats_id, cat_fight_id]).then(resp => {
-            console.log(resp)
+            // console.log(resp)
             res.status(200).send(resp)
         })
     },
     updateFightInProgress: function (req, res, next) {
         const db = req.app.get('db')
         const { catId, completed, userSolution, catFightId } = req.body
-        console.log("catId", catId)
-        console.log("completed", completed)
-        console.log("userSolution", userSolution)
+        // console.log("catId", catId)
+        // console.log("completed", completed)
+        // console.log("userSolution", userSolution)
         db.update_fight_in_progress([catId, completed, userSolution, catFightId]).then(resp => {
             //console.log(resp)
             res.status(200).send(resp)
@@ -191,7 +190,7 @@ module.exports = {
     },
     completedFight: function (req, res, next) {
         const db = req.app.get('db');
-        console.log(req.body)
+        // console.log(req.body)
         const { catId, completed, userSolution, catFightId, honor } = req.body
 
         db.completed_fight([catId, completed, userSolution, catFightId]).then(resp => {
@@ -221,7 +220,7 @@ module.exports = {
     },
     updateClan: function(req, res, next) {
         const db = req.app.get('db');
-        console.log(req.body)
+        // console.log(req.body)
         db.update_clan([req.body.clan, req.body.catsId]).then(resp => {
             res.status(200).send(resp)
         })
