@@ -73,7 +73,7 @@ app.get(`/auth/me`, (req, res, next) => {
 app.get(`/auth/logout`, (req, res, next) => {
     let { user } = req
     req.logOut();
-    res.redirect(302, `/`)
+    res.redirect(302, `/login`)
 })
 
 

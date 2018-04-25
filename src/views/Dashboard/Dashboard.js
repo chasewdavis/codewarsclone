@@ -26,7 +26,7 @@ class Dashboard extends Component {
                     <NextFight />
 
                     <div className="dashboard_codewars-red">
-                        <div className="dashboard_codewars-icon"><i class="fa fa-diamond" aria-hidden="true"></i></div>
+                        <div className="dashboard_codewars-icon"><i className="fa fa-diamond" aria-hidden="true"></i></div>
                             <div className="dashboard_codewars-red-inner-container">
                                 <h5>Upgrade To Cat Fights Red!</h5>
                                 <div>Support Cat Fights and get some fancy upgrades like Pro Stats, Head-to-head comparisions, No ads, Streaming Output and more.</div>
@@ -35,7 +35,7 @@ class Dashboard extends Component {
                     </div>
 
                     <div className="dashboard_allies-container">
-                        <h4 className="dashboard_allies-header"><i class="fa fa-users" aria-hidden="true"></i> Allies</h4>
+                        <h4 className="dashboard_allies-header"><i className="fa fa-users" aria-hidden="true"></i> Allies</h4>
                         <p>You are automatically given an allegiance with anyone who is in the same clan as you. You can also become allies with other warriors by following each other or inviting new warriors to join.</p>
                         <table>
                             <tbody>
@@ -50,7 +50,7 @@ class Dashboard extends Component {
                     </div>
 
                     <div className="dashboard_more-honor">
-                    <div className="dashboard_codewars-icon"><i class="fa fa-user-plus" aria-hidden="true"></i></div>
+                    <div className="dashboard_codewars-icon"><i className="fa fa-user-plus" aria-hidden="true"></i></div>
                             <div className="dashboard_codewars-red-inner-container">
                                 <h5>Earn extra honor and gain new allies!</h5>
                                 <div>Honor is earned for each new codewarrior who joins</div>

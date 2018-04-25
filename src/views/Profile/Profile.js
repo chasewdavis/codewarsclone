@@ -123,7 +123,7 @@ class Profile extends Component {
                     
                     <div className="profile_first-div">
                         <div className="profile_flexbox-1">
-                        <img src={this.props.user.image_url} />
+                        <img src={this.props.user.image_url} alt='profile'/>
                             <div className="profile_flex-container">
                                 <div className="profile_stats profile_username-header">  <Diff isButton={false} rating={this.state.level}/> <span className="profile_main-username">{this.props.user.username}</span> </div>
                                 <div> Name: Unknown</div>
@@ -149,12 +149,11 @@ class Profile extends Component {
                     <div className="profile_progress-div">
 
                         <div className="profile_progress-div1">
-                            <img />
                             <div className="profile_stats-container">
                                 <h2 id="progress">Progress</h2>
                                 <div className="profile_stats-row">
 
-                                    <div clasName="profile_stat-box profile_stat-box1">
+                                    <div className="profile_stat-box profile_stat-box1">
                                         <div>Rank: {this.state.level}</div>
                                         <div>Honor: {this.props.user.honor}</div>
                                         <div>Leaderboard Position: #{this.state.rank}</div>
@@ -162,14 +161,14 @@ class Profile extends Component {
                                         <div>Total Completed Kata: {this.state.data[0]}</div>
                                     </div>
 
-                                    <div clasName="profile_stat-box">
+                                    <div className="profile_stat-box">
                                         <h2><i className="fa fa-code" aria-hidden="true"></i> Languages: </h2>
                                         <div>Total Languages Trained: 1</div>
                                         <div>Highest Trained: JavaScript ({this.state.data[0]})</div>
                                         <div>Most Recent: JavaScript</div>
                                     </div>
 
-                                    <div clasName="profile_stat-box">
+                                    <div className="profile_stat-box">
                                         <h2><i className="fa fa-caret-up" aria-hidden="true"></i> Up Votes: </h2>
                                         <div>Upgrade To Red</div>
                                     </div>
@@ -216,7 +215,7 @@ class Profile extends Component {
                     </div>
 
                     <div className="profile_footer">
-                            <div><a href="#"><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</a></div>
+                            <div><a href={process.env.REACT_APP_LOGOUT}><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</a></div>
                     </div>
                 </div>
             </div>

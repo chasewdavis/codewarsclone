@@ -23,7 +23,7 @@ class FightDetails extends Component {
 
     componentDidMount(){
         axios.get(`/api/getCatFight/${this.props.match.params.id}`)
-        .then(res=>{console.log('direct res is...', res.data),this.setState({fight:res.data})})
+        .then(res=>{this.setState({fight:res.data})})
     }
 
     showDetails(){
@@ -36,7 +36,6 @@ class FightDetails extends Component {
 
     showTags(){
 
-        // console.log('show tags...', this.state.fight.tags)
         let tags = "";
 
         if(this.state.fight.tags){

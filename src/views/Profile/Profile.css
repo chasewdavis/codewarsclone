@@ -122,7 +122,8 @@
     padding-top: 25px; }
     .profile_footer div a {
       text-decoration: none;
-      color: #6795de; }
+      color: #6795de;
+      cursor: pointer; }
 
 .profile_main-username {
   display: inline-block;
